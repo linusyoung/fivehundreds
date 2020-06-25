@@ -32,9 +32,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<MatchInfo> placeholder = [
-    MatchInfo(),
-    MatchInfo(),
-    MatchInfo(),
+    MatchInfo(
+      completed: false,
+      teamName: ['T1', 'T2'],
+      games: 5,
+    ),
+    MatchInfo(
+      completed: true,
+      teamName: ['AA', 'CC'],
+      games: 7,
+      wonTeam: 1,
+    ),
+    MatchInfo(
+      completed: true,
+      teamName: ['TT', 'BB'],
+      games: 3,
+      wonTeam: 0,
+    ),
   ];
 
   void _createNewMatch(BuildContext context) {
@@ -67,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           separatorBuilder: (BuildContext context, int index) {
             return Divider(
               height: 10.0,
+              thickness: 2.0,
             );
           },
         ),
@@ -82,6 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showMatchPage() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => MatchPage()));
+        MaterialPageRoute(builder: (BuildContext context) => HandPage()));
   }
 }
