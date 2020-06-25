@@ -12,6 +12,7 @@ class _MatchPageState extends State<MatchPage> {
   List<bool> _teamSelected = [false, false];
   String _wonSelected = '0';
   bool _canWin = false;
+  String _handResult = 'Ready to play';
   var _wonTricks = List<DropdownMenuItem<String>>.generate(
       11, (i) => DropdownMenuItem<String>(value: '$i', child: Text('    $i')));
   @override
@@ -26,7 +27,8 @@ class _MatchPageState extends State<MatchPage> {
     print(_wonTricks[1].value);
     return Scaffold(
       appBar: AppBar(
-        title: Text('match'),
+        title: Text('$_handResult'),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
@@ -176,7 +178,9 @@ class _MatchPageState extends State<MatchPage> {
                       ),
                     ),
                     color: Theme.of(context).primaryColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      _updateResult();
+                    },
                     textColor: Colors.white,
                   ),
                 ),
@@ -200,6 +204,12 @@ class _MatchPageState extends State<MatchPage> {
       _bidSelected = List<bool>.generate(27, (_) => false);
       _bidSelected[index] = true;
       print('$index');
+    });
+  }
+
+  void _updateResult() {
+    setState(() {
+      _handResult = 'Team 1 -500 : +400 Team 2';
     });
   }
 }
