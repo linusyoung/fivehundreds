@@ -32,9 +32,13 @@ class MatchInfo extends StatelessWidget {
           );
     return ListTile(
       title: completed
-          ? Text('${teamName[wonTeam]} Won')
-          : Text('No team won yet.'),
-      subtitle: Text('BO$games'),
+          ? Text(
+              '${teamName[wonTeam]} Won',
+              style: Theme.of(context).textTheme.headline6,
+            )
+          : Text('No team won yet.',
+              style: Theme.of(context).textTheme.headline6),
+      subtitle: Text('BO$games', style: Theme.of(context).textTheme.subtitle1),
       trailing: _status,
     );
   }
