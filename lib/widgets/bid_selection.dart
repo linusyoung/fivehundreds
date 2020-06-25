@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class CardIcon extends StatelessWidget {
+class BidSelection extends StatelessWidget {
   final int score;
   final bool selected;
 
@@ -20,7 +20,7 @@ class CardIcon extends StatelessWidget {
     Colors.red
   ];
 
-  CardIcon({@required this.score, @required this.selected});
+  BidSelection({@required this.score, @required this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +35,25 @@ class CardIcon extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.only(
-        left: 15.0,
+        left: 10.0,
       ),
       margin: EdgeInsets.all(5.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          Icon(
+            _iconList[score % 5],
+            color: _color[score % 5],
+          ),
           Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Icon(
-              _iconList[score % 5],
-              color: _color[score % 5],
+            padding: const EdgeInsets.only(
+              right: 12.0,
+            ),
+            child: Text(
+              '$_scoreText',
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
-          Text('$_scoreText'),
         ],
       ),
     );

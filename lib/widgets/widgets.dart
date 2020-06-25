@@ -1,3 +1,4 @@
 export './match_info.dart';
 export './new_match.dart';
-export './card_icon.dart';
+export './bid_selection.dart';
+export './team_selection.dart';
