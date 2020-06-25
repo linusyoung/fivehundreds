@@ -1,12 +1,12 @@
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class MatchPage extends StatefulWidget {
+class HandPage extends StatefulWidget {
   @override
-  _MatchPageState createState() => _MatchPageState();
+  _HandPageState createState() => _HandPageState();
 }
 
-class _MatchPageState extends State<MatchPage> {
+class _HandPageState extends State<HandPage> {
   List<bool> _bidSelected = List<bool>.generate(27, (_) => false);
   List<String> _teamName = ['Team 1', 'Team 2'];
   List<bool> _teamSelected = [false, false];

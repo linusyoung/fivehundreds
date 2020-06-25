@@ -26,6 +26,8 @@ class BidSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     String _scoreText = (((score - score % 5) / 5).floor() + 6).toString();
     return Container(
+      width: 40.0,
+      height: 40.0,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).focusColor : null,
