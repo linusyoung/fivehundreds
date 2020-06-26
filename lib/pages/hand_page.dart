@@ -1,7 +1,6 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 class HandPage extends StatefulWidget {
   @override
@@ -35,6 +34,7 @@ class _HandPageState extends State<HandPage> {
                 child: TeamSelection(
                   teamName: _teamName[0],
                   selected: _teamSelected[0],
+                  teamIndex: 0,
                 ),
                 onTap: () {
                   _selectTeam(0);
@@ -46,6 +46,7 @@ class _HandPageState extends State<HandPage> {
                 child: TeamSelection(
                   teamName: _teamName[1],
                   selected: _teamSelected[1],
+                  teamIndex: 1,
                 ),
                 onTap: () {
                   _selectTeam(1);
