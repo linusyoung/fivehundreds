@@ -20,13 +20,9 @@ class _HandPageState extends State<HandPage> {
       11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
   @override
   Widget build(BuildContext context) {
-    var _team = _teamSelected.where((e) => e == true).length;
-    var _bid = _bidSelected.where((e) => e == true).length;
-    if (_team == 1 && _bid == 1) {
-      _canWin = true;
-    } else {
-      _canWin = false;
-    }
+    int _team = _teamSelected.where((e) => e == true).length;
+    int _bid = _bidSelected.where((e) => e == true).length;
+    _canWin = _team == 1 && _bid == 1 ? true : false;
 
     List<Widget> _bidWidget = [
       Padding(
@@ -154,7 +150,60 @@ class _HandPageState extends State<HandPage> {
         ],
       )
     ];
-
+    List<Widget> _resultWidget = [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Tricks won by bidders: ',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ),
+          ButtonTheme(
+            alignedDropdown: true,
+            child: DropdownButton<int>(
+              value: _wonSelected,
+              onChanged: _canWin
+                  ? (int newValue) {
+                      setState(() {
+                        _wonSelected = newValue;
+                      });
+                    }
+                  : null,
+              items: _wonTricks,
+              style: Theme.of(context).textTheme.headline5,
+              hint: Text('Select'),
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                child: Text(
+                  _canWin ? 'Hand finished' : 'Select team and bid',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: _canWin
+                    ? () {
+                        _updateResult();
+                      }
+                    : null,
+                textColor: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('$_handResult'),
@@ -162,65 +211,19 @@ class _HandPageState extends State<HandPage> {
       ),
       body: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 4.0,
-            ),
-            child: ScoreBoard(teamName: _teamName, teamScore: _teamScore),
+          ScoreBoard(teamName: _teamName, teamScore: _teamScore),
+          Divider(
+            height: 1.0,
+            thickness: 2.0,
           ),
           Column(
             children: <Widget>[
               ..._bidWidget,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Tricks won by bidders: ',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                  ),
-                  ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButton<int>(
-                      value: _wonSelected,
-                      onChanged: _canWin
-                          ? (int newValue) {
-                              setState(() {
-                                _wonSelected = newValue;
-                              });
-                            }
-                          : null,
-                      items: _wonTricks,
-                      style: Theme.of(context).textTheme.headline5,
-                      hint: Text('Select'),
-                    ),
-                  ),
-                ],
+              Divider(
+                height: 1.0,
+                thickness: 2.0,
               ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                        child: Text(
-                          'Hand finished',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          _updateResult();
-                        },
-                        textColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ..._resultWidget,
             ],
           ),
         ],
