@@ -47,7 +47,7 @@ class ScoreBoard extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Transform.translate(
-                      offset: Offset(4.0, 8.0),
+                      offset: Offset(6.0, -3.0),
                       child: Container(
                         height: 10.0,
                         width: 10.0,
@@ -57,7 +57,7 @@ class ScoreBoard extends StatelessWidget {
                       ),
                     ),
                     Transform.translate(
-                      offset: Offset(6.0, -3.0),
+                      offset: Offset(6.0, 8.0),
                       child: Container(
                         height: 10.0,
                         width: 10.0,

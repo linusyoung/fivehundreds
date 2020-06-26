@@ -17,32 +17,40 @@ class Score {
       @required this.scoreMode});
 
   List<int> calculateScore() {
-    int t1Score;
+    int bidderScore;
+    int opposingScore;
     switch (bid) {
       case 25:
-        // close misere
-        t1Score = 250;
-        break;
       case 26:
-        // open misere
-        t1Score = 500;
+        bidderScore = wonTricks == 0 ? 250 * (bid - 24) : -250 * (bid - 24);
         break;
       case 27:
+        // close misere
+        // open misere
         // blind misere
-        t1Score = 1000;
+        bidderScore = wonTricks == 0 ? 1000 : -1000;
         break;
       default:
+        int level = (bid / 5).floor();
         if (scoreMode == ScoreMode.Avondale) {
-          t1Score =
+          bidderScore =
               _baseScore[scoreMode.index] + bid * scoreStep[scoreMode.index];
         }
         if (scoreMode == ScoreMode.Original) {
-          var level = (bid / 5).floor();
-          t1Score =
+          bidderScore =
               (((bid % 5) + 1) * (1 + 0.5 * level) * scoreStep[scoreMode.index])
                   .toInt();
         }
+        bidderScore = level + 6 <= wonTricks ? bidderScore : -bidderScore;
     }
-    return [t1Score, 100];
+    // slam
+    if (bid <= 10 && wonTricks == 10) {
+      bidderScore = 250;
+    }
+    opposingScore = (10 - wonTricks) * 10;
+
+    return bidTeam == 0
+        ? [bidderScore, opposingScore]
+        : [opposingScore, bidderScore];
   }
 }

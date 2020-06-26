@@ -9,7 +9,7 @@ class HandPage extends StatefulWidget {
 }
 
 class _HandPageState extends State<HandPage> {
-  List<bool> _bidSelected = List<bool>.generate(27, (_) => false);
+  List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
   List<String> _teamName = ['Team 1', 'Team 2'];
   List<int> _teamScore = [-50, 110];
   List<bool> _teamSelected = [false, false];
@@ -27,6 +27,134 @@ class _HandPageState extends State<HandPage> {
     } else {
       _canWin = false;
     }
+
+    List<Widget> _bidWidget = [
+      Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: GestureDetector(
+                child: TeamSelection(
+                  teamName: _teamName[0],
+                  selected: _teamSelected[0],
+                ),
+                onTap: () {
+                  _selectTeam(0);
+                },
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                child: TeamSelection(
+                  teamName: _teamName[1],
+                  selected: _teamSelected[1],
+                ),
+                onTap: () {
+                  _selectTeam(1);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        height: 410.0,
+        child: GridView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+          itemCount: 25,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              child: BidSelection(
+                score: index,
+                selected: _bidSelected[index],
+              ),
+              onTap: () {
+                _selectBid(index);
+              },
+            );
+          },
+        ),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.all(5.0),
+                height: 50.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 2.0,
+                  ),
+                  color: _bidSelected[25] ? Theme.of(context).focusColor : null,
+                ),
+                child: Text(
+                  'Closed\nMisere',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              onTap: () {
+                _selectBid(25);
+              },
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.all(5.0),
+                height: 50.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 2.0,
+                  ),
+                  color: _bidSelected[26] ? Theme.of(context).focusColor : null,
+                ),
+                child: Text(
+                  ' Open\nMisere',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              onTap: () {
+                _selectBid(26);
+              },
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.all(5.0),
+                height: 50.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 2.0,
+                  ),
+                  color: _bidSelected[27] ? Theme.of(context).focusColor : null,
+                ),
+                child: Text(
+                  ' Blind\nMisere',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              onTap: () {
+                _selectBid(27);
+              },
+            ),
+          ),
+        ],
+      )
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('$_handResult'),
@@ -42,111 +170,7 @@ class _HandPageState extends State<HandPage> {
           ),
           Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Expanded(
-                      child: GestureDetector(
-                        child: TeamSelection(
-                          teamName: _teamName[0],
-                          selected: _teamSelected[0],
-                        ),
-                        onTap: () {
-                          _selectTeam(0);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        child: TeamSelection(
-                          teamName: _teamName[1],
-                          selected: _teamSelected[1],
-                        ),
-                        onTap: () {
-                          _selectTeam(1);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 410.0,
-                child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5),
-                  itemCount: 25,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      child: BidSelection(
-                        score: index,
-                        selected: _bidSelected[index],
-                      ),
-                      onTap: () {
-                        _selectBid(index);
-                      },
-                    );
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: GestureDetector(
-                      child: Container(
-                        margin: EdgeInsets.all(5.0),
-                        height: 50.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2.0,
-                          ),
-                          color: _bidSelected[25]
-                              ? Theme.of(context).focusColor
-                              : null,
-                        ),
-                        child: Text(
-                          'Closed Misere',
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
-                      ),
-                      onTap: () {
-                        _selectBid(25);
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      child: Container(
-                        margin: EdgeInsets.all(5.0),
-                        height: 50.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2.0,
-                          ),
-                          color: _bidSelected[26]
-                              ? Theme.of(context).focusColor
-                              : null,
-                        ),
-                        child: Text(
-                          'Open Misere',
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
-                      ),
-                      onTap: () {
-                        _selectBid(26);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              ..._bidWidget,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -213,7 +237,7 @@ class _HandPageState extends State<HandPage> {
 
   void _selectBid(int index) {
     setState(() {
-      _bidSelected = List<bool>.generate(27, (_) => false);
+      _bidSelected = List<bool>.generate(28, (_) => false);
       _bidSelected[index] = true;
     });
   }
