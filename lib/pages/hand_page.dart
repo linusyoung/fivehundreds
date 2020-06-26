@@ -1,5 +1,7 @@
+import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class HandPage extends StatefulWidget {
   @override
@@ -11,11 +13,11 @@ class _HandPageState extends State<HandPage> {
   List<String> _teamName = ['Team 1', 'Team 2'];
   List<int> _teamScore = [-50, 110];
   List<bool> _teamSelected = [false, false];
-  String _wonSelected = '0';
+  int _wonSelected = 0;
   bool _canWin = false;
   String _handResult = 'Ready to play';
-  var _wonTricks = List<DropdownMenuItem<String>>.generate(
-      11, (i) => DropdownMenuItem<String>(value: '$i', child: Text('    $i')));
+  var _wonTricks = List<DropdownMenuItem<int>>.generate(
+      11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
   @override
   Widget build(BuildContext context) {
     var _team = _teamSelected.where((e) => e == true).length;
@@ -32,7 +34,12 @@ class _HandPageState extends State<HandPage> {
       ),
       body: ListView(
         children: <Widget>[
-          ScoreBoard(teamName: _teamName, teamScore: _teamScore),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 4.0,
+            ),
+            child: ScoreBoard(teamName: _teamName, teamScore: _teamScore),
+          ),
           Column(
             children: <Widget>[
               Padding(
@@ -152,10 +159,10 @@ class _HandPageState extends State<HandPage> {
                   ),
                   ButtonTheme(
                     alignedDropdown: true,
-                    child: DropdownButton<String>(
+                    child: DropdownButton<int>(
                       value: _wonSelected,
                       onChanged: _canWin
-                          ? (String newValue) {
+                          ? (int newValue) {
                               setState(() {
                                 _wonSelected = newValue;
                               });
@@ -208,13 +215,18 @@ class _HandPageState extends State<HandPage> {
     setState(() {
       _bidSelected = List<bool>.generate(27, (_) => false);
       _bidSelected[index] = true;
-      print('$index');
     });
   }
 
   void _updateResult() {
     setState(() {
-      _handResult = 'Team 1 -500 : +400 Team 2';
+      Score s = Score(
+          bid: _bidSelected.indexOf(true),
+          bidTeam: _teamSelected.indexOf(true),
+          wonTricks: _wonSelected,
+          scoreMode: ScoreMode.Original);
+      // print(s.calculateScore());
+      _teamScore = s.calculateScore();
     });
   }
 }
