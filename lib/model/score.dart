@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-enum ScoreMode { Original, Avondale }
+enum ScoreMode { Avondale, Original }
 
 class Score {
   final int bidTeam;

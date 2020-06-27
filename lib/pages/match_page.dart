@@ -4,25 +4,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class MatchPage extends StatefulWidget {
+  final MatchConfig matchConfig;
+
+  MatchPage({this.matchConfig});
+
   @override
   _MatchPageState createState() => _MatchPageState();
 }
 
 class _MatchPageState extends State<MatchPage> {
-  List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
-  List<String> _teamName = ['Winwin 1', 'Lose Lose 2'];
+  List<bool> _matchScore = [];
+  List<String> _teamName = [];
+  List<ScoreCard> _handHistory = [];
   List<int> _teamScore = [0, 0];
   List<bool> _teamSelected = [false, false];
-  List<ScoreCard> _handHistory = [];
-  static const games = 5;
-  List<bool> _matchScore = List<bool>.generate(games + 1, (_) => false);
-
+  List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
   int _wonSelected = 0;
+  int games = 0;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
   int _handsPlayed = 0;
-  String _handResult = 'Best of 5';
+  String _titleString = '';
+
+  @override
+  void initState() {
+    games = widget.matchConfig.games;
+    _matchScore = List<bool>.generate(games + 1, (_) => false);
+    _titleString = 'Best of $games';
+    _teamName = widget.matchConfig.teamName;
+    super.initState();
+  }
+
   var _wonTricks = List<DropdownMenuItem<int>>.generate(
       11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
   @override
@@ -131,7 +144,9 @@ class _MatchPageState extends State<MatchPage> {
                     color: Colors.grey,
                     width: 2.0,
                   ),
-                  color: _bidSelected[25] ? Theme.of(context).focusColor : null,
+                  color: _bidSelected[25]
+                      ? Theme.of(context).highlightColor
+                      : null,
                 ),
                 child: Text(
                   'CM',
@@ -154,7 +169,9 @@ class _MatchPageState extends State<MatchPage> {
                     color: Colors.grey,
                     width: 2.0,
                   ),
-                  color: _bidSelected[26] ? Theme.of(context).focusColor : null,
+                  color: _bidSelected[26]
+                      ? Theme.of(context).highlightColor
+                      : null,
                 ),
                 child: Text(
                   ' OM',
@@ -177,7 +194,9 @@ class _MatchPageState extends State<MatchPage> {
                     color: Colors.grey,
                     width: 2.0,
                   ),
-                  color: _bidSelected[27] ? Theme.of(context).focusColor : null,
+                  color: _bidSelected[27]
+                      ? Theme.of(context).highlightColor
+                      : null,
                 ),
                 child: Text(
                   ' BM',
@@ -227,12 +246,10 @@ class _MatchPageState extends State<MatchPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
-                child: Text(
-                  _canWin ? 'Hand finished' : 'Select team and bid',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                  ),
-                ),
+                child: Text(_canWin ? 'Hand finished' : 'Select team and bid',
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                          color: Colors.white,
+                        )),
                 color: Theme.of(context).primaryColor,
                 onPressed: _canWin
                     ? () {
@@ -307,7 +324,7 @@ class _MatchPageState extends State<MatchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$_handResult'),
+        title: Text('$_titleString'),
         centerTitle: true,
       ),
       body: ListView(
@@ -363,7 +380,7 @@ class _MatchPageState extends State<MatchPage> {
         bid: _bid,
         bidTeam: _bidTeam,
         wonTricks: _wonSelected,
-        scoreMode: ScoreMode.Original);
+        scoreMode: widget.matchConfig.scoreMode);
     List<int> _handScore = s.calculateScore();
     _handScore.asMap().forEach((key, value) {
       _teamScore[key] += value;

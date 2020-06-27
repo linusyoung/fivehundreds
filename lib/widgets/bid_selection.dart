@@ -15,7 +15,7 @@ class BidSelection extends StatelessWidget {
       height: 40.0,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: selected ? Theme.of(context).focusColor : null,
+        color: selected ? Theme.of(context).highlightColor : null,
         border: Border.all(
           color: Colors.grey,
           width: 2.0,

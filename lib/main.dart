@@ -87,16 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: () => _createNewMatch(context),
-        onPressed: _showMatchPage,
+        onPressed: () => _createNewMatch(context),
+        // onPressed: _showMatchPage,
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  void _showMatchPage() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => MatchPage()));
   }
 }

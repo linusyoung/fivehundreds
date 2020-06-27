@@ -23,7 +23,7 @@ class TeamSelection extends StatelessWidget {
           color: teamIndex == 0 ? Team.team1Color : Team.team2Color,
           width: 2.0,
         ),
-        color: selected ? Theme.of(context).focusColor : null,
+        color: selected ? Theme.of(context).highlightColor : null,
       ),
       child: Row(
         children: <Widget>[
