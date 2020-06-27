@@ -266,11 +266,18 @@ class _MatchPageState extends State<MatchPage> {
 
     Widget _handHistoryWidget = Container(
       height: 120.0,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _handHistory.length,
-          itemBuilder: (BuildContext context, int index) =>
-              _handHistory[index]),
+      child: _handHistory.length > 0
+          ? ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _handHistory.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  _handHistory[index])
+          : Center(
+              child: Text(
+                'No hands played yet.',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
     );
 
     Widget _matchResultWidget = Padding(
