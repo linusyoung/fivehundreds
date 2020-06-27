@@ -97,6 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showMatchPage() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => HandPage()));
+        MaterialPageRoute(builder: (BuildContext context) => MatchPage()));
   }
 }

@@ -25,11 +25,16 @@ class TeamSelection extends StatelessWidget {
         ),
         color: selected ? Theme.of(context).focusColor : null,
       ),
-      child: Text(
-        teamName,
-        style: Theme.of(context).textTheme.headline6,
+      child: Row(
+        children: <Widget>[
+          teamIndex == 0 ? Team.team1Icon : Team.team2Icon,
+          Text(
+            teamName,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ],
       ),
     );
-    ;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ScoreBoard extends StatelessWidget {
@@ -18,21 +19,15 @@ class ScoreBoard extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  '${teamName[0]}',
-                  style: TextStyle(
-                    color: Team.team1Color,
-                  ),
-                ),
-                Text(
-                  '${teamScore[0]}',
-                  style: TextStyle(
-                    color: teamScore[0] > 0 ? Colors.green : Colors.red,
-                  ),
-                ),
-              ],
+            child: Container(
+              width: 50.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Team.team1Icon,
+                  DisplayScore(score: teamScore[0]),
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -76,21 +71,14 @@ class ScoreBoard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  '${teamName[1]}',
-                  style: TextStyle(
-                    color: Team.team2Color,
-                  ),
-                ),
-                Text(
-                  '${teamScore[1]}',
-                  style: TextStyle(
-                    color: teamScore[1] > 0 ? Colors.green : Colors.red,
-                  ),
-                ),
-              ],
+            child: Container(
+              width: 50.0,
+              child: Column(
+                children: <Widget>[
+                  Team.team2Icon,
+                  DisplayScore(score: teamScore[1]),
+                ],
+              ),
             ),
           ),
         ],
