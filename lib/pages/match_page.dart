@@ -1,7 +1,9 @@
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 
 class MatchPage extends StatefulWidget {
   final MatchConfig matchConfig;
@@ -26,6 +28,7 @@ class _MatchPageState extends State<MatchPage> {
   int _roundPlayed = 0;
   int _handsPlayed = 0;
   String _titleString = '';
+  String _matchUuid = '';
 
   @override
   void initState() {
@@ -33,6 +36,7 @@ class _MatchPageState extends State<MatchPage> {
     _matchScore = List<bool>.generate(games + 1, (_) => false);
     _titleString = 'Best of $games';
     _teamName = widget.matchConfig.teamName;
+    _matchUuid = widget.matchConfig.uuid;
     super.initState();
   }
 
@@ -293,12 +297,7 @@ class _MatchPageState extends State<MatchPage> {
                   size: 70.0,
                   color: Team.team1Color,
                 ),
-                _t1Won
-                    ? Icon(
-                        MaterialCommunityIcons.crown,
-                        color: Colors.amber,
-                      )
-                    : Container(),
+                _t1Won ? Team.crown : Container(),
               ],
             ),
           ),
@@ -317,12 +316,7 @@ class _MatchPageState extends State<MatchPage> {
                 size: 70.0,
                 color: Team.team2Color,
               ),
-              _t2Won
-                  ? Icon(
-                      MaterialCommunityIcons.crown,
-                      color: Colors.amber,
-                    )
-                  : Container(),
+              _t2Won ? Team.crown : Container(),
             ]),
           )
         ],
@@ -331,7 +325,10 @@ class _MatchPageState extends State<MatchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$_titleString'),
+        title: Text(
+          '$_titleString',
+          style: Theme.of(context).textTheme.headline4,
+        ),
         centerTitle: true,
       ),
       body: ListView(
@@ -421,6 +418,7 @@ class _MatchPageState extends State<MatchPage> {
     _canBid =
         _matchScore.where((e) => e == true).length > games ~/ 2 ? false : true;
     _resetHand();
+    _saveMatchInfo();
   }
 
   void _newRound() {
@@ -433,5 +431,18 @@ class _MatchPageState extends State<MatchPage> {
     _teamSelected = [false, false];
     _bidSelected = List<bool>.generate(28, (_) => false);
     _canWin = false;
+  }
+
+  void _saveMatchInfo() {
+    MatchInfo matchInfo = MatchInfo();
+    matchInfo.teamName = _teamName;
+    matchInfo.matchScore = _matchScore;
+    matchInfo.teamScore = _teamScore;
+    matchInfo.games = games;
+    matchInfo.roundPlayed = _roundPlayed;
+    matchInfo.handsPlayed = _handsPlayed;
+    matchInfo.completed = _canBid ? 0 : 1;
+    Provider.of<MatchStateNotifier>(context, listen: false)
+        .updateMatchState(_matchUuid, matchInfo);
   }
 }

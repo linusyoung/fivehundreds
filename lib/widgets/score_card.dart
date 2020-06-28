@@ -73,12 +73,7 @@ class ScoreCard extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                     ),
-                    score[bidTeamIndex] > 0
-                        ? Icon(
-                            MaterialCommunityIcons.crown,
-                            color: Colors.amber,
-                          )
-                        : Container(),
+                    score[bidTeamIndex] > 0 ? Team.crown : Container(),
                   ],
                 ),
               ),

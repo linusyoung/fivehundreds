@@ -1,6 +1,7 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/pages/pages.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class NewMatch extends StatefulWidget {
   @override
@@ -162,6 +163,8 @@ class _NewMatchState extends State<NewMatch> {
 
   void _showMatchPage() {
     Navigator.of(context).pop();
+    var uuid = Uuid();
+
     List<String> teamName = [team1Name, team2Name];
     int games = 3 + _gamesSelected.indexOf(true) * 2;
     ScoreMode scoreMode = ScoreMode.values[_scoreModeSelected.indexOf(true)];
@@ -170,10 +173,10 @@ class _NewMatchState extends State<NewMatch> {
         MaterialPageRoute(
             builder: (BuildContext context) => MatchPage(
                   matchConfig: MatchConfig(
-                    teamName: teamName,
-                    games: games,
-                    scoreMode: scoreMode,
-                  ),
+                      teamName: teamName,
+                      games: games,
+                      scoreMode: scoreMode,
+                      uuid: uuid.v4().toString()),
                 )));
   }
 }

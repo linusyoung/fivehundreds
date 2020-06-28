@@ -12,4 +12,8 @@ class Team {
     MaterialCommunityIcons.chess_knight,
     color: team2Color,
   );
+  static const Icon crown = Icon(
+    MaterialCommunityIcons.crown,
+    color: Colors.amber,
+  );
 }

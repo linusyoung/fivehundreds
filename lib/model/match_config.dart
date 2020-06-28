@@ -5,9 +5,11 @@ class MatchConfig {
   final List<String> teamName;
   final int games;
   final ScoreMode scoreMode;
+  final String uuid;
 
   MatchConfig(
       {@required this.teamName,
       @required this.games,
-      @required this.scoreMode});
+      @required this.scoreMode,
+      @required this.uuid});
 }
