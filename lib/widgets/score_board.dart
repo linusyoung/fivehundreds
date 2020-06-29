@@ -23,14 +23,16 @@ class ScoreBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     int bidScore = 0;
     List<Widget> scoreIndicator = [];
-    if (bid != -1) {
+    if (bid != -1 && teamIndex != -1) {
       bidScore = Score(bid: bid, scoreMode: scoreMode).getScore();
       scoreIndicator = List.generate(
         2,
         (index) => Transform.translate(
           offset: Offset(
-              4.0 + (teamScore[1] + (index * 2 - 1) * bidScore) * bidScoreUnit,
-              teamYOffset[1]),
+              4.0 +
+                  (teamScore[teamIndex] + (index * 2 - 1) * bidScore) *
+                      bidScoreUnit,
+              teamYOffset[teamIndex]),
           child: Container(
             height: 10.0,
             width: 2.0,
@@ -39,6 +41,20 @@ class ScoreBoard extends StatelessWidget {
         ),
       );
     }
+
+    List<Widget> teamWidget = List.generate(
+      2,
+      (index) => Transform.translate(
+        offset: Offset(6.0, teamYOffset[index]),
+        child: Container(
+          height: 10.0,
+          width: 10.0,
+          transform:
+              Matrix4.diagonal3Values(teamScore[index] * scoreBarUnit, 1, 1),
+          color: Team.teamColors[index],
+        ),
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
@@ -55,7 +71,7 @@ class ScoreBoard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Team.team1Icon,
+                    Team.teamIcons.first,
                     DisplayScore(score: teamScore[0]),
                   ],
                 ),
@@ -77,27 +93,8 @@ class ScoreBoard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Stack(
                     children: <Widget>[
-                      Transform.translate(
-                        offset: Offset(6.0, teamYOffset[0]),
-                        child: Container(
-                          height: 10.0,
-                          width: 10.0,
-                          transform: Matrix4.diagonal3Values(
-                              teamScore[0] * scoreBarUnit, 1, 1),
-                          color: Team.team1Color,
-                        ),
-                      ),
+                      ...teamWidget,
                       if (bidScore != 0) ...scoreIndicator,
-                      Transform.translate(
-                        offset: Offset(6.0, teamYOffset[1]),
-                        child: Container(
-                          height: 10.0,
-                          width: 10.0,
-                          transform: Matrix4.diagonal3Values(
-                              teamScore[1] * scoreBarUnit, 1, 1),
-                          color: Team.team2Color,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -124,7 +121,7 @@ class ScoreBoard extends StatelessWidget {
                 width: 50.0,
                 child: Column(
                   children: <Widget>[
-                    Team.team2Icon,
+                    Team.teamIcons.last,
                     DisplayScore(score: teamScore[1]),
                   ],
                 ),

@@ -32,7 +32,7 @@ class _MatchSummaryState extends State<MatchSummary> {
                   color: Colors.black,
                 ),
                 color: widget.matchScore[(scoreOffset - 1) - index]
-                    ? Team.team1Color
+                    ? Team.teamColors.first
                     : null,
               ),
               width: 20.0,
@@ -46,7 +46,7 @@ class _MatchSummaryState extends State<MatchSummary> {
                   color: Colors.black,
                 ),
                 color: widget.matchScore[index + scoreOffset]
-                    ? Team.team2Color
+                    ? Team.teamColors.last
                     : null,
               ),
               width: 20.0,
@@ -70,7 +70,9 @@ class _MatchSummaryState extends State<MatchSummary> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        widget.matchScore.first ? Team.crown : Team.team1Icon,
+                        widget.matchScore.first
+                            ? Team.crown
+                            : Team.teamIcons.first,
                         Flexible(
                           child: Text('${widget.teamName[0]}',
                               overflow: TextOverflow.ellipsis,
@@ -114,7 +116,9 @@ class _MatchSummaryState extends State<MatchSummary> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        widget.matchScore.last ? Team.crown : Team.team2Icon,
+                        widget.matchScore.last
+                            ? Team.crown
+                            : Team.teamIcons.last,
                         Flexible(
                           child: Text('${widget.teamName[1]}',
                               overflow: TextOverflow.ellipsis,

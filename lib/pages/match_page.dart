@@ -25,7 +25,6 @@ class _MatchPageState extends State<MatchPage> {
   List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
   int _wonSelected = 0;
   int games = 0;
-  int _bid;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
@@ -46,7 +45,6 @@ class _MatchPageState extends State<MatchPage> {
     _teamName = widget.matchConfig.teamName;
     _matchUuid = widget.matchConfig.uuid;
     scoreMode = widget.matchConfig.scoreMode;
-    _bid = -1;
     if (!widget.matchConfig.isNewMatch) _loadMatch();
 
     super.initState();
@@ -213,7 +211,7 @@ class _MatchPageState extends State<MatchPage> {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: RaisedButton(
                 child: Text(
                   _canWin ? 'Hand finished' : 'Select team and bid',
@@ -262,7 +260,7 @@ class _MatchPageState extends State<MatchPage> {
                 Icon(
                   MaterialCommunityIcons.chess_bishop,
                   size: 55.0,
-                  color: Team.team1Color,
+                  color: Team.teamColors.first,
                 ),
                 _t1Won ? Team.crown : Container(),
               ],
@@ -281,7 +279,7 @@ class _MatchPageState extends State<MatchPage> {
               Icon(
                 MaterialCommunityIcons.chess_knight,
                 size: 55.0,
-                color: Team.team2Color,
+                color: Team.teamColors.last,
               ),
               _t2Won ? Team.crown : Container(),
             ]),
@@ -305,8 +303,8 @@ class _MatchPageState extends State<MatchPage> {
           ScoreBoard(
               teamName: _teamName,
               teamScore: _teamScore,
-              bid: _bid,
-              teamIndex: _bi,
+              bid: _bidSelected.indexOf(true) ?? -1,
+              teamIndex: _teamSelected.indexOf(true) ?? -1,
               scoreMode: scoreMode),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
@@ -351,12 +349,11 @@ class _MatchPageState extends State<MatchPage> {
     setState(() {
       _bidSelected = List<bool>.generate(28, (_) => false);
       _bidSelected[index] = true;
-      _bid = index;
     });
   }
 
   void _updateResult() {
-    // _bid = _bidSelected.indexOf(true);
+    int _bid = _bidSelected.indexOf(true);
     int _bidTeam = _teamSelected.indexOf(true);
     Score s = Score(
         bid: _bid,

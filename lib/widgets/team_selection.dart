@@ -20,14 +20,14 @@ class TeamSelection extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: teamIndex == 0 ? Team.team1Color : Team.team2Color,
+          color: teamIndex == 0 ? Team.teamColors.first : Team.teamColors.last,
           width: 2.0,
         ),
         color: selected ? Theme.of(context).highlightColor : null,
       ),
       child: Row(
         children: <Widget>[
-          teamIndex == 0 ? Team.team1Icon : Team.team2Icon,
+          teamIndex == 0 ? Team.teamIcons.first : Team.teamIcons.last,
           Flexible(
             child: Text(
               teamName,

@@ -57,7 +57,9 @@ class ScoreCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    bidTeamIndex == 0 ? Team.team1Icon : Team.team2Icon,
+                    bidTeamIndex == 0
+                        ? Team.teamIcons.first
+                        : Team.teamIcons.last,
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 5.0,
@@ -99,11 +101,11 @@ class ScoreCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Team.team1Icon,
+                    Team.teamIcons.first,
                     DisplayScore(
                       score: score[0],
                     ),
-                    Team.team2Icon,
+                    Team.teamIcons.last,
                     DisplayScore(
                       score: score[1],
                     ),
