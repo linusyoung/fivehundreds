@@ -5,13 +5,21 @@ import 'package:flutter/material.dart';
 class ScoreBoard extends StatelessWidget {
   final List<String> teamName;
   final List<int> teamScore;
+  final int bid;
+  final ScoreMode scoreMode;
 
   static const double scoreBarUnit = 0.03;
+  static const double bidScoreUnit = 0.28;
 
-  ScoreBoard({@required this.teamName, @required this.teamScore});
+  ScoreBoard(
+      {@required this.teamName,
+      @required this.teamScore,
+      this.bid,
+      this.scoreMode});
 
   @override
   Widget build(BuildContext context) {
+    int bidScore = Score(bid: bid, scoreMode: scoreMode).getScore();
     return Padding(
       padding: const EdgeInsets.only(top: 4.0),
       child: Row(
@@ -54,6 +62,27 @@ class ScoreBoard extends StatelessWidget {
                         ),
                       ),
                       Transform.translate(
+                        offset: Offset(
+                            6.0 + (teamScore[0] + bidScore) * bidScoreUnit,
+                            -3.0),
+                        // offset: Offset(6.0 + (28), -3.0),
+                        child: Container(
+                          height: 10.0,
+                          width: 2.0,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Transform.translate(
+                        offset: Offset(
+                            6.0 + ((teamScore[0] - bidScore)) * bidScoreUnit,
+                            -3.0),
+                        child: Container(
+                          height: 10.0,
+                          width: 2.0,
+                          color: Colors.red,
+                        ),
+                      ),
+                      Transform.translate(
                         offset: Offset(6.0, 8.0),
                         child: Container(
                           height: 10.0,
@@ -65,6 +94,12 @@ class ScoreBoard extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // bid != null ? Text('$bidScore') : Container(),
+                  ],
                 ),
               ],
             ),

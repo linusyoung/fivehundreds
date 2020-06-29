@@ -30,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 0,
+                    childAspectRatio: 0.9,
                   ),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -38,10 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     var json = matchPrefs.values.toList()[0];
                     MatchInfo matchInfo = MatchInfo.fromJson(json);
                     return MatchSummary(
-                      completed: matchInfo.completed,
                       teamName: matchInfo.teamName,
-                      games: matchInfo.games,
                       matchScore: matchInfo.matchScore,
+                      uuid: matchPrefs.keys.toList()[0],
+                      games: matchInfo.games,
                     );
                   })
               : Container(

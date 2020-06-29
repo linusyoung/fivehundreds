@@ -16,4 +16,11 @@ class Bid {
     Colors.red,
     Colors.red
   ];
+
+  Icon getBidIcon(int bid) {
+    return Icon(
+      Bid.iconList[bid % 5],
+      color: Bid.color[bid % 5],
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:fivehundreds/match_data_helper.dart';
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
@@ -17,18 +18,22 @@ class MatchPage extends StatefulWidget {
 class _MatchPageState extends State<MatchPage> {
   List<bool> _matchScore = [];
   List<String> _teamName = [];
-  List<ScoreCard> _handHistory = [];
+  List<ScoreCard> _handHistoryCard = [];
+  List<int> _handHistory = [];
   List<int> _teamScore = [0, 0];
   List<bool> _teamSelected = [false, false];
   List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
   int _wonSelected = 0;
   int games = 0;
+  int _bid;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
   int _handsPlayed = 0;
   String _titleString = '';
   String _matchUuid = '';
+  bool _matchLoaded = false;
+  ScoreMode scoreMode;
 
   @override
   void initState() {
@@ -37,11 +42,15 @@ class _MatchPageState extends State<MatchPage> {
     _titleString = 'Best of $games';
     _teamName = widget.matchConfig.teamName;
     _matchUuid = widget.matchConfig.uuid;
+    scoreMode = widget.matchConfig.scoreMode;
+    if (!widget.matchConfig.isNewMatch) _loadMatch();
+
     super.initState();
   }
 
   var _wonTricks = List<DropdownMenuItem<int>>.generate(
       11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
+
   @override
   Widget build(BuildContext context) {
     int _team = _teamSelected.where((e) => e == true).length;
@@ -250,10 +259,12 @@ class _MatchPageState extends State<MatchPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
-                child: Text(_canWin ? 'Hand finished' : 'Select team and bid',
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: Colors.white,
-                        )),
+                child: Text(
+                  _canWin ? 'Hand finished' : 'Select team and bid',
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        fontSize: 20.0,
+                      ),
+                ),
                 color: Theme.of(context).primaryColor,
                 onPressed: _canWin
                     ? () {
@@ -270,12 +281,12 @@ class _MatchPageState extends State<MatchPage> {
 
     Widget _handHistoryWidget = Container(
       height: 120.0,
-      child: _handHistory.length > 0
+      child: _handHistoryCard.length > 0
           ? ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: _handHistory.length,
+              itemCount: _handHistoryCard.length,
               itemBuilder: (BuildContext context, int index) =>
-                  _handHistory[index])
+                  _handHistoryCard[index])
           : Center(
               child: Text(
                 'No hands played yet.',
@@ -333,7 +344,11 @@ class _MatchPageState extends State<MatchPage> {
       ),
       body: ListView(
         children: <Widget>[
-          ScoreBoard(teamName: _teamName, teamScore: _teamScore),
+          ScoreBoard(
+              teamName: _teamName,
+              teamScore: _teamScore,
+              bid: _bid,
+              scoreMode: scoreMode),
           Divider(
             height: 1.0,
             thickness: 2.0,
@@ -374,6 +389,7 @@ class _MatchPageState extends State<MatchPage> {
     setState(() {
       _bidSelected = List<bool>.generate(28, (_) => false);
       _bidSelected[index] = true;
+      _bid = index;
     });
   }
 
@@ -384,7 +400,7 @@ class _MatchPageState extends State<MatchPage> {
         bid: _bid,
         bidTeam: _bidTeam,
         wonTricks: _wonSelected,
-        scoreMode: widget.matchConfig.scoreMode);
+        scoreMode: scoreMode);
     List<int> _handScore = s.calculateScore();
     _handScore.asMap().forEach((key, value) {
       _teamScore[key] += value;
@@ -395,7 +411,16 @@ class _MatchPageState extends State<MatchPage> {
     var _t2MatchScore = _matchScore.sublist(_mid);
     setState(() {
       _handsPlayed += 1;
-      _handHistory.insert(
+      List<int> _hand = [
+        _roundPlayed,
+        _bid,
+        _bidTeam,
+        ..._handScore,
+        _wonSelected,
+        _handsPlayed
+      ];
+      _hand.forEach((e) => _handHistory.add(e));
+      _handHistoryCard.insert(
           0,
           ScoreCard(
             round: _roundPlayed + 1,
@@ -415,8 +440,7 @@ class _MatchPageState extends State<MatchPage> {
       _newRound();
     }
     _matchScore = _t1MatchScore + _t2MatchScore;
-    _canBid =
-        _matchScore.where((e) => e == true).length > games ~/ 2 ? false : true;
+    _canBid = _matchScore.first || _matchScore.last ? false : true;
     _resetHand();
     _saveMatchInfo();
   }
@@ -442,7 +466,49 @@ class _MatchPageState extends State<MatchPage> {
     matchInfo.roundPlayed = _roundPlayed;
     matchInfo.handsPlayed = _handsPlayed;
     matchInfo.completed = _canBid ? 0 : 1;
+    matchInfo.handHistory = _handHistory;
+    matchInfo.scoreModeIndex = scoreMode.index;
     Provider.of<MatchStateNotifier>(context, listen: false)
         .updateMatchState(_matchUuid, matchInfo);
+  }
+
+  Future<void> _loadMatch() async {
+    var json = await MatchDataHelper.getMatchInfo(_matchUuid);
+    if (json != null) {
+      MatchInfo matchInfo = MatchInfo.fromJson(json);
+      setState(() {
+        if (!_matchLoaded) {
+          _matchScore = matchInfo.matchScore;
+          _teamName = matchInfo.teamName;
+          _teamScore = matchInfo.teamScore;
+          games = matchInfo.games;
+          _roundPlayed = matchInfo.roundPlayed;
+          _handsPlayed = matchInfo.handsPlayed;
+          scoreMode = ScoreMode.values[matchInfo.scoreModeIndex];
+          _canBid = matchInfo.completed == 0 ? true : false;
+          // round, bid, bidTeam, team1score, team2score, wonSelected, handsPlayed
+          var _hand = [];
+          _handHistory = matchInfo.handHistory;
+          print(_handHistory);
+          _handHistory?.asMap()?.forEach((index, v) {
+            _hand.add(v);
+            if (index % 7 == 6) {
+              _handHistoryCard.insert(
+                  0,
+                  ScoreCard(
+                    round: _hand[0] + 1,
+                    bid: _hand[1],
+                    bidTeamIndex: _hand[2],
+                    score: [_hand[3], _hand[4]],
+                    wonTricks: _hand[5],
+                    handIndex: _hand[6],
+                  ));
+              _hand = [];
+            }
+          });
+          _matchLoaded = true;
+        }
+      });
+    }
   }
 }

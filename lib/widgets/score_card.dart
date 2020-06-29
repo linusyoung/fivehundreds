@@ -1,7 +1,6 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class ScoreCard extends StatelessWidget {
   final int bid;
@@ -28,10 +27,7 @@ class ScoreCard extends StatelessWidget {
     Widget _bidIcon = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Icon(
-          Bid.iconList[bid % 5],
-          color: Bid.color[bid % 5],
-        ),
+        Bid().getBidIcon(bid % 5),
         Padding(
           padding: const EdgeInsets.only(
             right: 12.0,

@@ -19,7 +19,7 @@ class _NewMatchState extends State<NewMatch> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       child: Container(
-        height: 250,
+        height: 260,
         width: 200,
         child: Column(
           children: <Widget>[
@@ -29,57 +29,75 @@ class _NewMatchState extends State<NewMatch> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Match Config',
+                    'Match Setting',
                     style: Theme.of(context).textTheme.subtitle1,
                   )
                 ],
               ),
             ),
-            Divider(
-              height: 1.0,
-              thickness: 2.0,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Flexible(
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintText: 'Team 1',
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      textAlignVertical: TextAlignVertical.bottom,
+                      decoration: InputDecoration(
+                        hintText: 'Team 1',
+                      ),
+                      onChanged: (String value) {
+                        team1Name = value;
+                      },
                     ),
-                    onChanged: (String value) {
-                      team1Name = value;
-                    },
                   ),
                 ),
                 Flexible(
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(hintText: 'Team 2'),
-                    onChanged: (String value) {
-                      team2Name = value;
-                    },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      textAlignVertical: TextAlignVertical.bottom,
+                      decoration: InputDecoration(hintText: 'Team 2'),
+                      onChanged: (String value) {
+                        team2Name = value;
+                      },
+                    ),
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'Best Of',
-                    style: Theme.of(context).textTheme.subtitle1,
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      child: Text(
+                        'Best Of',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ),
                   ),
                   Container(
                     height: 30.0,
                     child: ToggleButtons(
                       children: <Widget>[
-                        Text('3'),
-                        Text('5'),
-                        Text('7'),
+                        Text(
+                          '3',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        Text(
+                          '5',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        Text(
+                          '7',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ],
                       onPressed: (int index) {
                         setState(() {
@@ -101,29 +119,34 @@ class _NewMatchState extends State<NewMatch> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    'Scoring',
-                    style: Theme.of(context).textTheme.subtitle1,
+                  Flexible(
+                    flex: 1,
+                    child: Text(
+                      'Scoring',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                   ),
                   Container(
                     height: 35.0,
                     child: ToggleButtons(
                       children: <Widget>[
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Text('Perfect'),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('Avondale'),
+                          child: Text(
+                            'Avondale',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('Original'),
+                          child: Text(
+                            'Original',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ),
                       ],
                       onPressed: (int index) {
@@ -148,9 +171,7 @@ class _NewMatchState extends State<NewMatch> {
             RaisedButton(
               child: Text(
                 'Create Match',
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
-                      color: Colors.white,
-                    ),
+                style: Theme.of(context).textTheme.subtitle2,
               ),
               color: Theme.of(context).primaryColor,
               onPressed: _showMatchPage,
@@ -176,6 +197,7 @@ class _NewMatchState extends State<NewMatch> {
                       teamName: teamName,
                       games: games,
                       scoreMode: scoreMode,
+                      isNewMatch: true,
                       uuid: uuid.v4().toString()),
                 )));
   }

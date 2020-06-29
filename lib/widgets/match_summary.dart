@@ -1,35 +1,29 @@
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/pages/pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
-class MatchSummary extends StatelessWidget {
-  final int completed;
+class MatchSummary extends StatefulWidget {
   final List<String> teamName;
-  final int games;
   final List<bool> matchScore;
-  MatchSummary(
-      {@required this.completed,
-      @required this.teamName,
-      @required this.games,
-      @required this.matchScore})
-      : assert(teamName?.length != 2 || teamName != null,
+  final int games;
+  // final ScoreMode scoreMode;
+  final String uuid;
+  MatchSummary({
+    @required this.teamName,
+    @required this.matchScore,
+    @required this.games,
+    @required this.uuid,
+  }) : assert(teamName?.length != 2 || teamName != null,
             'Team name list must be either empty or two values.');
-  // assert((completed == 1 && wonTeam < 2),
-  //     'Won team index must be 0 or 1 when completed == true. $wonTeam $completed');
 
   @override
+  _MatchSummaryState createState() => _MatchSummaryState();
+}
+
+class _MatchSummaryState extends State<MatchSummary> {
+  @override
   Widget build(BuildContext context) {
-    Icon _status = completed == 1
-        ? Icon(
-            MaterialCommunityIcons.check_bold,
-            size: 40.0,
-          )
-        : Icon(
-            MaterialCommunityIcons.cards_playing_outline,
-            size: 40.0,
-            color: Theme.of(context).primaryColor,
-          );
-    int scoreOffset = ((matchScore.length) ~/ 2);
+    int scoreOffset = ((widget.matchScore.length) ~/ 2);
     List<Widget> t1MatchScoreWidget = List.generate(
         scoreOffset,
         (index) => Container(
@@ -37,7 +31,7 @@ class MatchSummary extends StatelessWidget {
                 border: Border.all(
                   color: Colors.black,
                 ),
-                color: matchScore[(scoreOffset - 1) - index]
+                color: widget.matchScore[(scoreOffset - 1) - index]
                     ? Team.team1Color
                     : null,
               ),
@@ -45,18 +39,21 @@ class MatchSummary extends StatelessWidget {
               height: 10.0,
             ));
     List<Widget> t2MatchScoreWidget = List.generate(
-        (matchScore.length + 1) ~/ 2,
+        (widget.matchScore.length + 1) ~/ 2,
         (index) => Container(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.black,
                 ),
-                color: matchScore[index + scoreOffset] ? Team.team2Color : null,
+                color: widget.matchScore[index + scoreOffset]
+                    ? Team.team2Color
+                    : null,
               ),
               width: 20.0,
               height: 10.0,
             ));
-
+    bool completed =
+        widget.matchScore.first || widget.matchScore.last ? true : false;
     return Card(
       color: Colors.grey[350],
       child: Container(
@@ -66,14 +63,21 @@ class MatchSummary extends StatelessWidget {
             Container(
               child: Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      matchScore.first ? Team.crown : Team.team1Icon,
-                      Text('${teamName[0]}',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        widget.matchScore.first ? Team.crown : Team.team1Icon,
+                        Flexible(
+                          child: Text('${widget.teamName[0]}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -82,29 +86,42 @@ class MatchSummary extends StatelessWidget {
                 ],
               ),
             ),
-            RaisedButton(
-              child: Text('View detail',
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: Colors.white,
-                      )),
-              color: Theme.of(context).primaryColor,
-              onPressed: () {},
+            ButtonTheme(
+              minWidth: 120.0,
+              height: 30.0,
+              child: RaisedButton(
+                child: Text(
+                  completed ? 'Match detail' : 'Continue',
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {
+                  _viewMatch();
+                },
+              ),
             ),
             Container(
               child: Column(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      matchScore.last ? Team.crown : Team.team2Icon,
-                      Text('${teamName[1]}',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyText1),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: t2MatchScoreWidget,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        widget.matchScore.last ? Team.crown : Team.team2Icon,
+                        Flexible(
+                          child: Text('${widget.teamName[1]}',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -113,16 +130,21 @@ class MatchSummary extends StatelessWidget {
         ),
       ),
     );
-    // ListTile(
-    //   title: completed == 1
-    //       ? Text(
-    //           '${teamName[wonTeam]} Won',
-    //           style: Theme.of(context).textTheme.headline6,
-    //         )
-    //       : Text('No team won yet.',
-    //           style: Theme.of(context).textTheme.headline6),
-    //   subtitle: Text('BO$games', style: Theme.of(context).textTheme.subtitle1),
-    //   trailing: _status,
-    // );
+  }
+
+  void _viewMatch() {
+    MatchConfig matchConfig = MatchConfig(
+        teamName: widget.teamName,
+        games: widget.games,
+        scoreMode: ScoreMode.Avondale,
+        isNewMatch: false,
+        uuid: widget.uuid);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => MatchPage(
+                  matchConfig: matchConfig,
+                )));
   }
 }

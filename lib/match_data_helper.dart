@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MatchDataHelper {
-  static Future<String> getMatchInfo(String key) async {
+  static Future<dynamic> getMatchInfo(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return json.decode(prefs.getString(key)) ?? '';
+    return json.decode(prefs.getString(key)) ?? null;
   }
 
   static Future<bool> setMatchInfo(String key, dynamic value) async {

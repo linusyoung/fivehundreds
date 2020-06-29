@@ -28,10 +28,12 @@ class TeamSelection extends StatelessWidget {
       child: Row(
         children: <Widget>[
           teamIndex == 0 ? Team.team1Icon : Team.team2Icon,
-          Text(
-            teamName,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headline6,
+          Flexible(
+            child: Text(
+              teamName,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headline6,
+            ),
           ),
         ],
       ),

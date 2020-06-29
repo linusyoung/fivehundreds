@@ -10,15 +10,26 @@ class Score {
 
   List<int> _baseScore = [40, 40, 20];
   static const List<int> scoreStep = [40, 20];
-  Score(
-      {@required this.bidTeam,
-      @required this.bid,
-      @required this.wonTricks,
-      @required this.scoreMode});
+  Score({
+    @required this.bid,
+    @required this.scoreMode,
+    this.bidTeam,
+    this.wonTricks,
+  });
 
   List<int> calculateScore() {
+    int bidderScore = getScore();
+
+    int opposingScore = (10 - wonTricks) * 10;
+
+    return bidTeam == 0
+        ? [bidderScore, opposingScore]
+        : [opposingScore, bidderScore];
+  }
+
+  int getScore() {
     int bidderScore;
-    int opposingScore;
+
     switch (bid) {
       case 25:
       case 26:
@@ -47,10 +58,6 @@ class Score {
     if (bid <= 10 && wonTricks == 10) {
       bidderScore = 250;
     }
-    opposingScore = (10 - wonTricks) * 10;
-
-    return bidTeam == 0
-        ? [bidderScore, opposingScore]
-        : [opposingScore, bidderScore];
+    return bidderScore;
   }
 }

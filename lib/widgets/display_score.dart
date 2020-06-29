@@ -14,9 +14,9 @@ class DisplayScore extends StatelessWidget {
 
     return Text(
       '$score',
-      style: TextStyle(
-        color: _scoreColor,
-      ),
+      style: Theme.of(context).textTheme.bodyText1.copyWith(
+            color: _scoreColor,
+          ),
     );
   }
 }
