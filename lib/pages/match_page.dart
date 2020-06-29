@@ -34,6 +34,8 @@ class _MatchPageState extends State<MatchPage> {
   String _matchUuid = '';
   bool _matchLoaded = false;
   ScoreMode scoreMode;
+  var _wonTricks = List<DropdownMenuItem<int>>.generate(
+      11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
 
   @override
   void initState() {
@@ -43,18 +45,16 @@ class _MatchPageState extends State<MatchPage> {
     _teamName = widget.matchConfig.teamName;
     _matchUuid = widget.matchConfig.uuid;
     scoreMode = widget.matchConfig.scoreMode;
+    _bid = -1;
     if (!widget.matchConfig.isNewMatch) _loadMatch();
 
     super.initState();
   }
 
-  var _wonTricks = List<DropdownMenuItem<int>>.generate(
-      11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
-
   @override
   Widget build(BuildContext context) {
-    int _team = _teamSelected.where((e) => e == true).length;
-    int _bid = _bidSelected.where((e) => e == true).length;
+    int _teamCheck = _teamSelected.where((e) => e == true).length;
+    int _bidCheck = _bidSelected.where((e) => e == true).length;
     bool _t1Won = _matchScore
                 .sublist(0, (games + 1) ~/ 2)
                 .where((e) => e == true)
@@ -68,7 +68,7 @@ class _MatchPageState extends State<MatchPage> {
             ? true
             : false;
 
-    _canWin = _team == 1 && _bid == 1 ? true : false;
+    _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
     List<Widget> _matchScoreWidget = List<Widget>.generate(
         games + 1,
         (index) => Container(
@@ -334,6 +334,7 @@ class _MatchPageState extends State<MatchPage> {
       ),
     );
 
+    print(_bid);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -394,7 +395,7 @@ class _MatchPageState extends State<MatchPage> {
   }
 
   void _updateResult() {
-    int _bid = _bidSelected.indexOf(true);
+    // _bid = _bidSelected.indexOf(true);
     int _bidTeam = _teamSelected.indexOf(true);
     Score s = Score(
         bid: _bid,
