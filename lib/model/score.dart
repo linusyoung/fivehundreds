@@ -19,12 +19,21 @@ class Score {
 
   List<int> calculateScore() {
     int bidderScore = getScore();
-
-    bidderScore =
-        (bid / 5).floor() + 6 <= wonTricks ? bidderScore : -bidderScore;
+    // slam
     if (bid <= 10 && wonTricks == 10) {
       bidderScore = 250;
     }
+    print('bid: $bid, wonTricks: $wonTricks');
+    // misere
+    if (bid >= 25 && wonTricks != 0) {
+      bidderScore = -bidderScore;
+    } else if (bid >= 25 && wonTricks == 0) {
+      bidderScore = bidderScore;
+    } else {
+      bidderScore =
+          (bid / 5).floor() + 6 <= wonTricks ? bidderScore : -bidderScore;
+    }
+
     int opposingScore = (10 - wonTricks) * 10;
 
     return bidTeam == 0
@@ -38,13 +47,13 @@ class Score {
     switch (bid) {
       case 25:
       case 26:
-        bidderScore = wonTricks == 0 ? 250 * (bid - 24) : -250 * (bid - 24);
+        bidderScore = 250 * (bid - 24);
         break;
       case 27:
         // close misere
         // open misere
         // blind misere
-        bidderScore = wonTricks == 0 ? 1000 : -1000;
+        bidderScore = 1000;
         break;
       default:
         int level = (bid / 5).floor();
