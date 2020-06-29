@@ -8,8 +8,8 @@ class Score {
   final int wonTricks;
   final ScoreMode scoreMode;
 
-  List<int> _baseScore = [40, 40, 20];
-  static const List<int> scoreStep = [40, 20];
+  List<int> _baseScore = [40, 40];
+  static const List<int> scoreStep = [20, 40];
   Score({
     @required this.bid,
     @required this.scoreMode,
