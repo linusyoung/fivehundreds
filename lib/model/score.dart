@@ -20,6 +20,11 @@ class Score {
   List<int> calculateScore() {
     int bidderScore = getScore();
 
+    bidderScore =
+        (bid / 5).floor() + 6 <= wonTricks ? bidderScore : -bidderScore;
+    if (bid <= 10 && wonTricks == 10) {
+      bidderScore = 250;
+    }
     int opposingScore = (10 - wonTricks) * 10;
 
     return bidTeam == 0
@@ -52,12 +57,8 @@ class Score {
               (((bid % 5) + 1) * (1 + 0.5 * level) * scoreStep[scoreMode.index])
                   .toInt();
         }
-        bidderScore = level + 6 <= wonTricks ? bidderScore : -bidderScore;
     }
-    // slam
-    if (bid <= 10 && wonTricks == 10) {
-      bidderScore = 250;
-    }
+
     return bidderScore;
   }
 }
