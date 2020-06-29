@@ -33,6 +33,7 @@ class _MatchPageState extends State<MatchPage> {
   String _titleString = '';
   String _matchUuid = '';
   bool _matchLoaded = false;
+  static const misereText = ['CM', 'OM', 'BM'];
   ScoreMode scoreMode;
   var _wonTricks = List<DropdownMenuItem<int>>.generate(
       11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
@@ -81,6 +82,35 @@ class _MatchPageState extends State<MatchPage> {
               height: 10.0,
               width: 20.0,
             ));
+
+    List<Widget> _bidMisereWidget = List<Widget>.generate(
+      3,
+      (index) => Expanded(
+        child: GestureDetector(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            height: 35.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 2.0,
+              ),
+              color: _bidSelected[index + 25]
+                  ? Theme.of(context).highlightColor
+                  : null,
+            ),
+            child: Text(
+              misereText[index],
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+          onTap: () {
+            _selectBid(index + 25);
+          },
+        ),
+      ),
+    );
     List<Widget> _bidWidget = [
       Padding(
         padding: const EdgeInsets.all(4.0),
@@ -146,81 +176,7 @@ class _MatchPageState extends State<MatchPage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Expanded(
-            child: GestureDetector(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                height: 40.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2.0,
-                  ),
-                  color: _bidSelected[25]
-                      ? Theme.of(context).highlightColor
-                      : null,
-                ),
-                child: Text(
-                  'CM',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              onTap: () {
-                _selectBid(25);
-              },
-            ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                height: 40.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2.0,
-                  ),
-                  color: _bidSelected[26]
-                      ? Theme.of(context).highlightColor
-                      : null,
-                ),
-                child: Text(
-                  ' OM',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              onTap: () {
-                _selectBid(26);
-              },
-            ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              child: Container(
-                margin: EdgeInsets.all(5.0),
-                height: 40.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 2.0,
-                  ),
-                  color: _bidSelected[27]
-                      ? Theme.of(context).highlightColor
-                      : null,
-                ),
-                child: Text(
-                  ' BM',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              onTap: () {
-                _selectBid(27);
-              },
-            ),
-          ),
+          ..._bidMisereWidget,
         ],
       )
     ];
@@ -305,7 +261,7 @@ class _MatchPageState extends State<MatchPage> {
               children: <Widget>[
                 Icon(
                   MaterialCommunityIcons.chess_bishop,
-                  size: 70.0,
+                  size: 55.0,
                   color: Team.team1Color,
                 ),
                 _t1Won ? Team.crown : Container(),
@@ -324,7 +280,7 @@ class _MatchPageState extends State<MatchPage> {
             child: Stack(children: <Widget>[
               Icon(
                 MaterialCommunityIcons.chess_knight,
-                size: 70.0,
+                size: 55.0,
                 color: Team.team2Color,
               ),
               _t2Won ? Team.crown : Container(),
@@ -334,7 +290,8 @@ class _MatchPageState extends State<MatchPage> {
       ),
     );
 
-    print(_bid);
+// TODO: remove debug
+    _teamScore = [200, -200];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -349,10 +306,14 @@ class _MatchPageState extends State<MatchPage> {
               teamName: _teamName,
               teamScore: _teamScore,
               bid: _bid,
+              teamIndex: _bi,
               scoreMode: scoreMode),
-          Divider(
-            height: 1.0,
-            thickness: 2.0,
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Divider(
+              height: 1.0,
+              thickness: 2.0,
+            ),
           ),
           Column(
             children: <Widget>[
