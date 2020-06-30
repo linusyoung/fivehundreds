@@ -32,7 +32,6 @@ class ScoreBoard extends StatelessWidget {
         matchScore.sublist(0, matchScore.length ~/ 2).reversed.toList();
     List<bool> _t2Match = matchScore.sublist(matchScore.length ~/ 2);
     List<List<bool>> teamMatchScores = [_t1Match, _t2Match];
-    print(teamIndex);
     List<Widget> teamAvatarWidget = List.generate(
       2,
       (index) => Stack(

@@ -34,8 +34,10 @@ class _MatchPageState extends State<MatchPage> {
   bool _matchLoaded = false;
   static const misereText = ['CM', 'OM', 'BM'];
   ScoreMode scoreMode;
-  var _wonTricks = List<DropdownMenuItem<int>>.generate(
-      11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
+  // var _wonTricks = List<DropdownMenuItem<int>>.generate(
+  //     11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
+
+  List<bool> _wonTricks = List<bool>.generate(11, (_) => false);
 
   @override
   void initState() {
@@ -153,40 +155,33 @@ class _MatchPageState extends State<MatchPage> {
       )
     ];
     List<Widget> _handResultWidget = [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Tricks won by bidders: ',
-              style: Theme.of(context).textTheme.headline5,
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            ...List.generate(
+              11,
+              (index) => GestureDetector(
+                child: WonTricksSelection(
+                    canWin: _canWin,
+                    selected: _wonTricks[index],
+                    wonTrick: index),
+                onTap: _canWin
+                    ? () {
+                        _selectWonTricks(index);
+                      }
+                    : null,
+              ),
             ),
-          ),
-          ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton<int>(
-              // TODO: _wonSelected default to win option.
-              value: _wonSelected,
-              onChanged: _canWin
-                  ? (int newValue) {
-                      setState(() {
-                        _wonSelected = newValue;
-                      });
-                    }
-                  : null,
-              items: _wonTricks,
-              style: Theme.of(context).textTheme.headline5,
-              hint: Text('Select'),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       Row(
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
               child: RaisedButton(
                 child: Text(
                   _canWin ? 'Hand finished' : 'Select team and bid',
@@ -208,20 +203,23 @@ class _MatchPageState extends State<MatchPage> {
       ),
     ];
 
-    Widget _handHistoryWidget = Container(
-      height: 135.0,
-      child: _handHistoryCard.length > 0
-          ? ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _handHistoryCard.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  _handHistoryCard[index])
-          : Center(
-              child: Text(
-                'No hands played yet.',
-                style: Theme.of(context).textTheme.headline4,
+    Widget _handHistoryWidget = Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        height: 135.0,
+        child: _handHistoryCard.length > 0
+            ? ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _handHistoryCard.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    _handHistoryCard[index])
+            : Center(
+                child: Text(
+                  'No hands played yet.',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
               ),
-            ),
+      ),
     );
 
     return Scaffold(
@@ -232,7 +230,6 @@ class _MatchPageState extends State<MatchPage> {
         ),
         centerTitle: true,
       ),
-      // backgroundColor: Theme.of(context).backgroundColor,
       body: ListView(
         children: <Widget>[
           ScoreBoard(
@@ -242,31 +239,24 @@ class _MatchPageState extends State<MatchPage> {
             bidScore: _bidScore,
             teamIndex: _teamSelected.indexOf(true) ?? -1,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Divider(
-              height: 1.0,
-              thickness: 2.0,
-            ),
+          Divider(
+            height: 1.0,
+            thickness: 2.0,
           ),
-          Column(
-            children: <Widget>[
-              ..._bidWidget,
-              Divider(
-                height: 1.0,
-                thickness: 2.0,
-              ),
-              ..._handResultWidget,
-              Divider(
-                height: 1.0,
-                thickness: 2.0,
-              ),
-              _handHistoryWidget,
-              Divider(
-                height: 1.0,
-                thickness: 2.0,
-              ),
-            ],
+          _handHistoryWidget,
+          Divider(
+            height: 1.0,
+            thickness: 2.0,
+          ),
+          ..._bidWidget,
+          Divider(
+            height: 1.0,
+            thickness: 2.0,
+          ),
+          if (_canWin) ..._handResultWidget,
+          Divider(
+            height: 1.0,
+            thickness: 2.0,
           ),
         ],
       ),
@@ -277,14 +267,35 @@ class _MatchPageState extends State<MatchPage> {
     setState(() {
       _teamSelected[index] = true;
       _teamSelected[1 - index] = false;
+      if (_bidSelected.where((e) => e == true).length > 0)
+        _updateDefaultWonTricks();
     });
   }
 
   void _selectBid(int index) {
     setState(() {
-      _bidSelected = List<bool>.generate(28, (_) => false);
-      _bidSelected[index] = true;
+      _bidSelected = List<bool>.generate(28, (i) => i == index ? true : false);
       _bidScore = Score(bid: index, scoreMode: scoreMode).getScore();
+      if (_teamSelected.where((e) => e == true).length > 0)
+        _updateDefaultWonTricks();
+    });
+  }
+
+  void _updateDefaultWonTricks() {
+    int bid = _bidSelected.indexOf(true);
+    _wonTricks = List<bool>.generate(11, (_) => false);
+    setState(() {
+      if (bid >= 25) {
+        _wonTricks[0] = true;
+      } else {
+        _wonTricks[(bid / 5).floor() + 6] = true;
+      }
+    });
+  }
+
+  void _selectWonTricks(int index) {
+    setState(() {
+      _wonTricks = List<bool>.generate(11, (i) => i == index ? true : false);
     });
   }
 
@@ -354,16 +365,16 @@ class _MatchPageState extends State<MatchPage> {
   }
 
   void _saveMatchInfo() {
-    MatchInfo matchInfo = MatchInfo();
-    matchInfo.teamName = _teamName;
-    matchInfo.matchScore = _matchScore;
-    matchInfo.teamScore = _teamScore;
-    matchInfo.games = games;
-    matchInfo.roundPlayed = _roundPlayed;
-    matchInfo.handsPlayed = _handsPlayed;
-    matchInfo.completed = _canBid ? 0 : 1;
-    matchInfo.handHistory = _handHistory;
-    matchInfo.scoreModeIndex = scoreMode.index;
+    MatchInfo matchInfo = MatchInfo()
+      ..teamName = _teamName
+      ..matchScore = _matchScore
+      ..teamScore = _teamScore
+      ..games = games
+      ..roundPlayed = _roundPlayed
+      ..handsPlayed = _handsPlayed
+      ..completed = _canBid ? 0 : 1
+      ..handHistory = _handHistory
+      ..scoreModeIndex = scoreMode.index;
     Provider.of<MatchStateNotifier>(context, listen: false)
         .updateMatchState(_matchUuid, matchInfo);
   }
