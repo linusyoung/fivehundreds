@@ -3,9 +3,7 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
 
 class MatchPage extends StatefulWidget {
   final MatchConfig matchConfig;
@@ -25,6 +23,7 @@ class _MatchPageState extends State<MatchPage> {
   List<bool> _teamSelected = [false, false];
   List<bool> _bidSelected = List<bool>.generate(28, (_) => false);
   int _wonSelected = 0;
+  int _bidScore = 0;
   int games = 0;
   bool _canWin = false;
   bool _canBid = true;
@@ -55,33 +54,7 @@ class _MatchPageState extends State<MatchPage> {
   Widget build(BuildContext context) {
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
-    bool _t1Won = _matchScore
-                .sublist(0, (games + 1) ~/ 2)
-                .where((e) => e == true)
-                .length ==
-            (games + 1) ~/ 2
-        ? true
-        : false;
-    bool _t2Won =
-        _matchScore.sublist((games + 1) ~/ 2).where((e) => e == true).length ==
-                (games + 1) ~/ 2
-            ? true
-            : false;
-
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
-    List<Widget> _matchScoreWidget = List<Widget>.generate(
-        games + 1,
-        (index) => Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey[600],
-                ),
-                color: _matchScore[index] ? Colors.amber : null,
-              ),
-              height: 10.0,
-              width: 20.0,
-            ));
-
     List<Widget> _bidMisereWidget = List<Widget>.generate(
       3,
       (index) => Expanded(
@@ -259,15 +232,16 @@ class _MatchPageState extends State<MatchPage> {
         ),
         centerTitle: true,
       ),
+      // backgroundColor: Theme.of(context).backgroundColor,
       body: ListView(
         children: <Widget>[
           ScoreBoard(
-              teamName: _teamName,
-              teamScore: _teamScore,
-              matchScore: _matchScore,
-              bid: _bidSelected.indexOf(true) ?? -1,
-              teamIndex: _teamSelected.indexOf(true) ?? -1,
-              scoreMode: scoreMode),
+            teamName: _teamName,
+            teamScore: _teamScore,
+            matchScore: _matchScore,
+            bidScore: _bidScore,
+            teamIndex: _teamSelected.indexOf(true) ?? -1,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Divider(
@@ -310,6 +284,7 @@ class _MatchPageState extends State<MatchPage> {
     setState(() {
       _bidSelected = List<bool>.generate(28, (_) => false);
       _bidSelected[index] = true;
+      _bidScore = Score(bid: index, scoreMode: scoreMode).getScore();
     });
   }
 
@@ -375,6 +350,7 @@ class _MatchPageState extends State<MatchPage> {
     _teamSelected = [false, false];
     _bidSelected = List<bool>.generate(28, (_) => false);
     _canWin = false;
+    _bidScore = 0;
   }
 
   void _saveMatchInfo() {
@@ -409,7 +385,6 @@ class _MatchPageState extends State<MatchPage> {
           // round, bid, bidTeam, team1score, team2score, wonSelected, handsPlayed
           var _hand = [];
           _handHistory = matchInfo.handHistory;
-          print(_handHistory);
           _handHistory?.asMap()?.forEach((index, v) {
             _hand.add(v);
             if (index % 7 == 6) {
