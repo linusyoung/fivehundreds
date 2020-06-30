@@ -6,6 +6,7 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.teal,
+    canvasColor: Colors.blueGrey[50],
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: GoogleFonts.poppinsTextTheme().copyWith(
       // button text
