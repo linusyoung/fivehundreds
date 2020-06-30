@@ -3,6 +3,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class Team {
   static const List<Color> teamColors = [Colors.blueAccent, Colors.indigo];
+
+  static const List<IconData> teamIconsData = [
+    MaterialCommunityIcons.chess_bishop,
+    MaterialCommunityIcons.chess_knight,
+  ];
+
   static const List<Icon> teamIcons = [
     Icon(
       MaterialCommunityIcons.chess_bishop,
