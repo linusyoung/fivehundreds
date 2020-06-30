@@ -7,14 +7,13 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.teal,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    textTheme: GoogleFonts.courgetteTextTheme().copyWith(
+    textTheme: GoogleFonts.poppinsTextTheme().copyWith(
       // button text
-
-      subtitle2: GoogleFonts.courgetteTextTheme().subtitle2.copyWith(
+      subtitle2: GoogleFonts.poppinsTextTheme().subtitle2.copyWith(
             color: Colors.white,
           ),
       // app bar text
-      headline4: GoogleFonts.courgetteTextTheme().headline4.copyWith(
+      headline4: GoogleFonts.poppinsTextTheme().headline4.copyWith(
             color: Colors.white,
           ),
     ),
