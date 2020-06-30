@@ -5,6 +5,7 @@ import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class MatchPage extends StatefulWidget {
   final MatchConfig matchConfig;
@@ -73,7 +74,7 @@ class _MatchPageState extends State<MatchPage> {
         (index) => Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.grey[600],
                 ),
                 color: _matchScore[index] ? Colors.amber : null,
               ),
@@ -192,6 +193,7 @@ class _MatchPageState extends State<MatchPage> {
           ButtonTheme(
             alignedDropdown: true,
             child: DropdownButton<int>(
+              // TODO: _wonSelected default to win option.
               value: _wonSelected,
               onChanged: _canWin
                   ? (int newValue) {
@@ -234,7 +236,7 @@ class _MatchPageState extends State<MatchPage> {
     ];
 
     Widget _handHistoryWidget = Container(
-      height: 120.0,
+      height: 135.0,
       child: _handHistoryCard.length > 0
           ? ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -249,47 +251,6 @@ class _MatchPageState extends State<MatchPage> {
             ),
     );
 
-    Widget _matchResultWidget = Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            child: Stack(
-              children: <Widget>[
-                Icon(
-                  MaterialCommunityIcons.chess_bishop,
-                  size: 55.0,
-                  color: Team.teamColors.first,
-                ),
-                _t1Won ? Team.crown : Container(),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ..._matchScoreWidget,
-              ],
-            ),
-          ),
-          Container(
-            child: Stack(children: <Widget>[
-              Icon(
-                MaterialCommunityIcons.chess_knight,
-                size: 55.0,
-                color: Team.teamColors.last,
-              ),
-              _t2Won ? Team.crown : Container(),
-            ]),
-          )
-        ],
-      ),
-    );
-
-// TODO: remove debug
-    _teamScore = [200, -200];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -303,11 +264,12 @@ class _MatchPageState extends State<MatchPage> {
           ScoreBoard(
               teamName: _teamName,
               teamScore: _teamScore,
+              matchScore: _matchScore,
               bid: _bidSelected.indexOf(true) ?? -1,
               teamIndex: _teamSelected.indexOf(true) ?? -1,
               scoreMode: scoreMode),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 4.0),
             child: Divider(
               height: 1.0,
               thickness: 2.0,
@@ -330,7 +292,6 @@ class _MatchPageState extends State<MatchPage> {
                 height: 1.0,
                 thickness: 2.0,
               ),
-              _matchResultWidget,
             ],
           ),
         ],

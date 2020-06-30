@@ -29,10 +29,10 @@ class _MatchSummaryState extends State<MatchSummary> {
         (index) => Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.grey[600],
                 ),
                 color: widget.matchScore[(scoreOffset - 1) - index]
-                    ? Team.teamColors.first
+                    ? Colors.amber
                     : null,
               ),
               width: 20.0,
@@ -43,10 +43,10 @@ class _MatchSummaryState extends State<MatchSummary> {
         (index) => Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.black,
+                  color: Colors.grey[600],
                 ),
                 color: widget.matchScore[index + scoreOffset]
-                    ? Team.teamColors.last
+                    ? Colors.amber
                     : null,
               ),
               width: 20.0,
