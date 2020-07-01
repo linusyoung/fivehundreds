@@ -128,17 +128,7 @@ class ScoreBoard extends StatelessWidget {
             children: List.generate(
               teamMatchScores[i].length * 2 - 1,
               (index) => index % 2 == 0
-                  ? Container(
-                      height: 10.0,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        color: teamMatchScores[i][index ~/ 2]
-                            ? Colors.amber
-                            : null,
-                      ),
-                    )
+                  ? MatchResult(won: teamMatchScores[i][index ~/ 2])
                   : Divider(
                       height: 5.0,
                     ),

@@ -1,5 +1,6 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/pages/pages.dart';
+import 'package:fivehundreds/widgets/match_result.dart';
 import 'package:flutter/material.dart';
 
 class MatchSummary extends StatefulWidget {
@@ -24,38 +25,18 @@ class _MatchSummaryState extends State<MatchSummary> {
   @override
   Widget build(BuildContext context) {
     int scoreOffset = ((widget.matchScore.length) ~/ 2);
-    List<Widget> t1MatchScoreWidget = List.generate(
-        scoreOffset,
-        (index) => Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey[600],
-                ),
-                color: widget.matchScore[(scoreOffset - 1) - index]
-                    ? Colors.amber
-                    : null,
-              ),
-              width: 20.0,
-              height: 10.0,
+
+    List<Widget> matchScoreWidget = List.generate(
+        widget.matchScore.length,
+        (index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: MatchResult(won: widget.matchScore[index]),
             ));
-    List<Widget> t2MatchScoreWidget = List.generate(
-        (widget.matchScore.length + 1) ~/ 2,
-        (index) => Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey[600],
-                ),
-                color: widget.matchScore[index + scoreOffset]
-                    ? Colors.amber
-                    : null,
-              ),
-              width: 20.0,
-              height: 10.0,
-            ));
+
     bool completed =
         widget.matchScore.first || widget.matchScore.last ? true : false;
     return Card(
-      color: Colors.grey[350],
+      color: Colors.grey,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,7 +64,10 @@ class _MatchSummaryState extends State<MatchSummary> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: t1MatchScoreWidget,
+                    children: matchScoreWidget
+                        .sublist(0, scoreOffset)
+                        .reversed
+                        .toList(),
                   ),
                 ],
               ),
@@ -107,7 +91,7 @@ class _MatchSummaryState extends State<MatchSummary> {
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: t2MatchScoreWidget,
+                    children: matchScoreWidget.sublist(scoreOffset),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
