@@ -1,7 +1,6 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class ScoreCard extends StatelessWidget {
   final int bid;
@@ -77,11 +76,7 @@ class ScoreCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                    Icon(
-                      MaterialCommunityIcons.crown,
-                      color:
-                          score[bidTeamIndex] > 0 ? Colors.amber : Colors.white,
-                    ),
+                    score[bidTeamIndex] > 0 ? Team.crown : Container(),
                   ],
                 ),
               ),

@@ -23,7 +23,6 @@ class Score {
     if (bid <= 10 && wonTricks == 10) {
       bidderScore = 250;
     }
-    print('bid: $bid, wonTricks: $wonTricks');
     // misere
     if (bid >= 25 && wonTricks != 0) {
       bidderScore = -bidderScore;

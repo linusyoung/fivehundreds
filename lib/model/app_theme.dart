@@ -9,6 +9,9 @@ class AppTheme {
     canvasColor: Colors.blueGrey[50],
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: GoogleFonts.poppinsTextTheme().copyWith(
+      caption: GoogleFonts.poppinsTextTheme().caption.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
       // button text
       subtitle2: GoogleFonts.poppinsTextTheme().subtitle2.copyWith(
             color: Colors.white,

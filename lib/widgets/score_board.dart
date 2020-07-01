@@ -32,6 +32,7 @@ class ScoreBoard extends StatelessWidget {
         matchScore.sublist(0, matchScore.length ~/ 2).reversed.toList();
     List<bool> _t2Match = matchScore.sublist(matchScore.length ~/ 2);
     List<List<bool>> teamMatchScores = [_t1Match, _t2Match];
+    int selectedTeamScore = teamIndex == -1 ? 0 : teamScore[teamIndex];
     List<Widget> teamAvatarWidget = List.generate(
       2,
       (index) => Stack(
@@ -68,9 +69,7 @@ class ScoreBoard extends StatelessWidget {
               foregroundPainter: IndicatorPaint(
                   bidScore: bidScore, teamScore: teamScore[index]),
             ),
-          if (index == teamIndex &&
-              teamIndex != -1 &&
-              teamScore[teamIndex] + bidScore >= 500)
+          if (index == teamIndex && selectedTeamScore + bidScore >= 500)
             Transform.translate(
               offset: Offset(
                 0.0,
@@ -81,9 +80,7 @@ class ScoreBoard extends StatelessWidget {
                 color: Colors.green,
               ),
             ),
-          if (index != teamIndex &&
-              teamScore[teamIndex] - bidScore <= -500 &&
-              teamIndex != -1)
+          if (index != teamIndex && selectedTeamScore - bidScore <= -500)
             Transform.translate(
               offset: Offset(
                 0.0,

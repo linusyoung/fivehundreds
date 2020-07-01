@@ -6,7 +6,6 @@ class BidSelection extends StatelessWidget {
   final bool selected;
 
   BidSelection({@required this.score, @required this.selected});
-// TODO: bid highlight with team color
   @override
   Widget build(BuildContext context) {
     String _scoreText = (((score - score % 5) / 5).floor() + 6).toString();

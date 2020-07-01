@@ -25,6 +25,6 @@ class Team {
   ];
   static const Icon crown = Icon(
     MaterialCommunityIcons.crown,
-    color: Colors.yellowAccent,
+    color: Colors.orange,
   );
 }

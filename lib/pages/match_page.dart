@@ -14,7 +14,7 @@ class MatchPage extends StatefulWidget {
   _MatchPageState createState() => _MatchPageState();
 }
 
-class _MatchPageState extends State<MatchPage> {
+class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   List<bool> _matchScore = [];
   List<String> _teamName = [];
   List<ScoreCard> _handHistoryCard = [];
@@ -32,11 +32,9 @@ class _MatchPageState extends State<MatchPage> {
   String _titleString = '';
   String _matchUuid = '';
   bool _matchLoaded = false;
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   static const misereText = ['CM', 'OM', 'BM'];
   ScoreMode scoreMode;
-  // var _wonTricks = List<DropdownMenuItem<int>>.generate(
-  //     11, (i) => DropdownMenuItem<int>(value: i, child: Text('    $i')));
-
   List<bool> _wonTricks = List<bool>.generate(11, (_) => false);
 
   @override
@@ -48,7 +46,6 @@ class _MatchPageState extends State<MatchPage> {
     _matchUuid = widget.matchConfig.uuid;
     scoreMode = widget.matchConfig.scoreMode;
     if (!widget.matchConfig.isNewMatch) _loadMatch();
-
     super.initState();
   }
 
@@ -154,65 +151,72 @@ class _MatchPageState extends State<MatchPage> {
         ],
       )
     ];
-    List<Widget> _handResultWidget = [
-      Padding(
-        padding: const EdgeInsets.only(top: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+    Widget _handResultWidget = Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ...List.generate(
+                11,
+                (index) => GestureDetector(
+                  child: WonTricksSelection(
+                      canWin: _canWin,
+                      selected: _wonTricks[index],
+                      wonTrick: index),
+                  onTap: _canWin
+                      ? () {
+                          _selectWonTricks(index);
+                        }
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Row(
           children: <Widget>[
-            ...List.generate(
-              11,
-              (index) => GestureDetector(
-                child: WonTricksSelection(
-                    canWin: _canWin,
-                    selected: _wonTricks[index],
-                    wonTrick: index),
-                onTap: _canWin
-                    ? () {
-                        _selectWonTricks(index);
-                      }
-                    : null,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
+                child: RaisedButton(
+                  child: Text(
+                    _canWin ? 'Hand finished' : 'Select team and bid',
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          fontSize: 20.0,
+                        ),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _canWin
+                      ? () {
+                          _updateResult();
+                        }
+                      : null,
+                  textColor: Colors.white,
+                ),
               ),
             ),
           ],
         ),
-      ),
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
-              child: RaisedButton(
-                child: Text(
-                  _canWin ? 'Hand finished' : 'Select team and bid',
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(
-                        fontSize: 20.0,
-                      ),
-                ),
-                color: Theme.of(context).primaryColor,
-                onPressed: _canWin
-                    ? () {
-                        _updateResult();
-                      }
-                    : null,
-                textColor: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ];
-
+      ],
+    );
     Widget _handHistoryWidget = Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
         height: 135.0,
         child: _handHistoryCard.length > 0
-            ? ListView.builder(
+            ? AnimatedList(
+                key: _listKey,
                 scrollDirection: Axis.horizontal,
-                itemCount: _handHistoryCard.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    _handHistoryCard[index])
+                initialItemCount: _handHistoryCard.length,
+                itemBuilder: (context, index, animation) {
+                  return SizeTransition(
+                      axis: Axis.horizontal,
+                      sizeFactor: animation,
+                      child: _handHistoryCard[index]);
+                })
             : Center(
                 child: Text(
                   'No hands played yet.',
@@ -253,7 +257,7 @@ class _MatchPageState extends State<MatchPage> {
             height: 1.0,
             thickness: 2.0,
           ),
-          if (_canWin) ..._handResultWidget,
+          if (_canWin) _handResultWidget,
           Divider(
             height: 1.0,
             thickness: 2.0,
@@ -326,17 +330,18 @@ class _MatchPageState extends State<MatchPage> {
         _handsPlayed
       ];
       _hand.forEach((e) => _handHistory.add(e));
-      _handHistoryCard.insert(
-          0,
-          ScoreCard(
-            round: _roundPlayed + 1,
-            bid: _bid,
-            bidTeamIndex: _bidTeam,
-            score: _handScore,
-            wonTricks: _wonSelected,
-            handIndex: _handsPlayed,
-          ));
+      Widget _handWidget = ScoreCard(
+        round: _roundPlayed + 1,
+        bid: _bid,
+        bidTeamIndex: _bidTeam,
+        score: _handScore,
+        wonTricks: _wonSelected,
+        handIndex: _handsPlayed,
+      );
+      _handHistoryCard.insert(0, _handWidget);
     });
+    _listKey.currentState.insertItem(0);
+
     if (_teamScore[0] >= 500 || _teamScore[1] <= -500) {
       _t1MatchScore[_t1MatchScore.lastIndexOf(false)] = true;
       _newRound();

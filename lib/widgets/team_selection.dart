@@ -29,10 +29,13 @@ class TeamSelection extends StatelessWidget {
         children: <Widget>[
           teamIndex == 0 ? Team.teamIcons.first : Team.teamIcons.last,
           Flexible(
-            child: Text(
-              teamName,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline6,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 5.0),
+              child: Text(
+                teamName,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
           ),
         ],
