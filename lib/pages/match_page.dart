@@ -306,6 +306,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   void _updateResult() {
     int _bid = _bidSelected.indexOf(true);
     int _bidTeam = _teamSelected.indexOf(true);
+    _wonSelected = _wonTricks.indexOf(true);
     Score s = Score(
         bid: _bid,
         bidTeam: _bidTeam,
