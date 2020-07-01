@@ -28,10 +28,7 @@ class BidSelection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Icon(
-            Bid.iconList[score % 5],
-            color: Bid.color[score % 5],
-          ),
+          Bid().getBidIcon(score % 5),
           Padding(
             padding: const EdgeInsets.only(
               right: 12.0,

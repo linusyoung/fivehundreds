@@ -1,6 +1,7 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ScoreCard extends StatelessWidget {
   final int bid;
@@ -24,22 +25,26 @@ class ScoreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String _scoreText = (((bid - bid % 5) / 5).floor() + 6).toString();
 
-    Widget _bidIcon = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Bid().getBidIcon(bid % 5),
-        Padding(
-          padding: const EdgeInsets.only(
-            right: 12.0,
+    Widget _bidIcon = Container(
+      width: 50.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Bid().getBidIcon(bid % 5),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 12.0,
+            ),
+            child: Text(
+              '$_scoreText',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
-          child: Text(
-            '$_scoreText',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
     return Card(
+      elevation: 10.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
@@ -51,27 +56,32 @@ class ScoreCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 2.0,
-                ),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     bidTeamIndex == 0
                         ? Team.teamIcons.first
                         : Team.teamIcons.last,
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 5.0,
-                      ),
-                      child: bid <= 24
-                          ? _bidIcon
-                          : Text(
-                              '${misereText[bid - 25]}',
-                              style: Theme.of(context).textTheme.bodyText1,
+                    bid <= 24
+                        ? _bidIcon
+                        : Expanded(
+                            flex: 1,
+                            child: Container(
+                              // color: Colors.black,
+                              child: Center(
+                                child: Text(
+                                  '${misereText[bid - 25]}',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                              ),
                             ),
+                          ),
+                    Icon(
+                      MaterialCommunityIcons.crown,
+                      color:
+                          score[bidTeamIndex] > 0 ? Colors.amber : Colors.white,
                     ),
-                    score[bidTeamIndex] > 0 ? Team.crown : Container(),
                   ],
                 ),
               ),
@@ -99,7 +109,7 @@ class ScoreCard extends StatelessWidget {
                   vertical: 4.0,
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Team.teamIcons.first,
                     DisplayScore(

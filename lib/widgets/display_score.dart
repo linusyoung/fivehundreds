@@ -1,3 +1,4 @@
+import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class DisplayScore extends StatelessWidget {
@@ -14,12 +15,11 @@ class DisplayScore extends StatelessWidget {
     }
     double _fontSize =
         fontSize ?? Theme.of(context).textTheme.bodyText1.fontSize;
-    return Text(
-      '$score',
-      style: Theme.of(context).textTheme.bodyText1.copyWith(
-            color: _scoreColor,
-            fontSize: _fontSize,
-          ),
-    );
+    return ShadowText(
+        text: '$score',
+        style: Theme.of(context).textTheme.bodyText1.copyWith(
+              fontSize: _fontSize,
+            ),
+        color: _scoreColor);
   }
 }

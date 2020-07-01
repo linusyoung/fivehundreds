@@ -69,8 +69,8 @@ class ScoreBoard extends StatelessWidget {
                   bidScore: bidScore, teamScore: teamScore[index]),
             ),
           if (index == teamIndex &&
-              teamScore[index] + bidScore >= 500 &&
-              teamIndex != -1)
+              teamIndex != -1 &&
+              teamScore[teamIndex] + bidScore >= 500)
             Transform.translate(
               offset: Offset(
                 0.0,
@@ -82,7 +82,7 @@ class ScoreBoard extends StatelessWidget {
               ),
             ),
           if (index != teamIndex &&
-              teamScore[index] - bidScore <= -500 &&
+              teamScore[teamIndex] - bidScore <= -500 &&
               teamIndex != -1)
             Transform.translate(
               offset: Offset(
@@ -160,9 +160,10 @@ class ScoreBoard extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                child: Text(
-                  '$bidScore',
+                child: ShadowText(
+                  text: '$bidScore',
                   style: Theme.of(context).textTheme.bodyText2,
+                  color: Colors.black,
                 ),
               ),
             ),

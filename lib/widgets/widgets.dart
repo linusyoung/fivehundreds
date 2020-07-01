@@ -6,3 +6,4 @@ export './score_card.dart';
 export './display_score.dart';
 export './match_summary.dart';
 export './won_tricks_selection.dart';
+export './shadow_text.dart';
