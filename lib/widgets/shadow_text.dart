@@ -14,7 +14,7 @@ class ShadowText extends StatelessWidget {
       children: <Widget>[
         Positioned(
           top: 1.0,
-          left: 1.0,
+          left: 0.0,
           child: Text(
             text,
             style: style.copyWith(color: color.withOpacity(0.9)),
@@ -22,8 +22,8 @@ class ShadowText extends StatelessWidget {
         ),
         BackdropFilter(
           filter: ui.ImageFilter.blur(
-            sigmaX: 1.0,
-            sigmaY: 0.5,
+            sigmaX: 0.3,
+            sigmaY: 1.0,
           ),
           child: Text(
             text,

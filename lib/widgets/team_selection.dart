@@ -24,6 +24,7 @@ class TeamSelection extends StatelessWidget {
           width: 2.0,
         ),
         color: selected ? Theme.of(context).highlightColor : null,
+        borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
         children: <Widget>[
@@ -31,10 +32,15 @@ class TeamSelection extends StatelessWidget {
           Flexible(
             child: Padding(
               padding: const EdgeInsets.only(left: 5.0),
-              child: Text(
-                teamName,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headline6,
+              child: Transform.translate(
+                offset: Offset(-8.0, -1.0),
+                child: Center(
+                  child: Text(
+                    teamName,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ),
               ),
             ),
           ),

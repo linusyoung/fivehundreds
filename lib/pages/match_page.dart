@@ -71,6 +71,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
               color: _bidSelected[index + 25]
                   ? Theme.of(context).highlightColor
                   : null,
+              borderRadius: BorderRadius.circular(5.0),
             ),
             child: Text(
               misereText[index],
@@ -348,7 +349,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       );
       _handHistoryCard.insert(0, _handWidget);
     });
-    _listKey.currentState.insertItem(0);
+    _listKey.currentState?.insertItem(0);
 
     if (_teamScore[0] >= 500 || _teamScore[1] <= -500) {
       _t1MatchScore[_t1MatchScore.lastIndexOf(false)] = true;

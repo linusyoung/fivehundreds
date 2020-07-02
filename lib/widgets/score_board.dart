@@ -28,6 +28,7 @@ class ScoreBoard extends StatelessWidget {
       this.teamIndex = -1,
       this.bidScore});
 
+// TODO: team 2 won match score not showing
   @override
   Widget build(BuildContext context) {
     List<bool> _t1Match =
@@ -79,7 +80,7 @@ class ScoreBoard extends StatelessWidget {
               ),
               child: Icon(
                 MaterialCommunityIcons.crown,
-                color: Colors.green,
+                color: NipponColors.nipponColor138,
               ),
             ),
           if (index != teamIndex && selectedTeamScore - bidScore <= -500)
@@ -90,7 +91,7 @@ class ScoreBoard extends StatelessWidget {
               ),
               child: Icon(
                 MaterialCommunityIcons.crown,
-                color: Colors.red,
+                color: NipponColors.nipponColor016,
               ),
             ),
           DisplayScore(
@@ -152,7 +153,7 @@ class ScoreBoard extends StatelessWidget {
                 child: ShadowText(
                   text: '$bidScore',
                   style: Theme.of(context).textTheme.bodyText2,
-                  color: Colors.black,
+                  color: NipponColors.nipponColor250,
                 ),
               ),
             ),
@@ -191,12 +192,14 @@ class ScoreBarPainter extends CustomPainter {
     Paint paint = Paint();
     double r1 = 40.0;
     double r2 = 35.0;
+    // canvas color
+    Color backgroundColor = NipponColors.nipponColor233;
 
     // circle
     paint.strokeWidth = 2;
-    paint.color = Colors.white;
+    paint.color = Colors.blueGrey[200];
     canvas.drawCircle(Offset(0.0, 0.0), r1, paint);
-    paint.color = Colors.blueGrey[50];
+    paint.color = backgroundColor;
     canvas.drawCircle(Offset(0.0, 0.0), r2, paint);
 
     // team score
@@ -214,7 +217,7 @@ class ScoreBarPainter extends CustomPainter {
     canvas.drawArc(rect, startAngle, theda * score / 100, false, paintScore);
 
     // ticks
-    Paint paintLine = Paint()..color = Colors.blueGrey[50];
+    Paint paintLine = Paint()..color = backgroundColor;
     paintLine.strokeWidth = 2.0;
     for (var i = 1; i <= 5; i++) {
       canvas.drawLine(
@@ -235,8 +238,8 @@ class IndicatorPaint extends CustomPainter {
   IndicatorPaint({@required this.bidScore, @required this.teamScore});
   @override
   void paint(Canvas canvas, Size size) {
-    // ticks
-    Paint paintLine = Paint()..color = Colors.green;
+    // win color
+    Paint paintLine = Paint()..color = NipponColors.nipponColor149;
     paintLine.strokeWidth = 2.0;
     double winAngle = teamScore + bidScore < 500
         ? pi - theda * (teamScore + bidScore) / 100
@@ -246,7 +249,8 @@ class IndicatorPaint extends CustomPainter {
         : pi;
     canvas.drawLine(Offset((r1) * sin(winAngle), (r1) * cos(winAngle)),
         Offset((r2) * sin(winAngle), (r2) * cos(winAngle)), paintLine);
-    paintLine.color = Colors.red;
+    // lose color
+    paintLine.color = NipponColors.nipponColor016;
     canvas.drawLine(Offset((r1) * sin(loseAngle), (r1) * cos(loseAngle)),
         Offset((r2) * sin(loseAngle), (r2) * cos(loseAngle)), paintLine);
   }

@@ -19,6 +19,7 @@ class BidSelection extends StatelessWidget {
           color: Colors.grey,
           width: 2.0,
         ),
+        borderRadius: BorderRadius.circular(5.0),
       ),
       padding: EdgeInsets.only(
         left: 10.0,

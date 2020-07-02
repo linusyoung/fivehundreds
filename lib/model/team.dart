@@ -1,11 +1,13 @@
+import 'package:fivehundreds/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class Team {
   static const List<Color> teamColors = [
-    Color.fromRGBO(30, 50, 112, 1),
-    // Colors.indigo
-    Color.fromRGBO(223, 31, 59, 1),
+    // HANADA
+    NipponColors.nipponColor190,
+    // KARAKURENAI
+    NipponColors.nipponColor014,
   ];
 
   static const List<IconData> teamIconsData = [
@@ -16,15 +18,16 @@ class Team {
   static const List<Icon> teamIcons = [
     Icon(
       Octicons.hubot,
-      color: Color.fromRGBO(30, 50, 112, 1),
+      color: NipponColors.nipponColor190,
     ),
     Icon(
       Octicons.octoface,
-      color: Color.fromRGBO(223, 31, 59, 1),
+      color: NipponColors.nipponColor014,
     )
   ];
   static const Icon crown = Icon(
     MaterialCommunityIcons.crown,
-    color: Colors.orange,
+    // UKON
+    color: NipponColors.nipponColor110,
   );
 }

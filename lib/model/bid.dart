@@ -1,3 +1,4 @@
+import 'package:fivehundreds/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -10,11 +11,11 @@ class Bid {
     MaterialCommunityIcons.cards_outline
   ];
   static const List<Color> color = [
-    Colors.black,
-    Colors.black,
-    Colors.red,
-    Colors.red,
-    Colors.red
+    NipponColors.nipponColor250,
+    NipponColors.nipponColor250,
+    NipponColors.nipponColor016,
+    NipponColors.nipponColor016,
+    NipponColors.nipponColor016
   ];
 
   Icon getBidIcon(int bid) {

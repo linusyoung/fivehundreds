@@ -17,6 +17,7 @@ class FiveHundredScorerApp extends StatelessWidget {
     return Consumer<MatchStateNotifier>(
       builder: (context, matchState, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: title,
           theme: AppTheme.lightTheme,
           darkTheme: ThemeData.dark(),

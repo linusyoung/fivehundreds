@@ -43,6 +43,7 @@ class ScoreCard extends StatelessWidget {
       ),
     );
     return Card(
+      color: Theme.of(context).backgroundColor,
       elevation: 10.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -67,7 +68,7 @@ class ScoreCard extends StatelessWidget {
                         : Expanded(
                             flex: 1,
                             child: Container(
-                              // color: Colors.black,
+                              // color: NipponColors.nipponColor250,
                               child: Center(
                                 child: Text(
                                   '${misereText[bid - 25]}',
