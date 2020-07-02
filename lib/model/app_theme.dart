@@ -6,6 +6,7 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.teal,
+    backgroundColor: Colors.teal[50],
     canvasColor: Colors.blueGrey[50],
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: GoogleFonts.poppinsTextTheme().copyWith(
@@ -20,6 +21,13 @@ class AppTheme {
       headline4: GoogleFonts.poppinsTextTheme().headline4.copyWith(
             color: Colors.white,
           ),
+      bodyText2: GoogleFonts.poppinsTextTheme().bodyText1.copyWith(
+            fontWeight: FontWeight.w800,
+          ),
+
+      // headline6: GoogleFonts.poppinsTextTheme().headline6.copyWith(
+      //       fontWeight: FontWeight.bold,
+      //     ),
     ),
   );
 }

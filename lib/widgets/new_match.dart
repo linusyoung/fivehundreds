@@ -11,15 +11,36 @@ class NewMatch extends StatefulWidget {
 class _NewMatchState extends State<NewMatch> {
   List<bool> _gamesSelected = [true, false, false];
   List<bool> _scoreModeSelected = [true, false];
-  String team1Name = "Team 1";
-  String team2Name = "Team 2";
+  List<String> _defaultTeamName = ["Team 1", "Team 2"];
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> teamName = List.generate(
+      2,
+      (index) => Flexible(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: TextField(
+            textAlign: TextAlign.center,
+            textAlignVertical: TextAlignVertical.bottom,
+            decoration: InputDecoration(
+              hintText: '${_defaultTeamName[index]}',
+            ),
+            onChanged: (String value) {
+              _defaultTeamName[index] = value;
+            },
+          ),
+        ),
+      ),
+    );
+
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
       child: Container(
-        height: 260,
+        height: 280,
         width: 200,
         child: Column(
           children: <Widget>[
@@ -29,44 +50,15 @@ class _NewMatchState extends State<NewMatch> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Match Setting',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    'New Match',
+                    style: Theme.of(context).textTheme.headline6,
                   )
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.bottom,
-                      decoration: InputDecoration(
-                        hintText: 'Team 1',
-                      ),
-                      onChanged: (String value) {
-                        team1Name = value;
-                      },
-                    ),
-                  ),
-                ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.bottom,
-                      decoration: InputDecoration(hintText: 'Team 2'),
-                      onChanged: (String value) {
-                        team2Name = value;
-                      },
-                    ),
-                  ),
-                ),
-              ],
+              children: teamName,
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -83,7 +75,7 @@ class _NewMatchState extends State<NewMatch> {
                     ),
                   ),
                   Container(
-                    height: 30.0,
+                    height: 40.0,
                     child: ToggleButtons(
                       children: <Widget>[
                         Text(
@@ -131,7 +123,7 @@ class _NewMatchState extends State<NewMatch> {
                     ),
                   ),
                   Container(
-                    height: 35.0,
+                    height: 40.0,
                     child: ToggleButtons(
                       children: <Widget>[
                         Padding(
@@ -186,7 +178,7 @@ class _NewMatchState extends State<NewMatch> {
     Navigator.of(context).pop();
     var uuid = Uuid();
 
-    List<String> teamName = [team1Name, team2Name];
+    List<String> teamName = _defaultTeamName;
     int games = 3 + _gamesSelected.indexOf(true) * 2;
     ScoreMode scoreMode = ScoreMode.values[_scoreModeSelected.indexOf(true)];
     Navigator.push(

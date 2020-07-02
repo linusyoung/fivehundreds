@@ -111,7 +111,7 @@ class _MatchSummaryState extends State<MatchSummary> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      color: Colors.teal[50],
+      color: Theme.of(context).backgroundColor,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

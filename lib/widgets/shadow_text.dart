@@ -34,6 +34,5 @@ class ShadowText extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }
