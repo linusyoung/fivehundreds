@@ -11,15 +11,16 @@ void main() {
 }
 
 class FiveHundredScorerApp extends StatelessWidget {
-  // This widget is the root of your application.
+  static const String title = '500 Score Keeping';
   @override
   Widget build(BuildContext context) {
     return Consumer<MatchStateNotifier>(
       builder: (context, matchState, child) {
         return MaterialApp(
-          title: '500 Scorer',
+          title: title,
           theme: AppTheme.lightTheme,
-          home: MyHomePage(title: '500 Scorer'),
+          darkTheme: ThemeData.dark(),
+          home: MyHomePage(title: title),
         );
       },
     );
