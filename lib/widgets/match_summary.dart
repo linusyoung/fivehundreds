@@ -7,7 +7,6 @@ class MatchSummary extends StatefulWidget {
   final List<String> teamName;
   final List<bool> matchScore;
   final int games;
-  // final ScoreMode scoreMode;
   final String uuid;
   MatchSummary({
     @required this.teamName,
@@ -42,9 +41,12 @@ class _MatchSummaryState extends State<MatchSummary> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Team.teamIcons[index],
+            Hero(
+              tag: widget.uuid + '-$index',
+              child: Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Team.teamIcons[index],
+              ),
             ),
             Flexible(
               child: Text(
@@ -134,10 +136,26 @@ class _MatchSummaryState extends State<MatchSummary> {
         uuid: widget.uuid);
 
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => MatchPage(
-                  matchConfig: matchConfig,
-                )));
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation =
+              CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn);
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        pageBuilder: (
+          _,
+          __,
+          ___,
+        ) =>
+            MatchPage(
+          matchConfig: matchConfig,
+        ),
+      ),
+    );
   }
 }

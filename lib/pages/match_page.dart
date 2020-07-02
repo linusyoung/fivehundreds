@@ -242,6 +242,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             teamScore: _teamScore,
             matchScore: _matchScore,
             bidScore: _bidScore,
+            uuid: _matchUuid,
             teamIndex: _teamSelected.indexOf(true) ?? -1,
           ),
           Divider(

@@ -16,6 +16,7 @@ class ScoreBoard extends StatelessWidget {
   final List<bool> matchScore;
   final int teamIndex;
   final int bidScore;
+  final String uuid;
   static const double scoreBarUnit = 0.03;
   static const double bidScoreUnit = 0.3;
   static const List<double> teamYOffset = [-1.0, 11.0];
@@ -23,6 +24,7 @@ class ScoreBoard extends StatelessWidget {
       {@required this.teamName,
       @required this.teamScore,
       @required this.matchScore,
+      @required this.uuid,
       this.teamIndex = -1,
       this.bidScore});
 
@@ -42,10 +44,13 @@ class ScoreBoard extends StatelessWidget {
               offset: Offset(15.0, -15.0),
               child: Team.crown,
             ),
-          Icon(
-            Team.teamIconsData[index],
-            size: 55.0,
-            color: Team.teamColors[index],
+          Hero(
+            tag: uuid + '-$index',
+            child: Icon(
+              Team.teamIconsData[index],
+              size: 55.0,
+              color: Team.teamColors[index],
+            ),
           ),
         ],
       ),
