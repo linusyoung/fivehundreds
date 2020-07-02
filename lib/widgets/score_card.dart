@@ -92,7 +92,7 @@ class ScoreCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
-                      'Won tricks',
+                      'won tricks',
                       style: Theme.of(context).textTheme.caption,
                     ),
                     Text('$wonTricks'),
