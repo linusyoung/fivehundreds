@@ -32,6 +32,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   String _titleString = '';
   String _matchUuid = '';
   bool _matchLoaded = false;
+  double _handResultWidgetOpacity = 0.2;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   static const misereText = ['CM', 'OM', 'BM'];
   ScoreMode scoreMode;
@@ -257,7 +258,11 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             height: 1.0,
             thickness: 2.0,
           ),
-          if (_canWin) _handResultWidget,
+          AnimatedOpacity(
+            opacity: _handResultWidgetOpacity,
+            duration: Duration(seconds: 1),
+            child: _handResultWidget,
+          ),
           Divider(
             height: 1.0,
             thickness: 2.0,
@@ -294,6 +299,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       } else {
         _wonTricks[(bid / 5).floor() + 6] = true;
       }
+      _handResultWidgetOpacity = 1.0;
     });
   }
 
@@ -368,6 +374,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     _bidSelected = List<bool>.generate(28, (_) => false);
     _canWin = false;
     _bidScore = 0;
+    _handResultWidgetOpacity = 0.2;
   }
 
   void _saveMatchInfo() {
