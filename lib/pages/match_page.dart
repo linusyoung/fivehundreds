@@ -219,8 +219,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                 })
             : Center(
                 child: Text(
-                  'No hands played yet.',
-                  style: Theme.of(context).textTheme.headline4,
+                  'No hands played yet',
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ),
       ),

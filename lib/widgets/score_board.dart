@@ -39,11 +39,8 @@ class ScoreBoard extends StatelessWidget {
         children: <Widget>[
           if (teamMatchScores[index].last)
             Transform.translate(
-              offset: Offset(35.0, -10.0),
-              child: Transform.rotate(
-                angle: pi / 4,
-                child: Team.crown,
-              ),
+              offset: Offset(15.0, -15.0),
+              child: Team.crown,
             ),
           Icon(
             Team.teamIconsData[index],
