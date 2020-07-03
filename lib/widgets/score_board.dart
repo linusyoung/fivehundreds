@@ -142,7 +142,7 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     Widget matchBidScoreWidget = Container(
-      width: SizeConfig.blockSizeHorizontal * 14.0,
+      width: SizeConfig.blockSizeHorizontal * 16.0,
       height: SizeConfig.blockSizeVertical * 15.0,
       child: Row(
         children: <Widget>[
@@ -164,12 +164,7 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        8.0,
-        14.0,
-        8.0,
-        8.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
