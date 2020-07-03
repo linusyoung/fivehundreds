@@ -22,9 +22,9 @@ class BidSelection extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       padding: EdgeInsets.only(
-        left: 10.0,
+        left: 5.0,
       ),
-      margin: EdgeInsets.all(5.0),
+      margin: EdgeInsets.all(3.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[

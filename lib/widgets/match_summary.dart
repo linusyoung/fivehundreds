@@ -36,7 +36,7 @@ class _MatchSummaryState extends State<MatchSummary> {
       2,
       (index) => Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 4.0,
+          vertical: 2.0,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,6 +92,7 @@ class _MatchSummaryState extends State<MatchSummary> {
     Widget actionButton = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ButtonTheme(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           minWidth: 120.0,
           height: 30.0,
           child: RaisedButton(

@@ -126,15 +126,15 @@ class ScoreBoard extends StatelessWidget {
       (i) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
-          width: 15.0,
-          height: SizeConfig.blockSizeVertical * 6.0,
+          width: SizeConfig.blockSizeHorizontal * 4.0,
+          height: SizeConfig.blockSizeVertical * 8.0,
           child: Column(
             children: List.generate(
               teamMatchScores[i].length * 2 - 1,
               (index) => index % 2 == 0
                   ? MatchResult(won: teamMatchScores[i][index ~/ 2])
                   : Divider(
-                      height: 5.0,
+                      height: 3.0,
                     ),
             ),
           ),
@@ -142,24 +142,23 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     Widget matchBidScoreWidget = Container(
-      width: SizeConfig.blockSizeHorizontal * 16.0,
-      height: SizeConfig.blockSizeVertical * 13.0,
-      child: Row(
+      width: SizeConfig.blockSizeHorizontal * 15.0,
+      height: SizeConfig.blockSizeVertical * 15.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          teamMatchScoreWidget[0],
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                child: ShadowText(
-                  text: '$bidScore',
-                  style: Theme.of(context).textTheme.bodyText2,
-                  color: NipponColors.nipponColor250,
-                ),
-              ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: teamMatchScoreWidget,
+          ),
+          Transform.translate(
+            offset: Offset(0, -20 * SizeConfig.pixelRatio + 55),
+            child: ShadowText(
+              text: '$bidScore',
+              style: Theme.of(context).textTheme.bodyText1,
+              color: NipponColors.nipponColor250,
             ),
           ),
-          teamMatchScoreWidget[1],
         ],
       ),
     );

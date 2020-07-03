@@ -10,13 +10,13 @@
             "type": "dart",
         },
         {
-            "name": "SmallScreen",
+            "name": "NormalScreen",
             "request": "launch",
             "type": "dart",
             "deviceId": "emulator-5556"
         },
         {
-            "name": "NormalScreen",
+            "name": "SmallScreen",
             "type": "dart",
             "request": "launch",
             "deviceId": "emulator-5554"

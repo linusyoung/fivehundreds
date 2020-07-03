@@ -25,19 +25,16 @@ class ScoreCard extends StatelessWidget {
     String _scoreText = (((bid - bid % 5) / 5).floor() + 6).toString();
 
     Widget _bidIcon = Container(
-      width: 50.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      width: 30.0,
+      child: Stack(
+        alignment: Alignment.center,
         children: <Widget>[
           Bid().getBidIcon(bid % 5),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 12.0,
-            ),
-            child: Text(
-              '$_scoreText',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
+          Text(
+            '$_scoreText',
+            style: Theme.of(context).textTheme.caption.copyWith(
+                  color: Colors.white,
+                ),
           ),
         ],
       ),
@@ -48,7 +45,7 @@ class ScoreCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-          width: 110.0,
+          width: 120.0,
           child: Column(
             children: <Widget>[
               Text(

@@ -22,6 +22,7 @@ class Bid {
     return Icon(
       Bid.iconList[bid % 5],
       color: Bid.color[bid % 5],
+      size: 25.0,
     );
   }
 }

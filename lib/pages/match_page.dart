@@ -63,7 +63,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         child: GestureDetector(
           child: Container(
             margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
-            height: SizeConfig.blockSizeVertical * 4.5,
+            height: SizeConfig.blockSizeVertical * 5.0,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -113,13 +113,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     List<Widget> _bidWidget = [
       _teamSelectionWidget,
       Container(
-        height: 190 + SizeConfig.pixelRatio * 5.45,
+        height: 10 + SizeConfig.pixelRatio * 60,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
             mainAxisSpacing: 0,
-            childAspectRatio: 1.95,
+            childAspectRatio: 2,
           ),
           itemCount: 25,
           itemBuilder: (BuildContext context, int index) {
@@ -175,7 +175,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
                 child: RaisedButton(
                   child: Text(
-                    _canWin ? 'Round finished' : 'Select team and bid',
+                    _canWin ? 'Round finish' : 'Select team and bid',
                     style: Theme.of(context).textTheme.subtitle2.copyWith(
                           fontSize: 20.0,
                         ),
@@ -248,7 +248,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         )
       ],
     ];
-
     List<Widget> _viewMatchLayout = [
       _teamSelectionWidget,
       Divider(
@@ -256,12 +255,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         thickness: 2.0,
       ),
       Container(
-        height: 140.0 * (_handHistoryCard.length ~/ 3 + 1),
+        height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
         child: GridView.builder(
           physics: BouncingScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             mainAxisSpacing: 0,
+            childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
           ),
           itemCount: _handHistoryCard.length,
           itemBuilder: (context, index) {
