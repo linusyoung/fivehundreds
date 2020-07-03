@@ -25,6 +25,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   int _wonSelected = 0;
   int _bidScore = 0;
   int games = 0;
+  static const double _screenHeightThreshHold = 700.0;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
@@ -52,6 +53,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
@@ -60,8 +62,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       (index) => Expanded(
         child: GestureDetector(
           child: Container(
-            margin: EdgeInsets.all(5.0),
-            height: 35.0,
+            margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
+            height: SizeConfig.blockSizeVertical * 5.5,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -89,40 +91,27 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         padding: const EdgeInsets.all(4.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
+          children: List.generate(
+            2,
+            (index) => Expanded(
               child: GestureDetector(
                 child: TeamSelection(
-                  teamName: _teamName[0],
-                  selected: _teamSelected[0],
-                  teamIndex: 0,
+                  teamName: _teamName[index],
+                  selected: _teamSelected[index],
+                  teamIndex: index,
                 ),
                 onTap: _canBid
                     ? () {
-                        _selectTeam(0);
+                        _selectTeam(index);
                       }
                     : null,
               ),
             ),
-            Expanded(
-              child: GestureDetector(
-                child: TeamSelection(
-                  teamName: _teamName[1],
-                  selected: _teamSelected[1],
-                  teamIndex: 1,
-                ),
-                onTap: _canBid
-                    ? () {
-                        _selectTeam(1);
-                      }
-                    : null,
-              ),
-            ),
-          ],
+          ).toList(),
         ),
       ),
       Container(
-        height: 205.0,
+        height: 195.0,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -204,10 +193,12 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       ],
     );
+    double _screenHeight = MediaQuery.of(context).size.height;
+    print(_screenHeight);
     Widget _handHistoryWidget = Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(0.0),
       child: Container(
-        height: 135.0,
+        height: 135,
         child: _handHistoryCard.length > 0
             ? AnimatedList(
                 key: _listKey,
@@ -250,11 +241,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             height: 1.0,
             thickness: 2.0,
           ),
-          _handHistoryWidget,
-          Divider(
-            height: 1.0,
-            thickness: 2.0,
-          ),
+          if (_screenHeight > _screenHeightThreshHold) ...[
+            _handHistoryWidget,
+            Divider(
+              height: 1.0,
+              thickness: 2.0,
+            )
+          ],
           ..._bidWidget,
           Divider(
             height: 1.0,
@@ -269,6 +262,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             height: 1.0,
             thickness: 2.0,
           ),
+          if (_screenHeight <= _screenHeightThreshHold) ...[
+            _handHistoryWidget,
+            Divider(
+              height: 1.0,
+              thickness: 2.0,
+            )
+          ],
         ],
       ),
     );

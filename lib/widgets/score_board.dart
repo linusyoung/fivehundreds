@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -30,6 +31,7 @@ class ScoreBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     List<bool> _t1Match =
         matchScore.sublist(0, matchScore.length ~/ 2).reversed.toList();
     List<bool> _t2Match = matchScore.sublist(matchScore.length ~/ 2);
@@ -140,8 +142,8 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     Widget matchBidScoreWidget = Container(
-      width: 70.0,
-      height: 75.0,
+      width: SizeConfig.blockSizeHorizontal * 14.0,
+      height: SizeConfig.blockSizeVertical * 15.0,
       child: Row(
         children: <Widget>[
           teamMatchScoreWidget[0],
@@ -189,7 +191,7 @@ class ScoreBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
-    double r1 = 40.0;
+    double r1 = 40;
     double r2 = 35.0;
     // canvas color
     Color backgroundColor = NipponColors.nipponColor233;
