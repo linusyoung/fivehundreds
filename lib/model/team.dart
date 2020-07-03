@@ -6,8 +6,8 @@ class Team {
   static const List<Color> teamColors = [
     // HANADA
     NipponColors.nipponColor190,
-    // KARAKURENAI
-    NipponColors.nipponColor014,
+    // FUJINEZUMI
+    NipponColors.nipponColor200,
   ];
 
   static const List<IconData> teamIconsData = [
@@ -22,7 +22,7 @@ class Team {
     ),
     Icon(
       Octicons.octoface,
-      color: NipponColors.nipponColor014,
+      color: NipponColors.nipponColor200,
     )
   ];
   static const Icon crown = Icon(

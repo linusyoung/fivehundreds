@@ -8,14 +8,14 @@ class Bid {
     MaterialCommunityIcons.cards_club,
     MaterialCommunityIcons.cards_diamond,
     MaterialCommunityIcons.cards_heart,
-    MaterialCommunityIcons.cards_outline
+    MaterialCommunityIcons.cards
   ];
   static const List<Color> color = [
     NipponColors.nipponColor250,
     NipponColors.nipponColor250,
     NipponColors.nipponColor016,
     NipponColors.nipponColor016,
-    NipponColors.nipponColor016
+    NipponColors.nipponColor250,
   ];
 
   Icon getBidIcon(int bid) {

@@ -374,21 +374,21 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         handIndex: _handsPlayed,
       );
       _handHistoryCard.insert(0, _handWidget);
-    });
-    _listKey.currentState?.insertItem(0);
+      _listKey.currentState?.insertItem(0);
 
-    if (_teamScore[0] >= 500 || _teamScore[1] <= -500) {
-      _t1MatchScore[_t1MatchScore.lastIndexOf(false)] = true;
-      _newRound();
-    }
-    if (_teamScore[1] >= 500 || _teamScore[0] <= -500) {
-      _t2MatchScore[_t2MatchScore.indexOf(false)] = true;
-      _newRound();
-    }
-    _matchScore = _t1MatchScore + _t2MatchScore;
-    _canBid = _matchScore.first || _matchScore.last ? false : true;
-    _resetHand();
-    _saveMatchInfo();
+      if (_teamScore[0] >= 500 || _teamScore[1] <= -500) {
+        _t1MatchScore[_t1MatchScore.lastIndexOf(false)] = true;
+        _newRound();
+      }
+      if (_teamScore[1] >= 500 || _teamScore[0] <= -500) {
+        _t2MatchScore[_t2MatchScore.indexOf(false)] = true;
+        _newRound();
+      }
+      _matchScore = _t1MatchScore + _t2MatchScore;
+      _canBid = _matchScore.first || _matchScore.last ? false : true;
+      _resetHand();
+      _saveMatchInfo();
+    });
   }
 
   void _newRound() {
@@ -400,6 +400,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   void _resetHand() {
     _teamSelected = [false, false];
     _bidSelected = List<bool>.generate(28, (_) => false);
+    _wonTricks = List<bool>.generate(11, (_) => false);
     _canWin = false;
     _bidScore = 0;
     _handResultWidgetOpacity = 0.2;
