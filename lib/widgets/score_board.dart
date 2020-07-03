@@ -142,7 +142,7 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     Widget matchBidScoreWidget = Container(
-      width: SizeConfig.blockSizeHorizontal * 16.0,
+      width: SizeConfig.blockSizeHorizontal * 15.0,
       height: SizeConfig.blockSizeVertical * 15.0,
       child: Row(
         children: <Widget>[
