@@ -105,7 +105,7 @@ class ScoreBoard extends StatelessWidget {
     List<Widget> teamWidget = List.generate(
       2,
       (index) => Container(
-        width: 150.0,
+        width: 145.0,
         child: Row(
           children: <Widget>[
             if (index == 0) teamAvatarWidget[index],
@@ -127,7 +127,7 @@ class ScoreBoard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
           width: 15.0,
-          height: 75.0,
+          height: SizeConfig.blockSizeVertical * 6.0,
           child: Column(
             children: List.generate(
               teamMatchScores[i].length * 2 - 1,
@@ -142,8 +142,8 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
     Widget matchBidScoreWidget = Container(
-      width: SizeConfig.blockSizeHorizontal * 15.0,
-      height: SizeConfig.blockSizeVertical * 15.0,
+      width: SizeConfig.blockSizeHorizontal * 16.0,
+      height: SizeConfig.blockSizeVertical * 13.0,
       child: Row(
         children: <Widget>[
           teamMatchScoreWidget[0],

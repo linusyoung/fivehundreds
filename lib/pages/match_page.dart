@@ -63,7 +63,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         child: GestureDetector(
           child: Container(
             margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
-            height: SizeConfig.blockSizeVertical * 5.5,
+            height: SizeConfig.blockSizeVertical * 4.5,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -113,13 +113,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     List<Widget> _bidWidget = [
       _teamSelectionWidget,
       Container(
-        height: 175 + SizeConfig.pixelRatio * 10,
+        height: 190 + SizeConfig.pixelRatio * 5.45,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
             mainAxisSpacing: 0,
-            childAspectRatio: 2.0,
+            childAspectRatio: 1.95,
           ),
           itemCount: 25,
           itemBuilder: (BuildContext context, int index) {
@@ -175,7 +175,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
                 child: RaisedButton(
                   child: Text(
-                    _canWin ? 'Hand finished' : 'Select team and bid',
+                    _canWin ? 'Round finished' : 'Select team and bid',
                     style: Theme.of(context).textTheme.subtitle2.copyWith(
                           fontSize: 20.0,
                         ),
@@ -211,7 +211,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                 })
             : Center(
                 child: Text(
-                  'No hands played yet',
+                  'No rounds played yet',
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),

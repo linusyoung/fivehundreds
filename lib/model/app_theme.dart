@@ -11,6 +11,7 @@ class AppTheme {
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
       secondary: NipponColors.nipponColor168,
     ),
+    highlightColor: NipponColors.nipponColor103,
     backgroundColor: Colors.blueGrey[50],
     //SHIRONERI
     canvasColor: NipponColors.nipponColor233,

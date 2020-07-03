@@ -79,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (_) {
           return NewMatch();
         }).then((value) {
-      print('dismissed');
       setState(() {
         _opacity = 1.0;
       });
