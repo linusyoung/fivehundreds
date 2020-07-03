@@ -86,32 +86,34 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       ),
     );
-    List<Widget> _bidWidget = [
-      Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(
-            2,
-            (index) => Expanded(
-              child: GestureDetector(
-                child: TeamSelection(
-                  teamName: _teamName[index],
-                  selected: _teamSelected[index],
-                  teamIndex: index,
-                ),
-                onTap: _canBid
-                    ? () {
-                        _selectTeam(index);
-                      }
-                    : null,
+
+    Widget _teamSelectionWidget = Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          2,
+          (index) => Expanded(
+            child: GestureDetector(
+              child: TeamSelection(
+                teamName: _teamName[index],
+                selected: _teamSelected[index],
+                teamIndex: index,
               ),
+              onTap: _canBid
+                  ? () {
+                      _selectTeam(index);
+                    }
+                  : null,
             ),
-          ).toList(),
-        ),
+          ),
+        ).toList(),
       ),
+    );
+    List<Widget> _bidWidget = [
+      _teamSelectionWidget,
       Container(
-        height: 195.0,
+        height: 175 + SizeConfig.pixelRatio * 10,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -142,7 +144,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ],
       )
     ];
-
     Widget _handResultWidget = Column(
       children: [
         Padding(
@@ -193,8 +194,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       ],
     );
-    double _screenHeight = MediaQuery.of(context).size.height;
-    print(_screenHeight);
     Widget _handHistoryWidget = Padding(
       padding: EdgeInsets.all(0.0),
       child: Container(
@@ -219,6 +218,60 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       ),
     );
 
+    List<Widget> _playLayout = [
+      if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
+        _handHistoryWidget,
+        Divider(
+          height: 1.0,
+          thickness: 2.0,
+        )
+      ],
+      ..._bidWidget,
+      Divider(
+        height: 1.0,
+        thickness: 2.0,
+      ),
+      AnimatedOpacity(
+        opacity: _handResultWidgetOpacity,
+        duration: Duration(seconds: 1),
+        child: _handResultWidget,
+      ),
+      Divider(
+        height: 1.0,
+        thickness: 2.0,
+      ),
+      if (SizeConfig.screenHeight <= _screenHeightThreshHold) ...[
+        _handHistoryWidget,
+        Divider(
+          height: 1.0,
+          thickness: 2.0,
+        )
+      ],
+    ];
+
+    List<Widget> _viewMatchLayout = [
+      _teamSelectionWidget,
+      Divider(
+        height: 1.0,
+        thickness: 2.0,
+      ),
+      Container(
+        height: 140.0 * (_handHistoryCard.length ~/ 3 + 1),
+        child: GridView.builder(
+          physics: BouncingScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            mainAxisSpacing: 0,
+          ),
+          itemCount: _handHistoryCard.length,
+          itemBuilder: (context, index) {
+            return _handHistoryCard.reversed.toList()[index];
+          },
+        ),
+      ),
+    ];
+    List<Widget> _displayWidget =
+        _matchScore.first || _matchScore.last ? _viewMatchLayout : _playLayout;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -241,34 +294,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             height: 1.0,
             thickness: 2.0,
           ),
-          if (_screenHeight > _screenHeightThreshHold) ...[
-            _handHistoryWidget,
-            Divider(
-              height: 1.0,
-              thickness: 2.0,
-            )
-          ],
-          ..._bidWidget,
-          Divider(
-            height: 1.0,
-            thickness: 2.0,
-          ),
-          AnimatedOpacity(
-            opacity: _handResultWidgetOpacity,
-            duration: Duration(seconds: 1),
-            child: _handResultWidget,
-          ),
-          Divider(
-            height: 1.0,
-            thickness: 2.0,
-          ),
-          if (_screenHeight <= _screenHeightThreshHold) ...[
-            _handHistoryWidget,
-            Divider(
-              height: 1.0,
-              thickness: 2.0,
-            )
-          ],
+          ..._displayWidget,
         ],
       ),
     );

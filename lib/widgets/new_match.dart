@@ -181,16 +181,33 @@ class _NewMatchState extends State<NewMatch> {
     List<String> teamName = _defaultTeamName;
     int games = 3 + _gamesSelected.indexOf(true) * 2;
     ScoreMode scoreMode = ScoreMode.values[_scoreModeSelected.indexOf(true)];
+    MatchConfig matchConfig = MatchConfig(
+        teamName: teamName,
+        games: games,
+        scoreMode: scoreMode,
+        isNewMatch: true,
+        uuid: uuid.v4().toString());
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => MatchPage(
-                  matchConfig: MatchConfig(
-                      teamName: teamName,
-                      games: games,
-                      scoreMode: scoreMode,
-                      isNewMatch: true,
-                      uuid: uuid.v4().toString()),
-                )));
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation = CurvedAnimation(
+              parent: animation, curve: Curves.fastLinearToSlowEaseIn);
+          return ScaleTransition(
+            scale: animation,
+            child: child,
+          );
+        },
+        pageBuilder: (
+          _,
+          __,
+          ___,
+        ) =>
+            MatchPage(
+          matchConfig: matchConfig,
+        ),
+      ),
+    );
   }
 }
