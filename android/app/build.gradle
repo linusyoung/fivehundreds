@@ -26,10 +26,16 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
+def debugOnly = false
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    debugOnly = false
+} else {
+    if(!System.getenv()["CI"]){
+        debugOnly = true
+    }
 }
 
 
@@ -60,10 +66,10 @@ android {
                 keyAlias System.getenv()["FCI_KEY_ALIAS"]
                 keyPassword System.getenv()["FCI_KEY_PASSWORD"]
             } else {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
+                keyAlias debugOnly ? null : keystoreProperties['keyAlias']
+                keyPassword debugOnly ? null : keystoreProperties['keyPassword']
+                storeFile debugOnly ? null : file(keystoreProperties['storeFile'])
+                storePassword debugOnly ? null : keystoreProperties['storePassword']
             }
         }
     }
