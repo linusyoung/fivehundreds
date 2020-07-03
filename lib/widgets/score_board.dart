@@ -130,6 +130,7 @@ class ScoreBoard extends StatelessWidget {
           child: Column(
             children: List.generate(
               teamMatchScores[i].length * 2 - 1,
+//           should use index not index ~/2 here.
               (index) => index % 2 == 0
                   ? MatchResult(won: teamMatchScores[i][index ~/ 2])
                   : Divider(
