@@ -30,7 +30,6 @@ class ScoreBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(matchScore);
     List<bool> _t1Match =
         matchScore.sublist(0, matchScore.length ~/ 2).reversed.toList();
     List<bool> _t2Match = matchScore.sublist(matchScore.length ~/ 2);
