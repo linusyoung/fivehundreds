@@ -1,4 +1,5 @@
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,9 @@ class DisplayScore extends StatelessWidget {
   DisplayScore({@required this.score, this.fontSize});
   @override
   Widget build(BuildContext context) {
-    Color _scoreColor = NipponColors.nipponColor250;
+    ThemeConfig.init(context);
+
+    Color _scoreColor = AppTheme.textColor[ThemeConfig.theme.index];
     if (score > 0) {
       _scoreColor = NipponColors.nipponColor149;
     } else if (score < 0) {

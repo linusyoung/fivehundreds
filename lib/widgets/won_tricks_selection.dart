@@ -1,3 +1,5 @@
+import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:flutter/material.dart';
 
 class WonTricksSelection extends StatelessWidget {
@@ -12,6 +14,7 @@ class WonTricksSelection extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    ThemeConfig.init(context);
     return Container(
       width: 30.0,
       height: 30.0,
@@ -19,7 +22,9 @@ class WonTricksSelection extends StatelessWidget {
         border: Border.all(
           color: Colors.grey,
         ),
-        color: selected ? Theme.of(context).highlightColor : null,
+        color: selected
+            ? Theme.of(context).highlightColor
+            : AppTheme.background[ThemeConfig.theme.index],
       ),
       child: Center(
         child: canWin ? Text('$wonTrick') : Text('-'),

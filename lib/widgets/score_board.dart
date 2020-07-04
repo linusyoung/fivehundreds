@@ -32,6 +32,7 @@ class ScoreBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    ThemeConfig.init(context);
     List<bool> _t1Match =
         matchScore.sublist(0, matchScore.length ~/ 2).reversed.toList();
     List<bool> _t2Match = matchScore.sublist(matchScore.length ~/ 2);
@@ -66,6 +67,7 @@ class ScoreBoard extends StatelessWidget {
             foregroundPainter: ScoreBarPainter(
               score: teamScore[index],
               color: Team.teamColors[index],
+              themeIndex: ThemeConfig.theme.index,
             ),
           ),
           if (index == teamIndex)
@@ -156,7 +158,7 @@ class ScoreBoard extends StatelessWidget {
             child: ShadowText(
               text: '$bidScore',
               style: Theme.of(context).textTheme.bodyText1,
-              color: NipponColors.nipponColor250,
+              color: AppTheme.textColor[ThemeConfig.theme.index],
             ),
           ),
         ],
@@ -179,8 +181,13 @@ class ScoreBoard extends StatelessWidget {
 class ScoreBarPainter extends CustomPainter {
   final int score;
   final Color color;
+  final int themeIndex;
 
-  ScoreBarPainter({@required this.score, @required this.color});
+  ScoreBarPainter({
+    @required this.score,
+    @required this.color,
+    @required this.themeIndex,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -188,7 +195,7 @@ class ScoreBarPainter extends CustomPainter {
     double r1 = 40;
     double r2 = 35.0;
     // canvas color
-    Color backgroundColor = NipponColors.nipponColor233;
+    Color backgroundColor = AppTheme.canvas[themeIndex];
 
     // circle
     paint.strokeWidth = 2;

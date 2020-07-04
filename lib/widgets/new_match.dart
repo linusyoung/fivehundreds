@@ -24,8 +24,10 @@ class _NewMatchState extends State<NewMatch> {
             textAlign: TextAlign.center,
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
+              hintStyle: Theme.of(context).textTheme.subtitle1,
               hintText: '${_defaultTeamName[index]}',
             ),
+            // style: Theme.of(context).textTheme.subtitle1,
             onChanged: (String value) {
               _defaultTeamName[index] = value;
             },
@@ -77,18 +79,16 @@ class _NewMatchState extends State<NewMatch> {
                   Container(
                     height: 40.0,
                     child: ToggleButtons(
+                      borderRadius: BorderRadius.circular(5.0),
                       children: <Widget>[
                         Text(
                           '3',
-                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                         Text(
                           '5',
-                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                         Text(
                           '7',
-                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ],
                       onPressed: (int index) {
@@ -125,19 +125,18 @@ class _NewMatchState extends State<NewMatch> {
                   Container(
                     height: 40.0,
                     child: ToggleButtons(
+                      borderRadius: BorderRadius.circular(5.0),
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Avondale',
-                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Original',
-                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                         ),
                       ],

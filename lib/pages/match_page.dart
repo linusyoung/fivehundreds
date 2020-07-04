@@ -54,9 +54,14 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    ThemeConfig.init(context);
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
+    Widget _divider = Divider(
+      height: 1.0,
+      thickness: 2.0,
+    );
     List<Widget> _bidMisereWidget = List<Widget>.generate(
       3,
       (index) => Expanded(
@@ -72,7 +77,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
               ),
               color: _bidSelected[index + 25]
                   ? Theme.of(context).highlightColor
-                  : null,
+                  : AppTheme.background[ThemeConfig.theme.index],
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Text(
@@ -96,10 +101,10 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
           (index) => Expanded(
             child: GestureDetector(
               child: TeamSelection(
-                teamName: _teamName[index],
-                selected: _teamSelected[index],
-                teamIndex: index,
-              ),
+                  teamName: _teamName[index],
+                  selected: _teamSelected[index],
+                  teamIndex: index,
+                  disabled: !_canBid),
               onTap: _canBid
                   ? () {
                       _selectTeam(index);
@@ -186,7 +191,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                           _updateResult();
                         }
                       : null,
-                  textColor: Colors.white,
+                  textColor: AppTheme.textColor[0],
                 ),
               ),
             ),
@@ -197,7 +202,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     Widget _handHistoryWidget = Padding(
       padding: EdgeInsets.all(0.0),
       child: Container(
-        height: 135,
+        height: 140,
         child: _handHistoryCard.length > 0
             ? AnimatedList(
                 key: _listKey,
@@ -221,39 +226,27 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     List<Widget> _playLayout = [
       if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
         _handHistoryWidget,
-        Divider(
-          height: 1.0,
-          thickness: 2.0,
-        )
+        _divider,
       ],
       ..._bidWidget,
-      Divider(
-        height: 1.0,
-        thickness: 2.0,
-      ),
+      _divider,
       AnimatedOpacity(
         opacity: _handResultWidgetOpacity,
         duration: Duration(seconds: 1),
         child: _handResultWidget,
       ),
-      Divider(
-        height: 1.0,
-        thickness: 2.0,
-      ),
+      _divider,
       if (SizeConfig.screenHeight <= _screenHeightThreshHold) ...[
         _handHistoryWidget,
-        Divider(
-          height: 1.0,
-          thickness: 2.0,
-        )
+        _divider,
       ],
     ];
     List<Widget> _viewMatchLayout = [
       _teamSelectionWidget,
       Divider(
-        height: 1.0,
-        thickness: 2.0,
-      ),
+          height: 1.0,
+          thickness: 2.0,
+          color: AppTheme.background[ThemeConfig.theme.index]),
       Container(
         height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
         child: GridView.builder(
@@ -290,10 +283,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             uuid: _matchUuid,
             teamIndex: _teamSelected.indexOf(true) ?? -1,
           ),
-          Divider(
-            height: 1.0,
-            thickness: 2.0,
-          ),
+          _divider,
           ..._displayWidget,
         ],
       ),

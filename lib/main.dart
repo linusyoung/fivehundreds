@@ -20,7 +20,7 @@ class FiveHundredScorerApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: title,
           theme: AppTheme.lightTheme,
-          darkTheme: ThemeData.dark(),
+          darkTheme: AppTheme.darkTheme,
           home: MyHomePage(title: title),
         );
       },
