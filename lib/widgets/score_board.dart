@@ -113,11 +113,11 @@ class ScoreBoard extends StatelessWidget {
           children: <Widget>[
             if (index == 0) teamAvatarWidget[index],
             Spacer(
-              flex: 1,
+              flex: 2,
             ),
             teamScoreCircleWidget[index],
             Spacer(
-              flex: 1,
+              flex: 2,
             ),
             if (index == 1) teamAvatarWidget[index],
           ],
@@ -133,9 +133,13 @@ class ScoreBoard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            if (index == 0) teamAvatarWidget[index],
+            if (index == 0)
+              Transform.translate(
+                  offset: Offset(0.0, -10.0), child: teamAvatarWidget[index]),
             teamScoreCircleWidget[index],
-            if (index == 1) teamAvatarWidget[index],
+            if (index == 1)
+              Transform.translate(
+                  offset: Offset(0.0, 5.0), child: teamAvatarWidget[index]),
           ],
         ),
       ),

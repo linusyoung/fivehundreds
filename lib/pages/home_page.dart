@@ -20,11 +20,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    // print(MediaQuery.of(context).size.width);
     if (SizeConfig.screenWidth >= 540 && Platform.isMacOS) _cardsInRow = 5;
     if (SizeConfig.screenWidth < 540) _cardsInRow = 3;
     if (SizeConfig.screenWidth < 325) _cardsInRow = 2;
-    print(SizeConfig.screenWidth);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: Theme.of(context).textTheme.headline4),
