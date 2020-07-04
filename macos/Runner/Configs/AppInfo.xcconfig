@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = fivehundred_flutter
+PRODUCT_NAME = 500 Score Keeping
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = club.swimmingbeaver.fivehundredFlutter
+PRODUCT_BUNDLE_IDENTIFIER = club.swimmingbeaver.fivehundreds
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2020 club.swimmingbeaver. All rights reserved.
