@@ -243,10 +243,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     ];
     List<Widget> _viewMatchLayout = [
       _teamSelectionWidget,
-      Divider(
-          height: 1.0,
-          thickness: 2.0,
-          color: AppTheme.background[ThemeConfig.theme.index]),
+      _divider,
       Container(
         height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
         child: GridView.builder(
