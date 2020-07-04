@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:fivehundreds/model/models.dart';
@@ -123,6 +124,23 @@ class ScoreBoard extends StatelessWidget {
         ),
       ),
     );
+
+    List<Widget> teamWidgetDesktop = List.generate(
+      2,
+      (index) => Container(
+        width: 145.0,
+        height: 150.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            if (index == 0) teamAvatarWidget[index],
+            teamScoreCircleWidget[index],
+            if (index == 1) teamAvatarWidget[index],
+          ],
+        ),
+      ),
+    );
+
     List<Widget> teamMatchScoreWidget = List.generate(
       2,
       (i) => Padding(
@@ -143,9 +161,32 @@ class ScoreBoard extends StatelessWidget {
         ),
       ),
     );
+
+    List<Widget> teamMatchScoreWidgetDesktop = List.generate(
+      2,
+      (i) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          width: SizeConfig.blockSizeHorizontal * 15.0,
+          height: SizeConfig.blockSizeVertical * 8.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              teamMatchScores[i].length * 2 - 1,
+              (index) => index % 2 == 0
+                  ? MatchResult(won: teamMatchScores[i][index ~/ 2])
+                  : VerticalDivider(
+                      width: 3.0,
+                    ),
+            ),
+          ),
+        ),
+      ),
+    );
+
     Widget matchBidScoreWidget = Container(
       width: SizeConfig.blockSizeHorizontal * 15.0,
-      height: SizeConfig.blockSizeVertical * 15.0,
+      height: SizeConfig.blockSizeVertical * 50.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -164,7 +205,33 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
-    return Padding(
+
+    Widget matchBidScoreWidgetDesktop = Container(
+      width: SizeConfig.blockSizeHorizontal * 15.0,
+      height: SizeConfig.blockSizeVertical * 30.0,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: [teamMatchScoreWidgetDesktop[0]],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ShadowText(
+                text: '$bidScore',
+                style: Theme.of(context).textTheme.headline4,
+                color: AppTheme.textColor[ThemeConfig.theme.index],
+              ),
+            ],
+          ),
+          Row(
+            children: [teamMatchScoreWidgetDesktop[1]],
+          ),
+        ],
+      ),
+    );
+
+    Widget _mobileView = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -175,6 +242,18 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
+    Widget _desktopView = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          teamWidgetDesktop[0],
+          matchBidScoreWidgetDesktop,
+          teamWidgetDesktop[1],
+        ],
+      ),
+    );
+    return Platform.isMacOS ? _desktopView : _mobileView;
   }
 }
 

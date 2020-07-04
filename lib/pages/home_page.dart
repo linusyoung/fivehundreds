@@ -1,7 +1,9 @@
 import 'package:fivehundreds/match_data_helper.dart';
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/size_config.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -14,8 +16,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _opacity = 1.0;
+  int _cardsInRow = Platform.isMacOS ? 5 : 3;
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    // print(MediaQuery.of(context).size.width);
+    if (SizeConfig.screenWidth >= 540 && Platform.isMacOS) _cardsInRow = 5;
+    if (SizeConfig.screenWidth < 540) _cardsInRow = 3;
+    if (SizeConfig.screenWidth < 325) _cardsInRow = 2;
+    print(SizeConfig.screenWidth);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: Theme.of(context).textTheme.headline4),
@@ -35,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
                     child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: _cardsInRow,
                           mainAxisSpacing: 0,
                           childAspectRatio: 0.8,
                         ),
