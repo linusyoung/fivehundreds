@@ -46,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount:
-                                  orientation == Orientation.portrait ? 3 : 5,
+                                  orientation == Orientation.portrait
+                                      ? 3
+                                      : _cardsInRow,
                               mainAxisSpacing: 0,
                               childAspectRatio: 0.8,
                             ),
