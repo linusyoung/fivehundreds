@@ -4,6 +4,7 @@ import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 
 class MatchPage extends StatefulWidget {
   final MatchConfig matchConfig;
@@ -149,6 +150,121 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ],
       )
     ];
+
+    List<Widget> _handResultWidgetDesktop = [
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            ...List.generate(
+              11,
+              (index) => GestureDetector(
+                child: WonTricksSelection(
+                    canWin: _canWin,
+                    selected: _wonTricks[index],
+                    wonTrick: index),
+                onTap: _canWin
+                    ? () {
+                        _selectWonTricks(index);
+                      }
+                    : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+      Row(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
+              child: RaisedButton(
+                child: Text(
+                  _canWin ? 'Round finish' : 'Select team and bid',
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        fontSize: 20.0,
+                      ),
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: _canWin
+                    ? () {
+                        _updateResult();
+                      }
+                    : null,
+                textColor: AppTheme.textColor[0],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
+    Widget _handHistoryWidget = Padding(
+      padding: EdgeInsets.all(0.0),
+      child: Container(
+        height: 140,
+        child: _handHistoryCard.length > 0
+            ? AnimatedList(
+                key: _listKey,
+                scrollDirection: Axis.horizontal,
+                initialItemCount: _handHistoryCard.length,
+                itemBuilder: (context, index, animation) {
+                  return SizeTransition(
+                      axis: Axis.horizontal,
+                      sizeFactor: animation,
+                      child: _handHistoryCard[index]);
+                })
+            : Center(
+                child: Text(
+                  'No rounds played yet',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+      ),
+    );
+
+    Widget _roundWidgetDesktop = Container(
+      width: 400.0,
+      child: Column(
+        children: [
+          _teamSelectionWidget,
+          _handHistoryWidget,
+          Container(
+            height: 210,
+            child: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                mainAxisSpacing: 0,
+                childAspectRatio: 2,
+              ),
+              itemCount: 25,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  child: BidSelection(
+                    score: index,
+                    selected: _bidSelected[index],
+                  ),
+                  onTap: _canBid
+                      ? () {
+                          _selectBid(index);
+                        }
+                      : null,
+                );
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ..._bidMisereWidget,
+            ],
+          ),
+          ..._handResultWidgetDesktop,
+        ],
+      ),
+    );
+
     Widget _handResultWidget = Column(
       children: [
         Padding(
@@ -199,29 +315,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       ],
     );
-    Widget _handHistoryWidget = Padding(
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        height: 140,
-        child: _handHistoryCard.length > 0
-            ? AnimatedList(
-                key: _listKey,
-                scrollDirection: Axis.horizontal,
-                initialItemCount: _handHistoryCard.length,
-                itemBuilder: (context, index, animation) {
-                  return SizeTransition(
-                      axis: Axis.horizontal,
-                      sizeFactor: animation,
-                      child: _handHistoryCard[index]);
-                })
-            : Center(
-                child: Text(
-                  'No rounds played yet',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              ),
-      ),
-    );
 
     List<Widget> _playLayout = [
       if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
@@ -241,27 +334,69 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         _divider,
       ],
     ];
+    Widget _completedHistory = Container(
+      height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 0,
+          // childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
+          childAspectRatio: 1.1,
+        ),
+        itemCount: _handHistoryCard.length,
+        itemBuilder: (context, index) {
+          return _handHistoryCard.reversed.toList()[index];
+        },
+      ),
+    );
     List<Widget> _viewMatchLayout = [
       _teamSelectionWidget,
       _divider,
-      Container(
-        height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
-        child: GridView.builder(
-          physics: BouncingScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            mainAxisSpacing: 0,
-            childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
-          ),
-          itemCount: _handHistoryCard.length,
-          itemBuilder: (context, index) {
-            return _handHistoryCard.reversed.toList()[index];
-          },
-        ),
-      ),
+      _completedHistory,
     ];
     List<Widget> _displayWidget =
         _matchScore.first || _matchScore.last ? _viewMatchLayout : _playLayout;
+
+    Widget _scoreBoard = ScoreBoard(
+      teamName: _teamName,
+      teamScore: _teamScore,
+      matchScore: _matchScore,
+      bidScore: _bidScore,
+      uuid: _matchUuid,
+      teamIndex: _teamSelected.indexOf(true) ?? -1,
+    );
+
+    Widget _viewMatchWidgetDesktop = Container(
+      width: 400.0,
+      child: Column(
+        children: [
+          _teamSelectionWidget,
+          _completedHistory,
+        ],
+      ),
+    );
+
+    Widget _displayWidgetDesktop = _matchScore.first || _matchScore.last
+        ? _viewMatchWidgetDesktop
+        : _roundWidgetDesktop;
+
+    Widget _mobileView = ListView(
+      children: <Widget>[
+        _scoreBoard,
+        _divider,
+        ..._displayWidget,
+      ],
+    );
+    Widget _desktopView = Row(
+      children: [
+        _scoreBoard,
+        VerticalDivider(width: 3.0),
+        Expanded(
+          child: Center(child: _displayWidgetDesktop),
+        ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -270,20 +405,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        children: <Widget>[
-          ScoreBoard(
-            teamName: _teamName,
-            teamScore: _teamScore,
-            matchScore: _matchScore,
-            bidScore: _bidScore,
-            uuid: _matchUuid,
-            teamIndex: _teamSelected.indexOf(true) ?? -1,
-          ),
-          _divider,
-          ..._displayWidget,
-        ],
-      ),
+      body: Platform.isMacOS ? _desktopView : _mobileView,
     );
   }
 
