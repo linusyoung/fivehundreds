@@ -130,13 +130,16 @@ class ScoreBoard extends StatelessWidget {
     List<Widget> teamWidgetLandscape = List.generate(
       2,
       (index) => Container(
-        width: 150.0,
-        height: 100.0,
+        width: SizeConfig.blockSizeHorizontal * 15.0,
+        height: SizeConfig.blockSizeVertical * 20.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Transform.translate(
-                offset: Offset(-10.0, 0.0), child: teamAvatarWidget[index]),
+            Transform.scale(
+              scale: 0.9,
+              child: Transform.translate(
+                  offset: Offset(-20.0, 0.0), child: teamAvatarWidget[index]),
+            ),
             teamScoreCircleWidget[index],
           ],
         ),
@@ -208,7 +211,7 @@ class ScoreBoard extends StatelessWidget {
     );
 
     Widget matchBidScoreWidgetLandscape = Container(
-      height: SizeConfig.blockSizeVertical * 30.0,
+      height: SizeConfig.blockSizeVertical * 25.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
@@ -220,7 +223,7 @@ class ScoreBoard extends StatelessWidget {
             children: [
               ShadowText(
                 text: '$bidScore',
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headline6,
                 color: AppTheme.textColor[ThemeConfig.theme.index],
               ),
             ],

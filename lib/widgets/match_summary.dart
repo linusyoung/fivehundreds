@@ -3,6 +3,9 @@ import 'package:fivehundreds/pages/pages.dart';
 import 'package:fivehundreds/widgets/match_result.dart';
 import 'package:flutter/material.dart';
 
+import '../utils.dart/utils.dart';
+import '../utils.dart/utils.dart';
+
 class MatchSummary extends StatefulWidget {
   final List<String> teamName;
   final List<bool> matchScore;
@@ -24,6 +27,8 @@ class _MatchSummaryState extends State<MatchSummary> {
   @override
   Widget build(BuildContext context) {
     int scoreOffset = ((widget.matchScore.length) ~/ 2);
+    SizeConfig().init(context);
+    // print(SizeConfig.pixelRatio);
 
     List<Widget> matchScoreWidget = List.generate(
         widget.matchScore.length,
