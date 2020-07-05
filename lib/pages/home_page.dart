@@ -1,6 +1,6 @@
 import 'package:fivehundreds/match_data_helper.dart';
 import 'package:fivehundreds/model/models.dart';
-import 'package:fivehundreds/utils.dart/size_config.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
@@ -40,25 +40,31 @@ class _MyHomePageState extends State<MyHomePage> {
             return snapshot.hasData
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
-                    child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: _cardsInRow,
-                          mainAxisSpacing: 0,
-                          childAspectRatio: 0.8,
-                        ),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Map<String, dynamic> matchPrefs =
-                              snapshot.data.reversed.toList()[index];
-                          var json = matchPrefs.values.toList()[0];
-                          MatchInfo matchInfo = MatchInfo.fromJson(json);
-                          return MatchSummary(
-                            teamName: matchInfo.teamName,
-                            matchScore: matchInfo.matchScore,
-                            uuid: matchPrefs.keys.toList()[0],
-                            games: matchInfo.games,
-                          );
-                        }),
+                    child: OrientationBuilder(
+                      builder: (context, orientation) {
+                        return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  orientation == Orientation.portrait ? 3 : 5,
+                              mainAxisSpacing: 0,
+                              childAspectRatio: 0.8,
+                            ),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Map<String, dynamic> matchPrefs =
+                                  snapshot.data.reversed.toList()[index];
+                              var json = matchPrefs.values.toList()[0];
+                              MatchInfo matchInfo = MatchInfo.fromJson(json);
+                              return MatchSummary(
+                                teamName: matchInfo.teamName,
+                                matchScore: matchInfo.matchScore,
+                                uuid: matchPrefs.keys.toList()[0],
+                                games: matchInfo.games,
+                              );
+                            });
+                      },
+                    ),
                   )
                 : Container(
                     child: Center(
@@ -72,7 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _createNewMatch(context),
         child: Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation:
+          MediaQuery.of(context).orientation == Orientation.portrait
+              ? FloatingActionButtonLocation.centerFloat
+              : FloatingActionButtonLocation.endFloat,
     );
   }
 
