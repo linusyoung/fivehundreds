@@ -10,24 +10,31 @@
             "type": "dart",
         },
         {
-            "name": "NormalScreen",
+            "name": "Tablet",
             "request": "launch",
             "type": "dart",
             "deviceId": "emulator-5556"
         },
         {
-            "name": "SmallScreen",
+            "name": "Mobile",
             "type": "dart",
             "request": "launch",
             "deviceId": "emulator-5554"
-        }
+        },
+        {
+            "name": "Smartisan",
+            "type": "dart",
+            "request": "launch",
+            "deviceId": "5baffe70"
+        },
     ],
     "compounds": [
         {
             "name": "ScreenSize",
             "configurations": [
-                "SmallScreen",
-                "NormalScreen"
+                "Tablet",
+                "Mobile",
+                "Smartisan"
             ],
         }
     ]

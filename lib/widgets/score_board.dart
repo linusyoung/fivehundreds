@@ -7,6 +7,8 @@ import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
+import '../utils.dart/utils.dart';
+
 const double theda = (2 * pi / 5);
 const double r1 = 40.0;
 const double r2 = 35.0;
@@ -125,21 +127,17 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
 
-    List<Widget> teamWidgetDesktop = List.generate(
+    List<Widget> teamWidgetLandscape = List.generate(
       2,
       (index) => Container(
-        width: 145.0,
-        height: 150.0,
-        child: Column(
+        width: 150.0,
+        height: 100.0,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            if (index == 0)
-              Transform.translate(
-                  offset: Offset(0.0, -10.0), child: teamAvatarWidget[index]),
+            Transform.translate(
+                offset: Offset(-10.0, 0.0), child: teamAvatarWidget[index]),
             teamScoreCircleWidget[index],
-            if (index == 1)
-              Transform.translate(
-                  offset: Offset(0.0, 5.0), child: teamAvatarWidget[index]),
           ],
         ),
       ),
@@ -166,13 +164,12 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
 
-    List<Widget> teamMatchScoreWidgetDesktop = List.generate(
+    List<Widget> teamMatchScoreWidgetLandscape = List.generate(
       2,
       (i) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
-          width: SizeConfig.blockSizeHorizontal * 15.0,
-          height: SizeConfig.blockSizeVertical * 8.0,
+          height: 10.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -190,7 +187,7 @@ class ScoreBoard extends StatelessWidget {
 
     Widget matchBidScoreWidget = Container(
       width: SizeConfig.blockSizeHorizontal * 15.0,
-      height: SizeConfig.blockSizeVertical * 50.0,
+      height: SizeConfig.blockSizeVertical * 15.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -210,13 +207,13 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
 
-    Widget matchBidScoreWidgetDesktop = Container(
-      width: SizeConfig.blockSizeHorizontal * 15.0,
+    Widget matchBidScoreWidgetLandscape = Container(
       height: SizeConfig.blockSizeVertical * 30.0,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Row(
-            children: [teamMatchScoreWidgetDesktop[0]],
+            children: [teamMatchScoreWidgetLandscape[0]],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +226,7 @@ class ScoreBoard extends StatelessWidget {
             ],
           ),
           Row(
-            children: [teamMatchScoreWidgetDesktop[1]],
+            children: [teamMatchScoreWidgetLandscape[1]],
           ),
         ],
       ),
@@ -246,18 +243,22 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
-    Widget _desktopView = Padding(
+    // print(SizeConfig.screenHeight);
+    Widget _landscapeView = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          teamWidgetDesktop[0],
-          matchBidScoreWidgetDesktop,
-          teamWidgetDesktop[1],
+          teamWidgetLandscape[0],
+          matchBidScoreWidgetLandscape,
+          teamWidgetLandscape[1],
         ],
       ),
     );
-    return Platform.isMacOS ? _desktopView : _mobileView;
+    return (Platform.isMacOS ||
+            MediaQuery.of(context).orientation == Orientation.landscape)
+        ? _landscapeView
+        : _mobileView;
   }
 }
 
