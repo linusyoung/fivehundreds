@@ -102,7 +102,7 @@ class ScoreBoard extends StatelessWidget {
             ),
           DisplayScore(
             score: teamScore[index],
-            fontSize: 20.0,
+            fontSize: 18.0,
           ),
         ],
       ),
