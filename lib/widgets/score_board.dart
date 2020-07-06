@@ -24,6 +24,7 @@ class ScoreBoard extends StatelessWidget {
   static const double scoreBarUnit = 0.03;
   static const double bidScoreUnit = 0.3;
   static const List<double> teamYOffset = [-1.0, 11.0];
+
   ScoreBoard(
       {@required this.teamName,
       @required this.teamScore,
@@ -107,25 +108,6 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
-    List<Widget> teamWidget = List.generate(
-      2,
-      (index) => Container(
-        width: 145.0,
-        child: Row(
-          children: <Widget>[
-            if (index == 0) teamAvatarWidget[index],
-            Spacer(
-              flex: 2,
-            ),
-            teamScoreCircleWidget[index],
-            Spacer(
-              flex: 2,
-            ),
-            if (index == 1) teamAvatarWidget[index],
-          ],
-        ),
-      ),
-    );
 
     List<Widget> teamWidgetLandscape = List.generate(
       2,
@@ -142,27 +124,6 @@ class ScoreBoard extends StatelessWidget {
             ),
             teamScoreCircleWidget[index],
           ],
-        ),
-      ),
-    );
-
-    List<Widget> teamMatchScoreWidget = List.generate(
-      2,
-      (i) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          width: SizeConfig.blockSizeHorizontal * 4.0,
-          height: SizeConfig.blockSizeVertical * 8.0,
-          child: Column(
-            children: List.generate(
-              teamMatchScores[i].length * 2 - 1,
-              (index) => index % 2 == 0
-                  ? MatchResult(won: teamMatchScores[i][index ~/ 2])
-                  : Divider(
-                      height: 3.0,
-                    ),
-            ),
-          ),
         ),
       ),
     );
@@ -185,28 +146,6 @@ class ScoreBoard extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-
-    Widget matchBidScoreWidget = Container(
-      width: SizeConfig.blockSizeHorizontal * 15.0,
-      height: SizeConfig.blockSizeVertical * 15.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: teamMatchScoreWidget,
-          ),
-          Transform.translate(
-            offset: Offset(0, -20 * SizeConfig.pixelRatio + 55),
-            child: ShadowText(
-              text: '$bidScore',
-              style: Theme.of(context).textTheme.bodyText1,
-              color: AppTheme.textColor[ThemeConfig.theme.index],
-            ),
-          ),
-        ],
       ),
     );
 
@@ -235,19 +174,7 @@ class ScoreBoard extends StatelessWidget {
       ),
     );
 
-    Widget _mobileView = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          teamWidget[0],
-          matchBidScoreWidget,
-          teamWidget[1],
-        ],
-      ),
-    );
-    // print(SizeConfig.screenHeight);
-    Widget _landscapeView = Padding(
+    Widget landscapeView = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -258,10 +185,88 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
+
+    // potrait view widgets
+    List<Widget> teamWidgetPotrait = List.generate(
+      2,
+      (index) => Container(
+        width: 145.0,
+        child: Row(
+          children: <Widget>[
+            if (index == 0) teamAvatarWidget[index],
+            Spacer(
+              flex: 2,
+            ),
+            teamScoreCircleWidget[index],
+            Spacer(
+              flex: 2,
+            ),
+            if (index == 1) teamAvatarWidget[index],
+          ],
+        ),
+      ),
+    );
+
+    List<Widget> teamMatchScoreWidgetPotrait = List.generate(
+      2,
+      (i) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Container(
+          width: SizeConfig.blockSizeHorizontal * 4.0,
+          height: SizeConfig.blockSizeVertical * 8.0,
+          child: Column(
+            children: List.generate(
+              teamMatchScores[i].length * 2 - 1,
+              (index) => index % 2 == 0
+                  ? MatchResult(won: teamMatchScores[i][index ~/ 2])
+                  : Divider(
+                      height: 3.0,
+                    ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Widget matchBidScoreWidgetPotrait = Container(
+      width: SizeConfig.blockSizeHorizontal * 15.0,
+      height: SizeConfig.blockSizeVertical * 15.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: teamMatchScoreWidgetPotrait,
+          ),
+          Transform.translate(
+            offset: Offset(0, -20 * SizeConfig.pixelRatio + 55),
+            child: ShadowText(
+              text: '$bidScore',
+              style: Theme.of(context).textTheme.bodyText1,
+              color: AppTheme.textColor[ThemeConfig.theme.index],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Widget potraitView = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          teamWidgetPotrait[0],
+          matchBidScoreWidgetPotrait,
+          teamWidgetPotrait[1],
+        ],
+      ),
+    );
+    // print(SizeConfig.screenHeight);
+
     return (Platform.isMacOS ||
             MediaQuery.of(context).orientation == Orientation.landscape)
-        ? _landscapeView
-        : _mobileView;
+        ? landscapeView
+        : potraitView;
   }
 }
 
@@ -301,7 +306,6 @@ class ScoreBarPainter extends CustomPainter {
       width: (r1 + r2),
       height: (r1 + r2),
     );
-    // canvas.drawRect(rect, paintScore);
 
     canvas.drawArc(rect, startAngle, theda * score / 100, false, paintScore);
 
@@ -328,7 +332,7 @@ class IndicatorPaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // win color
-    Paint paintLine = Paint()..color = NipponColors.nipponColor149;
+    Paint paintLine = Paint()..color = AppTheme.win;
     paintLine.strokeWidth = 2.0;
     double winAngle = teamScore + bidScore < 500
         ? pi - theda * (teamScore + bidScore) / 100
@@ -339,13 +343,11 @@ class IndicatorPaint extends CustomPainter {
     canvas.drawLine(Offset((r1) * sin(winAngle), (r1) * cos(winAngle)),
         Offset((r2) * sin(winAngle), (r2) * cos(winAngle)), paintLine);
     // lose color
-    paintLine.color = NipponColors.nipponColor016;
+    paintLine.color = AppTheme.lose;
     canvas.drawLine(Offset((r1) * sin(loseAngle), (r1) * cos(loseAngle)),
         Offset((r2) * sin(loseAngle), (r2) * cos(loseAngle)), paintLine);
   }
 
   @override
-  bool shouldRepaint(IndicatorPaint oldDelegate) {
-    return oldDelegate.bidScore != bidScore;
-  }
+  bool shouldRepaint(IndicatorPaint oldDelegate) => false;
 }

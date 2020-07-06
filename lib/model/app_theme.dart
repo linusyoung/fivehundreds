@@ -25,6 +25,9 @@ class AppTheme {
     Color(0xFFE0E0E0),
   ];
 
+  static const Color win = NipponColors.nipponColor149;
+  static const Color lose = NipponColors.nipponColor016;
+
   static final ThemeData darkTheme = ThemeData(
     primarySwatch: Colors.teal,
     // SEIHEKI

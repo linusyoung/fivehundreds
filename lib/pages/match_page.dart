@@ -65,22 +65,32 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       height: 1.0,
       thickness: 2.0,
     );
+    Widget _vDivider = VerticalDivider(width: 3.0);
+    Widget _scoreBoard = ScoreBoard(
+      teamName: _teamName,
+      teamScore: _teamScore,
+      matchScore: _matchScore,
+      bidScore: _bidScore,
+      uuid: _matchUuid,
+      teamIndex: _teamSelected.indexOf(true) ?? -1,
+    );
 
-    Widget _completedHistory = Flexible(
-      child: Container(
-        height: 150.0 * (_handHistoryCard.length ~/ 3 + 1),
-        child: GridView.builder(
-          physics: BouncingScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: orientation == Orientation.portrait ? 3 : 4,
-            mainAxisSpacing: 0,
-            childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
-          ),
-          itemCount: _handHistoryCard.length,
-          itemBuilder: (context, index) {
-            return _handHistoryCard.reversed.toList()[index];
-          },
+    int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
+    Widget _completedHistory = Container(
+      height: 150.0 *
+          (_handHistoryCard.length ~/ _completedCardsInRow +
+              (_handHistoryCard.length % _completedCardsInRow == 0 ? 0 : 1)),
+      child: GridView.builder(
+        physics: BouncingScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: _completedCardsInRow,
+          mainAxisSpacing: 0,
+          childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
         ),
+        itemCount: _handHistoryCard.length,
+        itemBuilder: (context, index) {
+          return _handHistoryCard.reversed.toList()[index];
+        },
       ),
     );
 
@@ -171,56 +181,62 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ],
       )
     ];
-
-    List<Widget> _handResultWidgetLandscape = [
-      Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            ...List.generate(
-              11,
-              (index) => GestureDetector(
-                child: WonTricksSelection(
-                    canWin: _canWin,
-                    selected: _wonTricks[index],
-                    wonTrick: index),
-                onTap: _canWin
-                    ? () {
-                        _selectWonTricks(index);
-                      }
-                    : null,
-              ),
-            ),
-          ],
-        ),
-      ),
-      Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
-              child: RaisedButton(
-                child: Text(
-                  _canWin ? 'Round finish' : 'Select team and bid',
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(
-                        fontSize: 20.0,
-                      ),
+    Widget _roundResultWidget = AnimatedOpacity(
+      opacity: _handResultWidgetOpacity,
+      duration: Duration(seconds: 1),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ...List.generate(
+                  11,
+                  (index) => GestureDetector(
+                    child: WonTricksSelection(
+                        canWin: _canWin,
+                        selected: _wonTricks[index],
+                        wonTrick: index),
+                    onTap: _canWin
+                        ? () {
+                            _selectWonTricks(index);
+                          }
+                        : null,
+                  ),
                 ),
-                color: Theme.of(context).primaryColor,
-                onPressed: _canWin
-                    ? () {
-                        _updateResult();
-                      }
-                    : null,
-                textColor: AppTheme.textColor[0],
-              ),
+              ],
             ),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
+                  child: RaisedButton(
+                    child: Text(
+                      _canWin ? 'Round finish' : 'Select team and bid',
+                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 20.0,
+                          ),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _canWin
+                        ? () {
+                            _updateResult();
+                          }
+                        : null,
+                    textColor: AppTheme.textColor[0],
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
-    ];
-    Widget _handHistoryWidget = Padding(
+    );
+
+    Widget _roundsHistoryWidget = Padding(
       padding: EdgeInsets.all(0.0),
       child: Container(
         width: orientation == Orientation.landscape
@@ -249,7 +265,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       ),
     );
 
-    Widget _roundWidgetLandscape = Container(
+// landscape
+    Widget _playRoundWidgetLandscape = Container(
       width: 400.0,
       child: ListView(
         children: [
@@ -285,20 +302,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
               ..._bidMisereWidget,
             ],
           ),
-          ..._handResultWidgetLandscape,
+          _roundResultWidget,
         ],
-      ),
-    );
-    print(SizeConfig.blockSizeHorizontal * 80);
-    Widget _viewMatchWidgetLandscape = Expanded(
-      child: Container(
-        width: SizeConfig.blockSizeHorizontal * 80,
-        child: Column(
-          children: [
-            _teamSelectionWidget,
-            _completedHistory,
-          ],
-        ),
       ),
     );
 
@@ -308,15 +313,16 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
           Container(
             width: SizeConfig.blockSizeHorizontal * 3,
           ),
-          VerticalDivider(width: 3.0),
+          _vDivider,
           Expanded(
-            child: Center(child: _roundWidgetLandscape),
+            child: Center(child: _playRoundWidgetLandscape),
           ),
-          VerticalDivider(width: 3.0),
-          _handHistoryWidget,
+          _vDivider,
+          _roundsHistoryWidget,
         ],
       ),
     );
+
     Widget _viewModeLandscape = Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -325,7 +331,17 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             width: SizeConfig.blockSizeHorizontal * 3,
           ),
           VerticalDivider(width: 3.0),
-          _viewMatchWidgetLandscape,
+          Expanded(
+            child: Container(
+              width: SizeConfig.blockSizeHorizontal * 80,
+              child: Column(
+                children: [
+                  _teamSelectionWidget,
+                  Expanded(child: _completedHistory),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -333,107 +349,50 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ? _viewModeLandscape
         : _playModeLandscape;
 
-// potrait
-    Widget _handResultWidget = Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ...List.generate(
-                11,
-                (index) => GestureDetector(
-                  child: WonTricksSelection(
-                      canWin: _canWin,
-                      selected: _wonTricks[index],
-                      wonTrick: index),
-                  onTap: _canWin
-                      ? () {
-                          _selectWonTricks(index);
-                        }
-                      : null,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
-                child: RaisedButton(
-                  child: Text(
-                    _canWin ? 'Round finish' : 'Select team and bid',
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(
-                          fontSize: 20.0,
-                        ),
-                  ),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _canWin
-                      ? () {
-                          _updateResult();
-                        }
-                      : null,
-                  textColor: AppTheme.textColor[0],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-
-    List<Widget> _playLayout = [
-      if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
-        _handHistoryWidget,
-        _divider,
-      ],
-      ..._bidWidget,
-      _divider,
-      AnimatedOpacity(
-        opacity: _handResultWidgetOpacity,
-        duration: Duration(seconds: 1),
-        child: _handResultWidget,
-      ),
-      _divider,
-      if (SizeConfig.screenHeight <= _screenHeightThreshHold) ...[
-        _handHistoryWidget,
-        _divider,
-      ],
-    ];
-
-    List<Widget> _viewMatchLayout = [
-      _teamSelectionWidget,
-      _divider,
-      _completedHistory,
-    ];
-    List<Widget> _displayWidget =
-        _matchScore.first || _matchScore.last ? _viewMatchLayout : _playLayout;
-
-    Widget _scoreBoard = ScoreBoard(
-      teamName: _teamName,
-      teamScore: _teamScore,
-      matchScore: _matchScore,
-      bidScore: _bidScore,
-      uuid: _matchUuid,
-      teamIndex: _teamSelected.indexOf(true) ?? -1,
-    );
-
-    Widget _mobileView = ListView(
-      children: <Widget>[
-        _scoreBoard,
-        _divider,
-        ..._displayWidget,
-      ],
-    );
     Widget _landscapeView = Row(
       children: [
         _scoreBoard,
         _displayWidgetLandscape,
       ],
     );
+// potrait
+    List<Widget> _playRoundWidgetPotrait = [
+      ..._bidWidget,
+      _divider,
+      _roundResultWidget,
+      _divider
+    ];
+
+    List<Widget> _playModePotrait = [
+      if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
+        _roundsHistoryWidget,
+        _divider,
+      ],
+      ..._playRoundWidgetPotrait,
+      if (SizeConfig.screenHeight <= _screenHeightThreshHold) ...[
+        _roundsHistoryWidget,
+        _divider,
+      ],
+    ];
+
+    List<Widget> _viewModePotrait = [
+      _teamSelectionWidget,
+      _divider,
+      _completedHistory,
+    ];
+
+    List<Widget> _displayWidgetPotrait = _matchScore.first || _matchScore.last
+        ? _viewModePotrait
+        : _playModePotrait;
+
+    Widget _potraitView = ListView(
+      children: <Widget>[
+        _scoreBoard,
+        _divider,
+        ..._displayWidgetPotrait,
+      ],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -442,7 +401,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
         centerTitle: true,
       ),
-      body: orientation == Orientation.landscape ? _landscapeView : _mobileView,
+      body:
+          orientation == Orientation.landscape ? _landscapeView : _potraitView,
     );
   }
 
