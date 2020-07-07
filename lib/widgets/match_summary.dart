@@ -2,8 +2,6 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/pages/pages.dart';
 import 'package:fivehundreds/widgets/match_result.dart';
 import 'package:flutter/material.dart';
-
-import '../utils.dart/utils.dart';
 import '../utils.dart/utils.dart';
 
 class MatchSummary extends StatefulWidget {

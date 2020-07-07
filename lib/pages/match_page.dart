@@ -27,7 +27,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   int _wonSelected = 0;
   int _bidScore = 0;
   int games = 0;
-  static const double _screenHeightThreshHold = 700.0;
+  static const double _screenHeightThreshHold = 740.0;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
@@ -123,7 +123,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       ),
     );
-
     Widget _teamSelectionWidget = Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -150,7 +149,9 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     List<Widget> _bidWidget = [
       _teamSelectionWidget,
       Container(
-        height: 10 + SizeConfig.pixelRatio * 60,
+        height: orientation == Orientation.landscape
+            ? 200
+            : SizeConfig.screenWidth / 2,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -270,38 +271,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       width: 400.0,
       child: ListView(
         children: [
-          _teamSelectionWidget,
-          Container(
-            height: 10 + SizeConfig.pixelRatio * 60,
-            child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                mainAxisSpacing: 0,
-                childAspectRatio: 2,
-              ),
-              itemCount: 25,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  child: BidSelection(
-                    score: index,
-                    selected: _bidSelected[index],
-                  ),
-                  onTap: _canBid
-                      ? () {
-                          _selectBid(index);
-                        }
-                      : null,
-                );
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ..._bidMisereWidget,
-            ],
-          ),
+          ..._bidWidget,
           _roundResultWidget,
         ],
       ),
@@ -387,7 +357,10 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
 
     Widget _potraitView = ListView(
       children: <Widget>[
-        _scoreBoard,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: _scoreBoard,
+        ),
         _divider,
         ..._displayWidgetPotrait,
       ],
