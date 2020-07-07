@@ -1,19 +1,24 @@
-# fivehundreds
+# 500 Score Keeping
+[![Codemagic build status](https://api.codemagic.io/apps/5efe6ce093bbb9168d4c1225/5efe6ce093bbb9168d4c1224/status_badge.svg)](https://codemagic.io/apps/5efe6ce093bbb9168d4c1225/5efe6ce093bbb9168d4c1224/latest_build)
 
-A new Flutter project.
 
-## Getting Started
+Simple and beautiful 500 score keeping app built with Flutter :heart:
 
-This project is a starting point for a Flutter application.
+## What is this app
 
-A few resources to get you started if this is your first Flutter project:
+Simple and beautiful 500 score keeping app. supports 2 scoring - Avondale, Original.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Keep all match score keeping in one single page - no more jumping back and forth while playing the game.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Key features:
+
+1. preset match mode - choose among best of 3, 5 or 7
+2. single page for all hands played in the match and score keeping
+
+
+## Download
+
+<a href='https://play.google.com/store/apps/details?id=club.swimmingbeaver.fivehundreds&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' with="150"/></a>
 
 ## Support my work
 <a href="https://www.buymeacoffee.com/linusyoung" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" width="150"></a>
