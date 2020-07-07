@@ -47,6 +47,7 @@ class ScoreCard extends StatelessWidget {
         padding: const EdgeInsets.all(4.0),
         child: Container(
           width: SizeConfig.isPhone ? 120.0 : 180.0,
+          height: SizeConfig.isPhone ? 125.0 : 200.0,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -69,16 +70,11 @@ class ScoreCard extends StatelessWidget {
                           : Team.teamIcons.last,
                       bid <= 24
                           ? _bidIcon
-                          : Expanded(
-                              flex: 1,
-                              child: Container(
-                                // color: NipponColors.nipponColor250,
-                                child: Center(
-                                  child: Text(
-                                    '${misereText[bid - 25]}',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
+                          : Container(
+                              child: Center(
+                                child: Text(
+                                  '${misereText[bid - 25]}',
+                                  style: Theme.of(context).textTheme.bodyText1,
                                 ),
                               ),
                             ),

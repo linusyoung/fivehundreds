@@ -26,7 +26,6 @@ class _MatchSummaryState extends State<MatchSummary> {
   Widget build(BuildContext context) {
     int scoreOffset = ((widget.matchScore.length) ~/ 2);
     SizeConfig().init(context);
-    print(MediaQuery.of(context).size.shortestSide);
     List<Widget> matchScoreWidget = List.generate(
         widget.matchScore.length,
         (index) => Padding(

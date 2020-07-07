@@ -78,7 +78,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
 
     int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
     Widget _completedHistory = Container(
-      height: 150.0 *
+      height: (SizeConfig.isPhone ? 145.0 : 280.0) *
           (_handHistoryCard.length ~/ _completedCardsInRow +
               (_handHistoryCard.length % _completedCardsInRow == 0 ? 0 : 1)),
       child: GridView.builder(
@@ -86,7 +86,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: _completedCardsInRow,
           mainAxisSpacing: 0,
-          childAspectRatio: 0.3 + SizeConfig.pixelRatio * 0.2,
+          childAspectRatio: 1,
         ),
         itemCount: _handHistoryCard.length,
         itemBuilder: (context, index) {
@@ -151,15 +151,19 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     );
     List<Widget> _bidWidget = [
       _teamSelectionWidget,
+      if (!SizeConfig.isPhone)
+        Container(
+          height: 45.0,
+        ),
       Container(
         height: orientation == Orientation.landscape
-            ? 200
+            ? SizeConfig.isPhone ? 400.0 / 2 : 300
             : SizeConfig.screenWidth / _bidButtonRatio,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
-            mainAxisSpacing: 0,
+            mainAxisSpacing: SizeConfig.isPhone ? 0 : 10.0,
             childAspectRatio: _bidButtonRatio,
           ),
           itemCount: 25,
@@ -281,10 +285,18 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
 
 // landscape
     Widget _playRoundWidgetLandscape = Container(
-      width: 400.0,
+      width: SizeConfig.isPhone ? 400.0 : 620.0,
       child: ListView(
         children: [
+          if (!SizeConfig.isPhone)
+            Container(
+              height: 10.0,
+            ),
           ..._bidWidget,
+          if (!SizeConfig.isPhone)
+            Container(
+              height: 45.0,
+            ),
           _roundResultWidget,
         ],
       ),

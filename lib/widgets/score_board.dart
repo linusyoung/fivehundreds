@@ -267,7 +267,6 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
-    // print(SizeConfig.screenHeight);
 
     return (Platform.isMacOS ||
             MediaQuery.of(context).orientation == Orientation.landscape)
