@@ -100,7 +100,9 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         child: GestureDetector(
           child: Container(
             margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
-            height: 10 + SizeConfig.pixelRatio * 7,
+            height: orientation == Orientation.landscape
+                ? 40
+                : SizeConfig.screenWidth / 10,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -260,6 +262,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             : Center(
                 child: Text(
                   'No rounds played yet',
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ),
