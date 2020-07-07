@@ -61,6 +61,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
+    double _bidButtonRatio = SizeConfig.isPhone ? 2 : 2.5;
     Widget _divider = Divider(
       height: 1.0,
       thickness: 2.0,
@@ -102,7 +103,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
             height: orientation == Orientation.landscape
                 ? 40
-                : SizeConfig.screenWidth / 10,
+                : SizeConfig.screenWidth / (_bidButtonRatio * 5),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -153,13 +154,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       Container(
         height: orientation == Orientation.landscape
             ? 200
-            : SizeConfig.screenWidth / 2,
+            : SizeConfig.screenWidth / _bidButtonRatio,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
             mainAxisSpacing: 0,
-            childAspectRatio: 2,
+            childAspectRatio: _bidButtonRatio,
           ),
           itemCount: 25,
           itemBuilder: (BuildContext context, int index) {
@@ -190,7 +191,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.only(top: SizeConfig.isPhone ? 8.0 : 24.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -215,12 +216,16 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             children: <Widget>[
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30.0, 8.0, 30.0, 8.0),
+                  padding: EdgeInsets.fromLTRB(
+                      30.0,
+                      SizeConfig.isPhone ? 8.0 : 20.0,
+                      30.0,
+                      SizeConfig.isPhone ? 8.0 : 20.0),
                   child: RaisedButton(
                     child: Text(
                       _canWin ? 'Round finish' : 'Select team and bid',
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
-                            fontSize: 20.0,
+                            fontSize: SizeConfig.isPhone ? 20.0 : 40.0,
                           ),
                     ),
                     color: Theme.of(context).primaryColor,
@@ -239,35 +244,40 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       ),
     );
 
-    Widget _roundsHistoryWidget = Padding(
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        width: orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 35
-            : null,
-        height: orientation == Orientation.portrait ? 140 : null,
-        child: _handHistoryCard.length > 0
-            ? AnimatedList(
-                key: _listKey,
-                scrollDirection: orientation == Orientation.portrait
-                    ? Axis.horizontal
-                    : Axis.vertical,
-                initialItemCount: _handHistoryCard.length,
-                itemBuilder: (context, index, animation) {
-                  return SizeTransition(
-                      axis: Axis.horizontal,
-                      sizeFactor: animation,
-                      child: _handHistoryCard[index]);
-                })
-            : Center(
-                child: Text(
-                  'No rounds played yet',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline5,
+    List<Widget> _roundsHistoryWidget = [
+      Padding(
+        padding: EdgeInsets.all(0.0),
+        child: Container(
+          width: orientation == Orientation.landscape
+              ? SizeConfig.blockSizeVertical * 35
+              : null,
+          height: orientation == Orientation.portrait
+              ? SizeConfig.isPhone ? 140 : 200
+              : null,
+          child: _handHistoryCard.length > 0
+              ? AnimatedList(
+                  key: _listKey,
+                  scrollDirection: orientation == Orientation.portrait
+                      ? Axis.horizontal
+                      : Axis.vertical,
+                  initialItemCount: _handHistoryCard.length,
+                  itemBuilder: (context, index, animation) {
+                    return SizeTransition(
+                        axis: Axis.horizontal,
+                        sizeFactor: animation,
+                        child: _handHistoryCard[index]);
+                  })
+              : Center(
+                  child: Text(
+                    'No rounds played yet',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
                 ),
-              ),
+        ),
       ),
-    );
+      if (orientation == Orientation.portrait) _divider,
+    ];
 
 // landscape
     Widget _playRoundWidgetLandscape = Container(
@@ -291,7 +301,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             child: Center(child: _playRoundWidgetLandscape),
           ),
           _vDivider,
-          _roundsHistoryWidget,
+          ..._roundsHistoryWidget,
         ],
       ),
     );
@@ -337,15 +347,11 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     ];
 
     List<Widget> _playModePotrait = [
-      if (SizeConfig.screenHeight > _screenHeightThreshHold) ...[
-        _roundsHistoryWidget,
-        _divider,
-      ],
+      if (SizeConfig.screenHeight > _screenHeightThreshHold)
+        ..._roundsHistoryWidget,
       ..._playRoundWidgetPotrait,
-      if (SizeConfig.screenHeight <= _screenHeightThreshHold) ...[
-        _roundsHistoryWidget,
-        _divider,
-      ],
+      if (SizeConfig.screenHeight <= _screenHeightThreshHold)
+        ..._roundsHistoryWidget,
     ];
 
     List<Widget> _viewModePotrait = [

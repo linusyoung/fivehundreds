@@ -17,11 +17,12 @@ class TeamSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeConfig.init(context);
+    SizeConfig().init(context);
     Color background = disabled
         ? AppTheme.disabled[ThemeConfig.theme.index]
         : AppTheme.background[ThemeConfig.theme.index];
     return Container(
-      height: 40.0,
+      height: SizeConfig.isPhone ? 40.0 : 60.0,
       margin: EdgeInsets.all(5.0),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(5.0),

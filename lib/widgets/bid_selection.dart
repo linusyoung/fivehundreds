@@ -33,14 +33,19 @@ class BidSelection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Bid().getBidIcon(score % 5),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 12.0,
-            ),
-            child: Text(
-              '$_scoreText',
-              style: Theme.of(context).textTheme.bodyText1,
+          Transform.scale(
+              scale: SizeConfig.isPhone ? 1 : 1.5,
+              child: Bid().getBidIcon(score % 5)),
+          Transform.scale(
+            scale: SizeConfig.isPhone ? 1 : 1.5,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 12.0,
+              ),
+              child: Text(
+                '$_scoreText',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ),
           ),
         ],

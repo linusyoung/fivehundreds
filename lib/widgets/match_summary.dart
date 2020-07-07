@@ -26,8 +26,7 @@ class _MatchSummaryState extends State<MatchSummary> {
   Widget build(BuildContext context) {
     int scoreOffset = ((widget.matchScore.length) ~/ 2);
     SizeConfig().init(context);
-    // print(SizeConfig.pixelRatio);
-
+    print(MediaQuery.of(context).size.shortestSide);
     List<Widget> matchScoreWidget = List.generate(
         widget.matchScore.length,
         (index) => Padding(
@@ -67,32 +66,37 @@ class _MatchSummaryState extends State<MatchSummary> {
 
     List<Widget> teamCard = List.generate(
       2,
-      (index) => Container(
-        child: Column(
-          children: <Widget>[
-            if (index == 1)
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: matchScoreWidget.sublist(scoreOffset)),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: teamWidget[index],
-            ),
-            if (index == 0)
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: matchScoreWidget
-                      .sublist(0, scoreOffset)
-                      .reversed
-                      .toList()),
-          ],
+      (index) => Transform.scale(
+        scale: SizeConfig.isPhone ? 1 : 1.5,
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              if (index == 1)
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: matchScoreWidget.sublist(scoreOffset)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: teamWidget[index],
+              ),
+              if (index == 0)
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: matchScoreWidget
+                        .sublist(0, scoreOffset)
+                        .reversed
+                        .toList()),
+            ],
+          ),
         ),
       ),
     );
 
     bool completed =
         widget.matchScore.first || widget.matchScore.last ? true : false;
-    Widget actionButton = Padding(
+    Widget actionButton = Transform.scale(
+      scale: SizeConfig.isPhone ? 1 : 1.5,
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ButtonTheme(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -110,7 +114,9 @@ class _MatchSummaryState extends State<MatchSummary> {
               _viewMatch();
             },
           ),
-        ));
+        ),
+      ),
+    );
 
     return Card(
       elevation: 8.0,

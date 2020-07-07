@@ -16,10 +16,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   double _opacity = 1.0;
+  int _cardsInRow = 5;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    int _cardsInRow = 5;
     if (Platform.isMacOS) {
       if (SizeConfig.screenWidth >= 540) _cardsInRow = 5;
       if (SizeConfig.screenWidth < 540) _cardsInRow = 3;
