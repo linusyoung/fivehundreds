@@ -61,7 +61,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
-    double _bidButtonRatio = SizeConfig.isPhone ? 2 : 2.1;
+    // double _bidButtonRatio = ;
     Widget _divider = Divider(
       height: 1.0,
       thickness: 2.0,
@@ -104,7 +104,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             margin: EdgeInsets.fromLTRB(5.0, 1, 5.0, 5.0),
             height: orientation == Orientation.landscape
                 ? 40
-                : SizeConfig.screenWidth / (_bidButtonRatio * 5),
+                : SizeConfig.screenWidth / ((SizeConfig.isPhone ? 2 : 2.5) * 5),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(
@@ -159,13 +159,13 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       Container(
         height: orientation == Orientation.landscape
             ? SizeConfig.isPhone ? 400.0 / 2 : 300
-            : SizeConfig.screenWidth / _bidButtonRatio,
+            : SizeConfig.screenWidth / (SizeConfig.isPhone ? 2 : 2.1),
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
             mainAxisSpacing: SizeConfig.isPhone ? 0 : 10.0,
-            childAspectRatio: _bidButtonRatio,
+            childAspectRatio: (SizeConfig.isPhone ? 2 : 2.5),
           ),
           itemCount: 25,
           itemBuilder: (BuildContext context, int index) {
