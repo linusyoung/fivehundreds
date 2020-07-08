@@ -1,4 +1,5 @@
 import 'package:fivehundreds/model/models.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class ScoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String _scoreText = (((bid - bid % 5) / 5).floor() + 6).toString();
-
+    SizeConfig().init(context);
     Widget _bidIcon = Container(
       width: 30.0,
       child: Stack(
@@ -45,27 +46,31 @@ class ScoreCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-          width: 120.0,
+          width: SizeConfig.isPhone ? 120.0 : 180.0,
+          height: SizeConfig.isPhone ? 125.0 : 200.0,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Text(
-                '$round - $handIndex',
-                style: Theme.of(context).textTheme.bodyText2,
+              Transform.scale(
+                scale: SizeConfig.isPhone ? 1 : 1.5,
+                child: Text(
+                  '$round - $handIndex',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    bidTeamIndex == 0
-                        ? Team.teamIcons.first
-                        : Team.teamIcons.last,
-                    bid <= 24
-                        ? _bidIcon
-                        : Expanded(
-                            flex: 1,
-                            child: Container(
-                              // color: NipponColors.nipponColor250,
+              Transform.scale(
+                scale: SizeConfig.isPhone ? 1 : 1.3,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      bidTeamIndex == 0
+                          ? Team.teamIcons.first
+                          : Team.teamIcons.last,
+                      bid <= 24
+                          ? _bidIcon
+                          : Container(
                               child: Center(
                                 child: Text(
                                   '${misereText[bid - 25]}',
@@ -73,9 +78,9 @@ class ScoreCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                    score[bidTeamIndex] > 0 ? Team.crown : Container(),
-                  ],
+                      score[bidTeamIndex] > 0 ? Team.crown : Container(),
+                    ],
+                  ),
                 ),
               ),
               Divider(
@@ -86,15 +91,18 @@ class ScoreCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   vertical: 2.0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      'won tricks',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Text('$wonTricks'),
-                  ],
+                child: Transform.scale(
+                  scale: SizeConfig.isPhone ? 1 : 1.3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        'won tricks',
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                      Text('$wonTricks'),
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -104,13 +112,19 @@ class ScoreCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Team.teamIcons.first,
+                    Transform.scale(
+                        scale: SizeConfig.isPhone ? 1 : 1.3,
+                        child: Team.teamIcons.first),
                     DisplayScore(
                       score: score[0],
+                      fontSize: SizeConfig.isPhone ? null : 20.0,
                     ),
-                    Team.teamIcons.last,
+                    Transform.scale(
+                        scale: SizeConfig.isPhone ? 1 : 1.3,
+                        child: Team.teamIcons.last),
                     DisplayScore(
                       score: score[1],
+                      fontSize: SizeConfig.isPhone ? null : 20.0,
                     ),
                   ],
                 ),

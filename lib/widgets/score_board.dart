@@ -189,20 +189,23 @@ class ScoreBoard extends StatelessWidget {
     // potrait view widgets
     List<Widget> teamWidgetPotrait = List.generate(
       2,
-      (index) => Container(
-        width: 145.0,
-        child: Row(
-          children: <Widget>[
-            if (index == 0) teamAvatarWidget[index],
-            Spacer(
-              flex: 2,
-            ),
-            teamScoreCircleWidget[index],
-            Spacer(
-              flex: 2,
-            ),
-            if (index == 1) teamAvatarWidget[index],
-          ],
+      (index) => Transform.scale(
+        scale: SizeConfig.isPhone ? 1 : 1.5,
+        child: Container(
+          width: 145.0,
+          child: Row(
+            children: <Widget>[
+              if (index == 0) teamAvatarWidget[index],
+              Spacer(
+                flex: 2,
+              ),
+              teamScoreCircleWidget[index],
+              Spacer(
+                flex: 2,
+              ),
+              if (index == 1) teamAvatarWidget[index],
+            ],
+          ),
         ),
       ),
     );
@@ -227,26 +230,29 @@ class ScoreBoard extends StatelessWidget {
         ),
       ),
     );
-
-    Widget matchBidScoreWidgetPotrait = Container(
-      width: SizeConfig.blockSizeHorizontal * 15.0,
-      height: SizeConfig.blockSizeVertical * 15.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: teamMatchScoreWidgetPotrait,
-          ),
-          Transform.translate(
-            offset: Offset(0, -20 * SizeConfig.pixelRatio + 55),
-            child: ShadowText(
-              text: '$bidScore',
-              style: Theme.of(context).textTheme.bodyText1,
-              color: AppTheme.textColor[ThemeConfig.theme.index],
+    Widget matchBidScoreWidgetPotrait = Transform.scale(
+      scale: SizeConfig.isPhone ? 1 : 1.5,
+      child: Container(
+        width: SizeConfig.blockSizeHorizontal * 15.0,
+        height: SizeConfig.blockSizeVertical * 15.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: teamMatchScoreWidgetPotrait,
             ),
-          ),
-        ],
+            Transform.translate(
+              offset: Offset(0,
+                  SizeConfig.isPhone ? 0 : -SizeConfig.blockSizeVertical * 3),
+              child: ShadowText(
+                text: '$bidScore',
+                style: Theme.of(context).textTheme.bodyText1,
+                color: AppTheme.textColor[ThemeConfig.theme.index],
+              ),
+            ),
+          ],
+        ),
       ),
     );
 
@@ -261,7 +267,6 @@ class ScoreBoard extends StatelessWidget {
         ],
       ),
     );
-    // print(SizeConfig.screenHeight);
 
     return (Platform.isMacOS ||
             MediaQuery.of(context).orientation == Orientation.landscape)

@@ -32,9 +32,9 @@
         {
             "name": "ScreenSize",
             "configurations": [
-                // "Tablet",
+                "Tablet",
                 "Mobile",
-                "Smartisan"
+                // "Smartisan"
             ],
         }
     ]

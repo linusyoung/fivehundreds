@@ -1,5 +1,6 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/pages/pages.dart';
+import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -35,139 +36,142 @@ class _NewMatchState extends State<NewMatch> {
         ),
       ),
     );
-
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      child: Container(
-        height: 280,
-        width: 200,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'New Match',
-                    style: Theme.of(context).textTheme.headline6,
-                  )
-                ],
+    SizeConfig().init(context);
+    return Transform.scale(
+      scale: SizeConfig.isPhone ? 1 : 1.5,
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        child: Container(
+          height: 280,
+          width: 200,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'New Match',
+                      style: Theme.of(context).textTheme.headline6,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: teamName,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Container(
+                children: teamName,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        child: Text(
+                          'Best Of',
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 40.0,
+                      child: ToggleButtons(
+                        borderRadius: BorderRadius.circular(5.0),
+                        children: <Widget>[
+                          Text(
+                            '3',
+                          ),
+                          Text(
+                            '5',
+                          ),
+                          Text(
+                            '7',
+                          ),
+                        ],
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int buttonIndex = 0;
+                                buttonIndex < _gamesSelected.length;
+                                buttonIndex++) {
+                              if (buttonIndex == index) {
+                                _gamesSelected[buttonIndex] = true;
+                              } else {
+                                _gamesSelected[buttonIndex] = false;
+                              }
+                            }
+                          });
+                        },
+                        isSelected: _gamesSelected,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
                       child: Text(
-                        'Best Of',
+                        'Scoring',
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                     ),
-                  ),
-                  Container(
-                    height: 40.0,
-                    child: ToggleButtons(
-                      borderRadius: BorderRadius.circular(5.0),
-                      children: <Widget>[
-                        Text(
-                          '3',
-                        ),
-                        Text(
-                          '5',
-                        ),
-                        Text(
-                          '7',
-                        ),
-                      ],
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int buttonIndex = 0;
-                              buttonIndex < _gamesSelected.length;
-                              buttonIndex++) {
-                            if (buttonIndex == index) {
-                              _gamesSelected[buttonIndex] = true;
-                            } else {
-                              _gamesSelected[buttonIndex] = false;
-                            }
-                          }
-                        });
-                      },
-                      isSelected: _gamesSelected,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: Text(
-                      'Scoring',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ),
-                  Container(
-                    height: 40.0,
-                    child: ToggleButtons(
-                      borderRadius: BorderRadius.circular(5.0),
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Avondale',
+                    Container(
+                      height: 40.0,
+                      child: ToggleButtons(
+                        borderRadius: BorderRadius.circular(5.0),
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Avondale',
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Original',
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Original',
+                            ),
                           ),
-                        ),
-                      ],
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int buttonIndex = 0;
-                              buttonIndex < _scoreModeSelected.length;
-                              buttonIndex++) {
-                            if (buttonIndex == index) {
-                              _scoreModeSelected[buttonIndex] = true;
-                            } else {
-                              _scoreModeSelected[buttonIndex] = false;
+                        ],
+                        onPressed: (int index) {
+                          setState(() {
+                            for (int buttonIndex = 0;
+                                buttonIndex < _scoreModeSelected.length;
+                                buttonIndex++) {
+                              if (buttonIndex == index) {
+                                _scoreModeSelected[buttonIndex] = true;
+                              } else {
+                                _scoreModeSelected[buttonIndex] = false;
+                              }
                             }
-                          }
-                        });
-                      },
-                      isSelected: _scoreModeSelected,
+                          });
+                        },
+                        isSelected: _scoreModeSelected,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            RaisedButton(
-              child: Text(
-                'Create Match',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-              color: Theme.of(context).primaryColor,
-              onPressed: _showMatchPage,
-            )
-          ],
+              RaisedButton(
+                child: Text(
+                  'Create Match',
+                  style: Theme.of(context).textTheme.subtitle2,
+                ),
+                color: Theme.of(context).primaryColor,
+                onPressed: _showMatchPage,
+              )
+            ],
+          ),
         ),
       ),
     );
