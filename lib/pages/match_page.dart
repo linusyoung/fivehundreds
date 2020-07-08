@@ -27,7 +27,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   int _wonSelected = 0;
   int _bidScore = 0;
   int games = 0;
-  static const double _screenHeightThreshHold = 740.0;
+  // static const double _screenHeightThreshHold = 740.0;
   bool _canWin = false;
   bool _canBid = true;
   int _roundPlayed = 0;
@@ -151,14 +151,14 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     );
     List<Widget> _bidWidget = [
       _teamSelectionWidget,
-      if (!SizeConfig.isPhone)
+      if (!SizeConfig.isPhone && orientation == Orientation.landscape)
         Container(
-          height: 45.0,
+          height: 50.0,
         ),
       Container(
         height: orientation == Orientation.landscape
             ? SizeConfig.isPhone ? 400.0 / 2 : 300
-            : SizeConfig.screenWidth / _bidButtonRatio,
+            : SizeConfig.screenWidth / 2.1,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -359,11 +359,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     ];
 
     List<Widget> _playModePotrait = [
-      if (SizeConfig.screenHeight > _screenHeightThreshHold)
-        ..._roundsHistoryWidget,
       ..._playRoundWidgetPotrait,
-      if (SizeConfig.screenHeight <= _screenHeightThreshHold)
-        ..._roundsHistoryWidget,
+      ..._roundsHistoryWidget,
     ];
 
     List<Widget> _viewModePotrait = [
