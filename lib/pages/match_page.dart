@@ -61,7 +61,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
     _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
-    double _bidButtonRatio = SizeConfig.isPhone ? 2 : 2.5;
+    double _bidButtonRatio = SizeConfig.isPhone ? 2 : 2.1;
     Widget _divider = Divider(
       height: 1.0,
       thickness: 2.0,
@@ -75,6 +75,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       uuid: _matchUuid,
       teamIndex: _teamSelected.indexOf(true) ?? -1,
     );
+    print(SizeConfig.screenWidth);
 
     int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
     Widget _completedHistory = Container(
@@ -158,7 +159,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       Container(
         height: orientation == Orientation.landscape
             ? SizeConfig.isPhone ? 400.0 / 2 : 300
-            : SizeConfig.screenWidth / 2.1,
+            : SizeConfig.screenWidth / _bidButtonRatio,
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -384,16 +385,19 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '$_titleString',
-          style: Theme.of(context).textTheme.headline4,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            '$_titleString',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
+        body: orientation == Orientation.landscape
+            ? _landscapeView
+            : _potraitView,
       ),
-      body:
-          orientation == Orientation.landscape ? _landscapeView : _potraitView,
     );
   }
 
