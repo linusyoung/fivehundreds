@@ -1,6 +1,5 @@
 # 500 Score Keeping
-[![Codemagic build status](https://api.codemagic.io/apps/5efe6ce093bbb9168d4c1225/5efe6ce093bbb9168d4c1224/status_badge.svg)](https://codemagic.io/apps/5efe6ce093bbb9168d4c1225/5efe6ce093bbb9168d4c1224/latest_build)
-
+[![Codemagic build status](https://api.codemagic.io/apps/5f05a0fb37f3550011d48223/5f05a0fb37f3550011d48222/status_badge.svg)](https://codemagic.io/apps/5f05a0fb37f3550011d48223/5f05a0fb37f3550011d48222/latest_build)
 
 Simple and beautiful 500 score keeping app built with Flutter :heart:
 
