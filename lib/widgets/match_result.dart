@@ -1,6 +1,7 @@
 import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/theme_config.dart';
 import 'package:flutter/material.dart';
+import 'package:nippon_colors/nippon_colors.dart';
 
 class MatchResult extends StatelessWidget {
   final bool won;

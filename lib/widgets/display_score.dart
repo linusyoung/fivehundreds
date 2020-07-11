@@ -2,6 +2,7 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:nippon_colors/nippon_colors.dart';
 
 class DisplayScore extends StatelessWidget {
   final int score;

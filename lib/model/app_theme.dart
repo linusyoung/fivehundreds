@@ -1,6 +1,6 @@
-import 'package:fivehundreds/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nippon_colors/nippon_colors.dart';
 
 class AppTheme {
   AppTheme._();
