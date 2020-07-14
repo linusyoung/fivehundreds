@@ -75,9 +75,9 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       uuid: _matchUuid,
       teamIndex: _teamSelected.indexOf(true) ?? -1,
     );
-    print(SizeConfig.screenWidth);
 
     int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
+            (_handHistoryCard.length % _completedCardsInRow == 0 ? 0 : 1)));
     Widget _completedHistory = Container(
       height: (SizeConfig.isPhone ? 145.0 : 280.0) *
           (_handHistoryCard.length ~/ _completedCardsInRow +
