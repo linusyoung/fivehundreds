@@ -77,7 +77,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     );
     int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
     Widget _completedHistory = Container(
-      color: Colors.red,
       height: (SizeConfig.isPhone ? 145.0 : 26 * SizeConfig.blockSizeVertical) *
           (_handHistoryCard.length ~/ _completedCardsInRow +
               (_handHistoryCard.length % _completedCardsInRow == 0 ? 0 : 1)),
