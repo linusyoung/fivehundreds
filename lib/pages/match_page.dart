@@ -403,8 +403,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     setState(() {
       _teamSelected[index] = true;
       _teamSelected[1 - index] = false;
-      if (_bidSelected.where((e) => e == true).length > 0)
-        _updateDefaultWonTricks();
+      _handResultWidgetOpacity = 1.0;
     });
   }
 
@@ -412,20 +411,6 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     setState(() {
       _bidSelected = List<bool>.generate(28, (i) => i == index ? true : false);
       _bidScore = Score(bid: index, scoreMode: scoreMode).getScore();
-      if (_teamSelected.where((e) => e == true).length > 0)
-        _updateDefaultWonTricks();
-    });
-  }
-
-  void _updateDefaultWonTricks() {
-    int bid = _bidSelected.indexOf(true);
-    _wonTricks = List<bool>.generate(11, (_) => false);
-    setState(() {
-      if (bid >= 25) {
-        _wonTricks[0] = true;
-      } else {
-        _wonTricks[(bid / 5).floor() + 6] = true;
-      }
       _handResultWidgetOpacity = 1.0;
     });
   }
