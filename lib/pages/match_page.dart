@@ -29,6 +29,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   int games = 0;
   // static const double _screenHeightThreshHold = 740.0;
   bool _canWin = false;
+  bool _showRoundWidget = false;
   bool _canBid = true;
   int _roundPlayed = 0;
   int _handsPlayed = 0;
@@ -60,7 +61,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     Orientation orientation = MediaQuery.of(context).orientation;
     int _teamCheck = _teamSelected.where((e) => e == true).length;
     int _bidCheck = _bidSelected.where((e) => e == true).length;
-    _canWin = _teamCheck == 1 && _bidCheck == 1 ? true : false;
+    _showRoundWidget = _teamCheck == 1 && _bidCheck == 1 ? true : false;
     // double _bidButtonRatio = ;
     Widget _divider = Divider(
       height: 1.0,
@@ -202,10 +203,10 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                   11,
                   (index) => GestureDetector(
                     child: WonTricksSelection(
-                        canWin: _canWin,
+                        canWin: _showRoundWidget,
                         selected: _wonTricks[index],
                         wonTrick: index),
-                    onTap: _canWin
+                    onTap: _showRoundWidget
                         ? () {
                             _selectWonTricks(index);
                           }
@@ -226,7 +227,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                       SizeConfig.isPhone ? 8.0 : 20.0),
                   child: RaisedButton(
                     child: Text(
-                      _canWin ? 'Round finish' : 'Select team and bid',
+                      _showRoundWidget ? 'Round finish' : 'Select team and bid',
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
                             fontSize: SizeConfig.isPhone ? 20.0 : 40.0,
                           ),
@@ -418,6 +419,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   void _selectWonTricks(int index) {
     setState(() {
       _wonTricks = List<bool>.generate(11, (i) => i == index ? true : false);
+      _canWin = true;
     });
   }
 
@@ -486,6 +488,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
     _bidSelected = List<bool>.generate(28, (_) => false);
     _wonTricks = List<bool>.generate(11, (_) => false);
     _canWin = false;
+    _showRoundWidget = false;
     _bidScore = 0;
     _handResultWidgetOpacity = 0.2;
   }
