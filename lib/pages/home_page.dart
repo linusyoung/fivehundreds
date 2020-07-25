@@ -32,6 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
           title:
               Text(widget.title, style: Theme.of(context).textTheme.headline4),
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info),
+              onPressed: () => _showScoreInfo(context),
+            )
+          ],
         ),
         body: AnimatedOpacity(
           opacity: _opacity,
@@ -102,6 +108,21 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (_) {
           return NewMatch();
+        }).then((value) {
+      setState(() {
+        _opacity = 1.0;
+      });
+    });
+  }
+
+  void _showScoreInfo(BuildContext context) async {
+    setState(() {
+      _opacity = 0.5;
+    });
+    await showDialog(
+        context: context,
+        builder: (_) {
+          return InfoWidget();
         }).then((value) {
       setState(() {
         _opacity = 1.0;
