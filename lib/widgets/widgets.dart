@@ -8,3 +8,5 @@ export './match_summary.dart';
 export './won_tricks_selection.dart';
 export './shadow_text.dart';
 export './match_result.dart';
+export './info_widget.dart';
+export './score_table.dart';
