@@ -14,7 +14,6 @@ class _InfoWidgetState extends State<InfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.width);
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
@@ -22,6 +21,10 @@ class _InfoWidgetState extends State<InfoWidget> {
         ),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 40.0,
+      ),
       child: Container(
         height: 420.0,
         child: Stack(
