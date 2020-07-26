@@ -50,7 +50,7 @@ class ScoreTable extends StatelessWidget {
                   (i) => DataCell(
                     i != 0
                         ? Text(
-                            '${varient == 'avondale' ? (40 + (index * 100)) + i * 20 : (40 + (index * 20)) + i * ((40 + (index * 20)))}',
+                            '${varient == 'avondale' ? (40 + (index * 100)) + (i - 1) * 20 : (40 + (index * 20)) + (i - 1) * ((40 + (index * 20)))}',
                             style: Theme.of(context).textTheme.caption,
                           )
                         : Text(
