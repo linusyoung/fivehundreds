@@ -3,7 +3,9 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../utils.dart/size_config.dart';
 
@@ -41,6 +43,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   static const misereText = ['CM', 'OM', 'BM'];
   ScoreMode scoreMode;
   List<bool> _wonTricks = List<bool>.generate(11, (_) => false);
+  bool _screenOn = false;
 
   @override
   void initState() {
@@ -392,6 +395,17 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             style: Theme.of(context).textTheme.headline4,
           ),
           centerTitle: true,
+          actions: <Widget>[
+            Builder(
+              builder: (context) => IconButton(
+                icon: _screenOn
+                    ? Icon(MaterialCommunityIcons.lightbulb_on,
+                        color: Colors.amber)
+                    : Icon(MaterialCommunityIcons.lightbulb_off),
+                onPressed: () => _toggleScreen(context),
+              ),
+            )
+          ],
         ),
         body: orientation == Orientation.landscape
             ? _landscapeView
@@ -414,6 +428,22 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       _bidScore = Score(bid: index, scoreMode: scoreMode).getScore();
       _handResultWidgetOpacity = 1.0;
     });
+  }
+
+  void _toggleScreen(BuildContext context) async {
+    setState(() {
+      _screenOn = !_screenOn;
+    });
+    _screenOn ? await Wakelock.enable() : await Wakelock.disable();
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(
+        '${_screenOn ? 'Keeping screen on' : 'Using system setting'}',
+        textAlign: TextAlign.center,
+      ),
+      duration: Duration(
+        seconds: 2,
+      ),
+    ));
   }
 
   void _selectWonTricks(int index) {

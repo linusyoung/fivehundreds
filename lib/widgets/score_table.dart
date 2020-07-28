@@ -82,7 +82,7 @@ class ScoreTable extends StatelessWidget {
                 child: Container(
                   child: Center(
                     child: Text(
-                      '250 for contract below < 250',
+                      '250 for contract below 250',
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ),

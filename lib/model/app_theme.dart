@@ -64,7 +64,7 @@ class AppTheme {
             color: textColor[0],
           ),
       // app bar text
-      headline4: GoogleFonts.courgetteTextTheme().headline4.copyWith(
+      headline4: GoogleFonts.montserratTextTheme().headline4.copyWith(
             color: textColor[0],
             fontSize: 25.0,
           ),
@@ -116,7 +116,7 @@ class AppTheme {
             color: textColor[0],
           ),
       // app bar text
-      headline4: GoogleFonts.courgetteTextTheme().headline4.copyWith(
+      headline4: GoogleFonts.montserratTextTheme().headline4.copyWith(
             color: textColor[0],
             fontSize: 25.0,
           ),
