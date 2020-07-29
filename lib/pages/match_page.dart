@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock/wakelock.dart';
+import 'dart:io' show Platform;
 
 import '../utils.dart/size_config.dart';
 
@@ -396,15 +397,17 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
           ),
           centerTitle: true,
           actions: <Widget>[
-            Builder(
-              builder: (context) => IconButton(
-                icon: _screenOn
-                    ? Icon(MaterialCommunityIcons.lightbulb_on,
-                        color: Colors.amber)
-                    : Icon(MaterialCommunityIcons.lightbulb_off),
-                onPressed: () => _toggleScreen(context),
-              ),
-            )
+            Platform.isMacOS
+                ? Container()
+                : Builder(
+                    builder: (context) => IconButton(
+                      icon: _screenOn
+                          ? Icon(MaterialCommunityIcons.lightbulb_on,
+                              color: Colors.amber)
+                          : Icon(MaterialCommunityIcons.lightbulb_off),
+                      onPressed: () => _toggleScreen(context),
+                    ),
+                  )
           ],
         ),
         body: orientation == Orientation.landscape
@@ -412,6 +415,14 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             : _potraitView,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if (!Platform.isMacOS) {
+      Wakelock.disable();
+    }
+    super.dispose();
   }
 
   void _selectTeam(int index) {
