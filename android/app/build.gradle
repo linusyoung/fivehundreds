@@ -21,6 +21,22 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
+if (flutterMinSdkVersion == null) {
+    flutterMinSdkVersion = '21'
+}
+
+def flutterTargetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion')
+if (flutterTargetSdkVersion == null) {
+    flutterTargetSdkVersion = '31'
+}
+
+def flutterCompileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion')
+if (flutterCompileSdkVersion == null) {
+    flutterCompileSdkVersion = '29'
+}
+
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -40,7 +56,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion flutterCompileSdkVersion.toInteger()
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -52,8 +68,8 @@ android {
 
     defaultConfig {
         applicationId "club.swimmingbeaver.fivehundreds"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion flutterMinSdkVersion.toInteger()
+        targetSdkVersion flutterTargetSdkVersion.toInteger()
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
