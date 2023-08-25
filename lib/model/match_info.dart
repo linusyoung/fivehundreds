@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 class MatchInfo {
-  List<String> teamName;
-  List<bool> matchScore;
-  List<int> handHistory;
-  List<int> teamScore;
-  int games;
-  int roundPlayed;
-  int handsPlayed;
-  int completed;
-  int scoreModeIndex;
+  late List<String> teamName;
+  late List<bool> matchScore;
+  late List<int> handHistory;
+  late List<int> teamScore;
+  late int games;
+  late int roundPlayed;
+  late int handsPlayed;
+  late int completed;
+  late int scoreModeIndex;
 
   MatchInfo();
 

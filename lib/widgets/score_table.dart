@@ -18,7 +18,7 @@ class ScoreTable extends StatelessWidget {
           child: Center(
             child: Text(
               '${varient[0].toUpperCase()}${varient.substring(1)}',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
         ),
@@ -26,7 +26,7 @@ class ScoreTable extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: DataTable(
             columnSpacing: 20.0,
-            dataRowHeight: 30.0,
+            dataRowMinHeight: 30.0,
             columns: List.generate(
               Bid.iconList.length + 1,
               (i) => DataColumn(
@@ -38,7 +38,7 @@ class ScoreTable extends StatelessWidget {
                       )
                     : Text(
                         'Tricks',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
               ),
             ),
@@ -51,11 +51,11 @@ class ScoreTable extends StatelessWidget {
                     i != 0
                         ? Text(
                             '${varient == 'avondale' ? (40 + (index * 100)) + (i - 1) * 20 : (40 + (index * 20)) + (i - 1) * ((40 + (index * 20)))}',
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           )
                         : Text(
                             '${index + 6}',
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                   ),
                 ),
@@ -76,14 +76,14 @@ class ScoreTable extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Slam          ',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Expanded(
                 child: Container(
                   child: Center(
                     child: Text(
                       '250 for contract below 250',
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),
@@ -106,14 +106,14 @@ class ScoreTable extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Misère (CM)            ',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Expanded(
                 child: Container(
                   child: Center(
                     child: Text(
                       '250',
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),
@@ -136,14 +136,14 @@ class ScoreTable extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Open Misère (OM)',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Expanded(
                 child: Container(
                   child: Center(
                     child: Text(
                       '500',
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),
@@ -167,7 +167,7 @@ class ScoreTable extends StatelessWidget {
               Container(
                 child: Text(
                   'Blind Misère (BM) ',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
               Expanded(
@@ -175,7 +175,7 @@ class ScoreTable extends StatelessWidget {
                   child: Center(
                     child: Text(
                       '1000',
-                      style: Theme.of(context).textTheme.caption,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),

@@ -8,9 +8,9 @@ class WonTricksSelection extends StatelessWidget {
   final int wonTrick;
 
   WonTricksSelection({
-    @required this.canWin,
-    @required this.selected,
-    @required this.wonTrick,
+    required this.canWin,
+    required this.selected,
+    required this.wonTrick,
   });
   @override
   Widget build(BuildContext context) {

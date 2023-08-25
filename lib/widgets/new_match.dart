@@ -25,7 +25,7 @@ class _NewMatchState extends State<NewMatch> {
             textAlign: TextAlign.center,
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
-              hintStyle: Theme.of(context).textTheme.subtitle1,
+              hintStyle: Theme.of(context).textTheme.titleMedium,
               hintText: '${_defaultTeamName[index]}',
             ),
             // style: Theme.of(context).textTheme.subtitle1,
@@ -43,7 +43,7 @@ class _NewMatchState extends State<NewMatch> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         child: Container(
           height: 280,
           width: 200,
@@ -56,7 +56,7 @@ class _NewMatchState extends State<NewMatch> {
                   children: <Widget>[
                     Text(
                       'New Match',
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     )
                   ],
                 ),
@@ -75,7 +75,7 @@ class _NewMatchState extends State<NewMatch> {
                       child: Container(
                         child: Text(
                           'Best Of',
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
                     ),
@@ -122,7 +122,7 @@ class _NewMatchState extends State<NewMatch> {
                       flex: 1,
                       child: Text(
                         'Scoring',
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                     Container(
@@ -162,12 +162,13 @@ class _NewMatchState extends State<NewMatch> {
                   ],
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text(
                   'Create Match',
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
-                color: Theme.of(context).primaryColor,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor),
                 onPressed: _showMatchPage,
               )
             ],

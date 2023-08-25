@@ -20,7 +20,7 @@ class _InfoWidgetState extends State<InfoWidget> {
           10.0,
         ),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       insetPadding: EdgeInsets.symmetric(
         horizontal: 20.0,
         vertical: 40.0,

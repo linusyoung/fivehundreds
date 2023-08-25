@@ -5,10 +5,10 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:nippon_colors/nippon_colors.dart';
 
-import '../utils.dart/utils.dart';
+// import '../utils.dart/utils.dart';
 
 const double theda = (2 * pi / 5);
 const double r1 = 40.0;
@@ -27,12 +27,12 @@ class ScoreBoard extends StatelessWidget {
   static const List<double> teamYOffset = [-1.0, 11.0];
 
   ScoreBoard(
-      {@required this.teamName,
-      @required this.teamScore,
-      @required this.matchScore,
-      @required this.uuid,
+      {required this.teamName,
+      required this.teamScore,
+      required this.matchScore,
+      required this.uuid,
       this.teamIndex = -1,
-      this.bidScore});
+      this.bidScore = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class ScoreBoard extends StatelessWidget {
                 -20.0,
               ),
               child: Icon(
-                MaterialCommunityIcons.crown,
+                MdiIcons.crown,
                 color: NipponColors.nipponColor138,
               ),
             ),
@@ -98,7 +98,7 @@ class ScoreBoard extends StatelessWidget {
                 -20.0,
               ),
               child: Icon(
-                MaterialCommunityIcons.crown,
+                MdiIcons.crown,
                 color: NipponColors.nipponColor016,
               ),
             ),
@@ -163,7 +163,7 @@ class ScoreBoard extends StatelessWidget {
             children: [
               ShadowText(
                 text: '$bidScore',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
                 color: AppTheme.textColor[ThemeConfig.theme.index],
               ),
             ],
@@ -248,7 +248,7 @@ class ScoreBoard extends StatelessWidget {
                   SizeConfig.isPhone ? 0 : -SizeConfig.blockSizeVertical * 3),
               child: ShadowText(
                 text: '$bidScore',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
                 color: AppTheme.textColor[ThemeConfig.theme.index],
               ),
             ),
@@ -282,9 +282,9 @@ class ScoreBarPainter extends CustomPainter {
   final int themeIndex;
 
   ScoreBarPainter({
-    @required this.score,
-    @required this.color,
-    @required this.themeIndex,
+    required this.score,
+    required this.color,
+    required this.themeIndex,
   });
 
   @override
@@ -297,7 +297,7 @@ class ScoreBarPainter extends CustomPainter {
 
     // circle
     paint.strokeWidth = 2;
-    paint.color = Colors.blueGrey[200];
+    paint.color = Colors.blueGrey[200] as Color;
     canvas.drawCircle(Offset(0.0, 0.0), r1, paint);
     paint.color = backgroundColor;
     canvas.drawCircle(Offset(0.0, 0.0), r2, paint);
@@ -334,7 +334,7 @@ class IndicatorPaint extends CustomPainter {
   final int bidScore;
   final int teamScore;
 
-  IndicatorPaint({@required this.bidScore, @required this.teamScore});
+  IndicatorPaint({required this.bidScore, required this.teamScore});
   @override
   void paint(Canvas canvas, Size size) {
     // win color

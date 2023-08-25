@@ -10,11 +10,11 @@ class MatchSummary extends StatefulWidget {
   final int games;
   final String uuid;
   MatchSummary({
-    @required this.teamName,
-    @required this.matchScore,
-    @required this.games,
-    @required this.uuid,
-  }) : assert(teamName?.length != 2 || teamName != null,
+    required this.teamName,
+    required this.matchScore,
+    required this.games,
+    required this.uuid,
+  }) : assert(teamName.length != 2,
             'Team name list must be either empty or two values.');
 
   @override
@@ -53,7 +53,7 @@ class _MatchSummaryState extends State<MatchSummary> {
               child: Text(
                 '${widget.teamName[index]}',
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Team.teamColors[index],
                     ),
               ),
@@ -101,14 +101,15 @@ class _MatchSummaryState extends State<MatchSummary> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           minWidth: 120.0,
           height: 30.0,
-          child: RaisedButton(
+          child: ElevatedButton(
             child: Text(
               completed ? 'Match detail' : 'Continue',
-              style: Theme.of(context).textTheme.caption.copyWith(
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.white,
                   ),
             ),
-            color: Theme.of(context).primaryColor,
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor),
             onPressed: () {
               _viewMatch();
             },
@@ -122,7 +123,7 @@ class _MatchSummaryState extends State<MatchSummary> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

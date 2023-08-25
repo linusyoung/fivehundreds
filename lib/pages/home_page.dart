@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -29,8 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title:
-              Text(widget.title, style: Theme.of(context).textTheme.headline4),
+          title: Text(widget.title,
+              style: Theme.of(context).textTheme.headlineMedium),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
@@ -63,10 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 mainAxisSpacing: 0,
                                 childAspectRatio: 0.8,
                               ),
-                              itemCount: snapshot.data.length,
+                              itemCount: snapshot.data?.length,
                               itemBuilder: (BuildContext context, int index) {
                                 Map<String, dynamic> matchPrefs =
-                                    snapshot.data.reversed.toList()[index];
+                                    snapshot.data!.reversed.toList()[index];
                                 var json = matchPrefs.values.toList()[0];
                                 MatchInfo matchInfo = MatchInfo.fromJson(json);
                                 return MatchSummary(

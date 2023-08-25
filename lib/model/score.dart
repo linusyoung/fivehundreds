@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 enum ScoreMode { Avondale, Original }
 
 class Score {
@@ -11,10 +9,10 @@ class Score {
   List<int> _baseScore = [40, 40];
   static const List<int> scoreStep = [20, 40];
   Score({
-    @required this.bid,
-    @required this.scoreMode,
-    this.bidTeam,
-    this.wonTricks,
+    required this.bid,
+    required this.scoreMode,
+    this.wonTricks = 0,
+    this.bidTeam = 0,
   });
 
   List<int> calculateScore() {
@@ -41,7 +39,7 @@ class Score {
   }
 
   int getScore() {
-    int bidderScore;
+    late int bidderScore;
 
     switch (bid) {
       case 25:

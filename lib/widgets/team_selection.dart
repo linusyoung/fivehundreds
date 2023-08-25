@@ -9,10 +9,10 @@ class TeamSelection extends StatelessWidget {
   final bool disabled;
 
   TeamSelection(
-      {@required this.teamName,
-      @required this.selected,
-      @required this.teamIndex,
-      @required this.disabled});
+      {required this.teamName,
+      required this.selected,
+      required this.teamIndex,
+      required this.disabled});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class TeamSelection extends StatelessWidget {
                   child: Text(
                     teamName,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
               ),

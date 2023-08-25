@@ -3,17 +3,15 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:fivehundreds/utils.dart/utils.dart';
 import 'package:fivehundreds/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock/wakelock.dart';
 import 'dart:io' show Platform;
 
-import '../utils.dart/size_config.dart';
-
 class MatchPage extends StatefulWidget {
   final MatchConfig matchConfig;
 
-  MatchPage({this.matchConfig});
+  MatchPage({required this.matchConfig});
 
   @override
   _MatchPageState createState() => _MatchPageState();
@@ -42,7 +40,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
   double _handResultWidgetOpacity = 0.2;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   static const misereText = ['CM', 'OM', 'BM'];
-  ScoreMode scoreMode;
+  ScoreMode scoreMode = ScoreMode.Avondale;
   List<bool> _wonTricks = List<bool>.generate(11, (_) => false);
   bool _screenOn = false;
 
@@ -78,7 +76,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       matchScore: _matchScore,
       bidScore: _bidScore,
       uuid: _matchUuid,
-      teamIndex: _teamSelected.indexOf(true) ?? -1,
+      teamIndex: _teamSelected.indexOf(true),
     );
     int _completedCardsInRow = orientation == Orientation.portrait ? 3 : 4;
     Widget _completedHistory = Container(
@@ -121,7 +119,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             ),
             child: Text(
               misereText[index],
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           onTap: () {
@@ -161,7 +159,9 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         ),
       Container(
         height: orientation == Orientation.landscape
-            ? SizeConfig.isPhone ? 400.0 / 2 : 300
+            ? SizeConfig.isPhone
+                ? 400.0 / 2
+                : 300
             : SizeConfig.screenWidth / (SizeConfig.isPhone ? 2 : 2.1),
         child: GridView.builder(
           physics: NeverScrollableScrollPhysics(),
@@ -229,20 +229,24 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                       SizeConfig.isPhone ? 8.0 : 20.0,
                       30.0,
                       SizeConfig.isPhone ? 8.0 : 20.0),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text(
                       _showRoundWidget ? 'Round finish' : 'Select team and bid',
-                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontSize: SizeConfig.isPhone ? 20.0 : 40.0,
                           ),
                     ),
-                    color: Theme.of(context).primaryColor,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      textStyle: TextStyle(
+                        color: AppTheme.textColor[0],
+                      ),
+                    ),
                     onPressed: _canWin
                         ? () {
                             _updateResult();
                           }
                         : null,
-                    textColor: AppTheme.textColor[0],
                   ),
                 ),
               ),
@@ -260,7 +264,9 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
               ? SizeConfig.blockSizeVertical * 35
               : null,
           height: orientation == Orientation.portrait
-              ? SizeConfig.isPhone ? 140 : 200
+              ? SizeConfig.isPhone
+                  ? 140
+                  : 200
               : null,
           child: _handHistoryCard.length > 0
               ? AnimatedList(
@@ -279,7 +285,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                   child: Text(
                     'No rounds played yet',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
         ),
@@ -393,7 +399,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         appBar: AppBar(
           title: Text(
             '$_titleString',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
           centerTitle: true,
           actions: <Widget>[
@@ -402,9 +408,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                 : Builder(
                     builder: (context) => IconButton(
                       icon: _screenOn
-                          ? Icon(MaterialCommunityIcons.lightbulb_on,
-                              color: Colors.amber)
-                          : Icon(MaterialCommunityIcons.lightbulb_off),
+                          ? Icon(MdiIcons.lightbulbOn, color: Colors.amber)
+                          : Icon(MdiIcons.lightbulbOff),
                       onPressed: () => _toggleScreen(context),
                     ),
                   )
@@ -446,7 +451,8 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
       _screenOn = !_screenOn;
     });
     _screenOn ? await Wakelock.enable() : await Wakelock.disable();
-    Scaffold.of(context).showSnackBar(SnackBar(
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         '${_screenOn ? 'Keeping screen on' : 'Using system setting'}',
         textAlign: TextAlign.center,
@@ -492,7 +498,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
         _handsPlayed
       ];
       _hand.forEach((e) => _handHistory.add(e));
-      Widget _handWidget = ScoreCard(
+      ScoreCard _handWidget = ScoreCard(
         round: _roundPlayed + 1,
         bid: _bid,
         bidTeamIndex: _bidTeam,
@@ -566,7 +572,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
           // round, bid, bidTeam, team1score, team2score, wonSelected, handsPlayed
           var _hand = [];
           _handHistory = matchInfo.handHistory;
-          _handHistory?.asMap()?.forEach((index, v) {
+          _handHistory.asMap().forEach((index, v) {
             _hand.add(v);
             if (index % 7 == 6) {
               _handHistoryCard.insert(

@@ -33,10 +33,8 @@ class AppTheme {
     // SEIHEKI
     primaryColor: NipponColors.nipponColor168,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
-      secondary: NipponColors.nipponColor168,
-    ),
+        secondary: NipponColors.nipponColor168, background: background[0]),
     highlightColor: NipponColors.nipponColor100,
-    backgroundColor: background[0],
     disabledColor: disabled[0],
     //SHIRONERI
     canvasColor: canvas[0],
@@ -45,41 +43,42 @@ class AppTheme {
       fillColor: NipponColors.nipponColor100,
       color: textColor[0],
       selectedColor: textColor[0],
-      textStyle: GoogleFonts.montserratTextTheme().bodyText1.copyWith(
+      textStyle: GoogleFonts.montserratTextTheme().bodyLarge?.copyWith(
             fontWeight: FontWeight.w800,
             color: textColor[0],
           ),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: GoogleFonts.montserratTextTheme().copyWith(
-      caption: GoogleFonts.montserratTextTheme().caption.copyWith(
+      bodySmall: GoogleFonts.montserratTextTheme().bodySmall?.copyWith(
             fontWeight: FontWeight.bold,
             color: textColor[0],
           ),
-      subtitle1: GoogleFonts.montserratTextTheme().subtitle1.copyWith(
+      titleMedium: GoogleFonts.montserratTextTheme().titleMedium?.copyWith(
             color: textColor[0],
           ),
       // button text
-      subtitle2: GoogleFonts.montserratTextTheme().subtitle2.copyWith(
+      titleSmall: GoogleFonts.montserratTextTheme().titleSmall?.copyWith(
             color: textColor[0],
           ),
       // app bar text
-      headline4: GoogleFonts.montserratTextTheme().headline4.copyWith(
+      headlineMedium:
+          GoogleFonts.montserratTextTheme().headlineMedium?.copyWith(
+                color: textColor[0],
+                fontSize: 25.0,
+              ),
+      headlineSmall: GoogleFonts.montserratTextTheme().headlineSmall?.copyWith(
             color: textColor[0],
-            fontSize: 25.0,
           ),
-      headline5: GoogleFonts.montserratTextTheme().headline5.copyWith(
-            color: textColor[0],
-          ),
-      headline6: GoogleFonts.montserratTextTheme().headline6.copyWith(
+      titleLarge: GoogleFonts.montserratTextTheme().titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: textColor[0],
           ),
 
-      bodyText1: GoogleFonts.montserratTextTheme().bodyText1.copyWith(
+      bodyLarge: GoogleFonts.montserratTextTheme().bodyLarge?.copyWith(
             color: textColor[0],
           ),
-      bodyText2: GoogleFonts.montserratTextTheme().bodyText2.copyWith(
+      bodyMedium: GoogleFonts.montserratTextTheme().bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: textColor[0],
           ),
@@ -91,45 +90,44 @@ class AppTheme {
     // SEIHEKI
     primaryColor: NipponColors.nipponColor168,
     colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal).copyWith(
-      secondary: NipponColors.nipponColor168,
-    ),
+        secondary: NipponColors.nipponColor168, background: background[1]),
     highlightColor: NipponColors.nipponColor103,
-    backgroundColor: background[1],
     //SHIRONERI
     canvasColor: canvas[1],
     toggleButtonsTheme: ToggleButtonsThemeData(
       fillColor: NipponColors.nipponColor103,
       color: textColor[1],
       selectedColor: textColor[1],
-      textStyle: GoogleFonts.montserratTextTheme().bodyText1.copyWith(
+      textStyle: GoogleFonts.montserratTextTheme().bodyLarge?.copyWith(
             fontWeight: FontWeight.w800,
             color: textColor[1],
           ),
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: GoogleFonts.montserratTextTheme().copyWith(
-      caption: GoogleFonts.montserratTextTheme()
-          .caption
-          .copyWith(fontWeight: FontWeight.bold, color: textColor[1]),
+      bodySmall: GoogleFonts.montserratTextTheme()
+          .bodySmall
+          ?.copyWith(fontWeight: FontWeight.bold, color: textColor[1]),
       // button text
-      subtitle2: GoogleFonts.montserratTextTheme().subtitle2.copyWith(
+      titleSmall: GoogleFonts.montserratTextTheme().titleSmall?.copyWith(
             color: textColor[0],
           ),
       // app bar text
-      headline4: GoogleFonts.montserratTextTheme().headline4.copyWith(
-            color: textColor[0],
-            fontSize: 25.0,
-          ),
-      headline6: GoogleFonts.montserratTextTheme().headline6.copyWith(
+      headlineMedium:
+          GoogleFonts.montserratTextTheme().headlineMedium?.copyWith(
+                color: textColor[0],
+                fontSize: 25.0,
+              ),
+      titleLarge: GoogleFonts.montserratTextTheme().titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             color: textColor[1],
           ),
 
-      bodyText1: GoogleFonts.montserratTextTheme().bodyText1.copyWith(
+      bodyLarge: GoogleFonts.montserratTextTheme().bodyLarge?.copyWith(
             fontWeight: FontWeight.w800,
             color: textColor[1],
           ),
-      bodyText2: GoogleFonts.montserratTextTheme().bodyText2.copyWith(
+      bodyMedium: GoogleFonts.montserratTextTheme().bodyMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: textColor[1],
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:nippon_colors/nippon_colors.dart';
 
 class Team {
@@ -10,23 +10,23 @@ class Team {
     NipponColors.nipponColor212,
   ];
 
-  static const List<IconData> teamIconsData = [
-    Octicons.hubot,
-    Octicons.octoface,
+  static List<IconData> teamIconsData = [
+    MdiIcons.ghostOutline,
+    MdiIcons.oneUp,
   ];
 
-  static const List<Icon> teamIcons = [
+  static List<Icon> teamIcons = [
     Icon(
-      Octicons.hubot,
+      MdiIcons.ghostOutline,
       color: NipponColors.nipponColor190,
     ),
     Icon(
-      Octicons.octoface,
+      MdiIcons.oneUp,
       color: NipponColors.nipponColor212,
     )
   ];
-  static const Icon crown = Icon(
-    MaterialCommunityIcons.crown,
+  static Icon crown = Icon(
+    MdiIcons.crown,
     // UKON
     color: NipponColors.nipponColor110,
   );

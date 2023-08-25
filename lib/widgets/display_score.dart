@@ -6,8 +6,8 @@ import 'package:nippon_colors/nippon_colors.dart';
 
 class DisplayScore extends StatelessWidget {
   final int score;
-  final double fontSize;
-  DisplayScore({@required this.score, this.fontSize});
+  final double? fontSize;
+  DisplayScore({required this.score, this.fontSize});
   @override
   Widget build(BuildContext context) {
     ThemeConfig.init(context);
@@ -19,10 +19,10 @@ class DisplayScore extends StatelessWidget {
       _scoreColor = NipponColors.nipponColor016;
     }
     double _fontSize =
-        fontSize ?? Theme.of(context).textTheme.bodyText1.fontSize;
+        fontSize ?? Theme.of(context).textTheme.bodyLarge?.fontSize as double;
     return ShadowText(
         text: '$score',
-        style: Theme.of(context).textTheme.bodyText1.copyWith(
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontSize: _fontSize,
             ),
         color: _scoreColor);

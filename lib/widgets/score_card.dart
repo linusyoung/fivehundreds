@@ -13,12 +13,12 @@ class ScoreCard extends StatelessWidget {
   static const List<String> misereText = ['CM', 'OM', 'BM'];
 
   ScoreCard({
-    @required this.bid,
-    @required this.round,
-    @required this.bidTeamIndex,
-    @required this.score,
-    @required this.wonTricks,
-    @required this.handIndex,
+    required this.bid,
+    required this.round,
+    required this.bidTeamIndex,
+    required this.score,
+    required this.wonTricks,
+    required this.handIndex,
   });
 
   @override
@@ -33,7 +33,7 @@ class ScoreCard extends StatelessWidget {
           Bid().getBidIcon(bid % 5),
           Text(
             '$_scoreText',
-            style: Theme.of(context).textTheme.caption.copyWith(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.white,
                 ),
           ),
@@ -41,7 +41,7 @@ class ScoreCard extends StatelessWidget {
       ),
     );
     return Card(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       elevation: 10.0,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -55,7 +55,7 @@ class ScoreCard extends StatelessWidget {
                 scale: SizeConfig.isPhone ? 1 : 1.5,
                 child: Text(
                   '$round - $handIndex',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
               Transform.scale(
@@ -74,7 +74,7 @@ class ScoreCard extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   '${misereText[bid - 25]}',
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ),
                             ),
@@ -98,7 +98,7 @@ class ScoreCard extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         'won tricks',
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text('$wonTricks'),
                     ],

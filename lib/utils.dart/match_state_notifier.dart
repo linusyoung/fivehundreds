@@ -3,7 +3,7 @@ import 'package:fivehundreds/model/models.dart';
 import 'package:flutter/material.dart';
 
 class MatchStateNotifier extends ChangeNotifier {
-  MatchInfo matchInfo;
+  late MatchInfo matchInfo;
   Future<void> updateMatchState(String uuid, MatchInfo matchInfo) async {
     this.matchInfo = matchInfo;
     notifyListeners();

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:nippon_colors/nippon_colors.dart';
 
 class Bid {
-  static const List<IconData> iconList = [
-    MaterialCommunityIcons.cards_spade,
-    MaterialCommunityIcons.cards_club,
-    MaterialCommunityIcons.cards_diamond,
-    MaterialCommunityIcons.cards_heart,
-    MaterialCommunityIcons.cards
+  static List<IconData> iconList = [
+    MdiIcons.cardsSpade,
+    MdiIcons.cardsClub,
+    MdiIcons.cardsDiamond,
+    MdiIcons.cardsHeart,
+    MdiIcons.cards
   ];
   static const List<Color> color = [
     NipponColors.nipponColor250,

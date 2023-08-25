@@ -6,7 +6,7 @@ class BidSelection extends StatelessWidget {
   final int score;
   final bool selected;
 
-  BidSelection({@required this.score, @required this.selected});
+  BidSelection({required this.score, required this.selected});
   @override
   Widget build(BuildContext context) {
     ThemeConfig.init(context);
@@ -44,7 +44,7 @@ class BidSelection extends StatelessWidget {
               ),
               child: Text(
                 '$_scoreText',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           ),

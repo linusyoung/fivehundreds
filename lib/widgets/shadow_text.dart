@@ -3,10 +3,10 @@ import 'dart:ui' as ui;
 
 class ShadowText extends StatelessWidget {
   final String text;
-  final TextStyle style;
+  final TextStyle? style;
   final Color color;
 
-  ShadowText({@required this.text, @required this.style, @required this.color});
+  ShadowText({required this.text, required this.style, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ShadowText extends StatelessWidget {
           left: 0.0,
           child: Text(
             text,
-            style: style.copyWith(color: color.withOpacity(0.9)),
+            style: style?.copyWith(color: color.withOpacity(0.9)),
           ),
         ),
         BackdropFilter(
@@ -27,7 +27,7 @@ class ShadowText extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: style.copyWith(
+            style: style?.copyWith(
               color: color,
             ),
           ),

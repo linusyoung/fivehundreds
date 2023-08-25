@@ -6,7 +6,7 @@ class MatchDataHelper {
   static Future<dynamic> getMatchInfo(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return json.decode(prefs.getString(key)) ?? null;
+    return json.decode(prefs.getString(key) as String) ?? null;
   }
 
   static Future<bool> setMatchInfo(String key, dynamic value) async {
@@ -18,7 +18,7 @@ class MatchDataHelper {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getKeys().map((key) {
       Map<String, dynamic> map = Map();
-      map[key] = json.decode(prefs.getString(key));
+      map[key] = json.decode(prefs.getString(key) as String);
       return map;
     }).toList();
   }

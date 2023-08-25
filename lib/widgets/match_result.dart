@@ -5,7 +5,7 @@ import 'package:nippon_colors/nippon_colors.dart';
 
 class MatchResult extends StatelessWidget {
   final bool won;
-  MatchResult({@required this.won});
+  MatchResult({required this.won});
   @override
   Widget build(BuildContext context) {
     ThemeConfig.init(context);
