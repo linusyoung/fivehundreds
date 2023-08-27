@@ -1,14 +1,15 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -20,27 +21,6 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
-def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
-if (flutterMinSdkVersion == null) {
-    flutterMinSdkVersion = '21'
-}
-
-def flutterTargetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion')
-if (flutterTargetSdkVersion == null) {
-    flutterTargetSdkVersion = '31'
-}
-
-def flutterCompileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion')
-if (flutterCompileSdkVersion == null) {
-    flutterCompileSdkVersion = '29'
-}
-
-
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 
 def debugOnly = false
 def keystoreProperties = new Properties()
@@ -56,7 +36,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion flutterCompileSdkVersion.toInteger()
+    compileSdkVersion flutter.compileSdkVersion
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -68,8 +48,8 @@ android {
 
     defaultConfig {
         applicationId "club.swimmingbeaver.fivehundreds"
-        minSdkVersion flutterMinSdkVersion.toInteger()
-        targetSdkVersion flutterTargetSdkVersion.toInteger()
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -94,7 +74,6 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
