@@ -47,3 +47,6 @@ android/key.properties
 
 # ios related
 /ios/build/
+linux/flutter/generated_plugin_registrant.cc
+linux/flutter/generated_plugin_registrant.h
+linux/flutter/generated_plugins.cmake
