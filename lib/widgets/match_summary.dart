@@ -14,7 +14,7 @@ class MatchSummary extends StatefulWidget {
     required this.matchScore,
     required this.games,
     required this.uuid,
-  }) : assert(teamName.length != 2,
+  }) : assert(teamName.length == 2,
             'Team name list must be either empty or two values.');
 
   @override
@@ -101,14 +101,14 @@ class _MatchSummaryState extends State<MatchSummary> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           minWidth: 120.0,
           height: 30.0,
-          child: ElevatedButton(
+          child: FilledButton(
             child: Text(
               completed ? 'Match detail' : 'Continue',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.white,
                   ),
             ),
-            style: ElevatedButton.styleFrom(
+            style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor),
             onPressed: () {
               _viewMatch();
