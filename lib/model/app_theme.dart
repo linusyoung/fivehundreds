@@ -38,6 +38,7 @@ class AppTheme {
     disabledColor: disabled[0],
     //SHIRONERI
     canvasColor: canvas[0],
+    scaffoldBackgroundColor: canvas[0],
     dividerColor: NipponColors.nipponColor241,
     toggleButtonsTheme: ToggleButtonsThemeData(
       fillColor: NipponColors.nipponColor100,
@@ -94,6 +95,7 @@ class AppTheme {
     highlightColor: NipponColors.nipponColor103,
     //SHIRONERI
     canvasColor: canvas[1],
+    scaffoldBackgroundColor: canvas[1],
     toggleButtonsTheme: ToggleButtonsThemeData(
       fillColor: NipponColors.nipponColor103,
       color: textColor[1],

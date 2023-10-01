@@ -32,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title,
               style: Theme.of(context).textTheme.headlineMedium),
           centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColor,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.info),
@@ -90,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => _createNewMatch(context),
           child: Icon(Icons.add),
+          shape: CircleBorder(),
         ),
         floatingActionButtonLocation:
             MediaQuery.of(context).orientation == Orientation.portrait
