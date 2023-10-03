@@ -35,7 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Theme.of(context).primaryColor,
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.info),
+              icon: Icon(
+                Icons.info,
+                color: Colors.white,
+              ),
               onPressed: () => _showScoreInfo(context),
             )
           ],

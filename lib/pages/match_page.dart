@@ -401,6 +401,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
             '$_titleString',
             style: Theme.of(context).textTheme.headlineMedium,
           ),
+          backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
           actions: <Widget>[
             Platform.isMacOS
@@ -409,7 +410,7 @@ class _MatchPageState extends State<MatchPage> with TickerProviderStateMixin {
                     builder: (context) => IconButton(
                       icon: _screenOn
                           ? Icon(MdiIcons.lightbulbOn, color: Colors.amber)
-                          : Icon(MdiIcons.lightbulbOff),
+                          : Icon(MdiIcons.lightbulbOff, color: Colors.white),
                       onPressed: () => _toggleScreen(context),
                     ),
                   )

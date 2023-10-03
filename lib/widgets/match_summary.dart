@@ -107,6 +107,7 @@ class _MatchSummaryState extends State<MatchSummary> {
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.white,
                   ),
+              overflow: TextOverflow.ellipsis,
             ),
             style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor),
